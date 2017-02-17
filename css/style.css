@@ -1,0 +1,60 @@
+#auroradiv img{
+    height: 100%;
+    width: auto;
+}
+
+#auroradiv{
+    width: 15%;
+    height: 15%;
+    margin-right: 1.2%;
+    margin-left: 1.2%;
+    text-align: center;
+}
+
+body {
+    background-color: #252525;
+}
+
+#leftcolum {
+    width: 15%;
+    height: 85%;
+    float: left;
+    margin-right: 1.2%;
+    margin-left: 1.2%;
+    text-align: left;
+    background-color: #1D1919;
+}
+
+#righcolum {
+    float: left;
+    background-color: #1D1919;
+    width: 20%;
+    height: 85%;
+}
+
+#texteditor {
+    background-color: #1D1919;
+    width: 60%;
+    float: left;
+    margin-right: 1.2%;
+    height: 85%;
+}
+
+header{
+    width: 100%;
+}
+
+#menu {
+    font-family: "Helvetica";
+}
+
+ul {
+    font-family: "Helvetica";
+    color: white;
+    font-size: 12pt;
+    margin-bottom: 20px;
+}
+
+ul p {
+    font-size: 16pt;
+}
