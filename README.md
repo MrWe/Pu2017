@@ -13,4 +13,4 @@
 
 ##### Step 3
 
-- Run 'node server', open browser and navigate to 'localhost:3000'
+- Run 'node server.js', open browser and navigate to 'localhost:3000'
