@@ -58,3 +58,8 @@ ul {
 ul p {
     font-size: 16pt;
 }
+
+#bubble-container {
+    height: 100%;
+    width: 100%;
+  }
