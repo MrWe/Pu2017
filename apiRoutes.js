@@ -40,8 +40,6 @@ router.post('/create_user', function(req, res) {
         res.send("success")
       }
     });
-
-
 });
 
 
@@ -59,12 +57,6 @@ router.post('/login', function(req, res) {
         res.send("success")
       }
     });
-
-  var user = firebase.auth()
-    .currentUser;
-
-  console.log(user);
-
 });
 
 router.post('/logout', function(req, res) {
@@ -85,22 +77,3 @@ router.post('/logout', function(req, res) {
 
 
 module.exports = router;
-
-
-/* EXAMPLE
-var db = admin.database();
-var ref = db.ref("server/saving-data/fireblog");
-
-
-var usersRef = ref.child("users");
-usersRef.set({
-  teste: {
-    date_of_birth: "June 23, 1912",
-    full_name: "Alan Turing"
-  },
-  gracehop: {
-    date_of_birth: "December 9, 1906",
-    full_name: "Grace Hopper"
-  }
-});
-*/
