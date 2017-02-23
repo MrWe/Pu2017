@@ -1,4 +1,5 @@
 $(function() {
+
   var quill = new Quill('#editor-container', {
     modules: {
       toolbar: [
