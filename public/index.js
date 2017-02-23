@@ -10,8 +10,4 @@ $(function() {
     ]},
     theme: 'bubble'
   });
-
-  
-
-
 });
