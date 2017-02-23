@@ -1,14 +1,16 @@
 $(function() {
 
-  var quill = new Quill('#editor-container', {
-    modules: {
-      toolbar: [
-        [{
-          header: [1, 2, false]
-        }],
-        ['bold', 'italic', 'underline'],
-        ['image', 'code-block']
-    ]},
-    theme: 'bubble'
-  });
+    hljs.configure({   // optionally configure hljs
+        languages: ['javascript']
+    });
+    
+    hljs.initHighlightingOnLoad();
+    
+    var quill = new Quill('#editor-container', {
+        modules: {
+            syntax: true,
+            toolbar: [['code-block']]
+        },
+        theme: 'bubble'
+    });
 });
