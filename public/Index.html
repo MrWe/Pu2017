@@ -1,8 +1,8 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="css/style.css">
-        <link href="css/snow.css" rel="stylesheet">
-        <script src="https://cdn.quilljs.com/1.2.0/quill.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/quill.bubble.css">
+        <script type="text/javascript" src="js/quill.min.js"></script>
     </head>
     <body>
         <header>
@@ -34,18 +34,22 @@
                 </ul>
             </div>
             <div id="texteditor">
-                <div id="editor">
-                    <p>Hello World!</p>
-                    <p>Some initial <strong>bold</strong> text</p>
-                    <p><br></p>
-                </div>
+                <div id="editor-container"></div>
             </div>
             <div id="righcolum">
                 <p>hei</p>
             </div>
+            
             <script>
-                var quill = new Quill('#editor', {
-                theme: 'snow'
+            var quill = new Quill('#editor-container', {
+                modules: {
+                    toolbar: [
+                        [{ header: [1, 2, false] }],
+                        ['bold', 'italic', 'underline'],
+                        ['image', 'code-block']
+                    ]
+            },
+            theme: 'bubble'
             });
             </script>
         </main>
