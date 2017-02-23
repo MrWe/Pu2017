@@ -1,4 +1,6 @@
 $(function() {
+
+  $('header').load('../partials/header.html');
   $("#log")
     .submit(function(event) {
       var vals = $('#log').serializeArray();
