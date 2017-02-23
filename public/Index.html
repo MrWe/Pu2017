@@ -2,11 +2,14 @@
     <head>
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link href="css/snow.css" rel="stylesheet">
-        <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <script src="https://cdn.quilljs.com/1.2.0/quill.js"></script>
         <script src="index.js"></script>
         <link rel="stylesheet" type="text/css" href="css/quill.bubble.css">
         <script type="text/javascript" src="js/quill.min.js"></script>
+        <link rel="stylesheet" href="css/normalize.min.css">
+        <link rel="stylesheet" href="css/style_menu.css">
+        
 
     </head>
     <body>
@@ -17,26 +20,17 @@
         </header>
         <main>
             <div id="leftcolum">
-                <ul>
-                    <li><p>TDT4165</p>
-                        <ul>
-                            <li>øving 1</li>
-                            <li>øving 2</li>
-                            <li>øving 3</li>
-                            <li>øving 4</li>
-                            <li>øving 5</li>
+                
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown">Javascript <i class="icon-arrow"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Øving_1</a></li>
+                            <li><a href="#">Øving_2</a></li>
+                            <li><a href="#">Øving_3</a></li>
+                            <li><a href="#">Øving_4</a></li>
                         </ul>
                     </li>
-                    <li><p>TDT4100</p>
-                        <ul>
-                            <li>øving 1</li>
-                            <li>øving 2</li>
-                            <li>øving 3</li>
-                            <li>øving 4</li>
-                            <li>øving 5</li>
-                        </ul>
-                    </li>
-                </ul>
+                
             </div>
             <div id="texteditor">
                 <div id="editor-container"></div>
@@ -44,6 +38,7 @@
             <div id="righcolum">
                 <p>hei</p>
             </div>
+        <script type="text/javascript" src="js/drop_down_menu.js"></script>
         </main>
     </body>
 </html>
