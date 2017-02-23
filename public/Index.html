@@ -5,6 +5,8 @@
         <script src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="https://cdn.quilljs.com/1.2.0/quill.js"></script>
         <script src="index.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/quill.bubble.css">
+        <script type="text/javascript" src="js/quill.min.js"></script>
 
     </head>
     <body>
@@ -37,20 +39,11 @@
                 </ul>
             </div>
             <div id="texteditor">
-                <div id="editor">
-                    <p>Hello World!</p>
-                    <p>Some initial <strong>bold</strong> text</p>
-                    <p><br></p>
-                </div>
+                <div id="editor-container"></div>
             </div>
             <div id="righcolum">
                 <p>hei</p>
             </div>
-            <script>
-                var quill = new Quill('#editor', {
-                theme: 'snow'
-            });
-            </script>
         </main>
     </body>
 </html>
