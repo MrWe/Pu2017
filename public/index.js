@@ -13,4 +13,5 @@ $(function() {
         },
         theme: 'bubble'
     });
+    quill.format('code-block', true);
 });
