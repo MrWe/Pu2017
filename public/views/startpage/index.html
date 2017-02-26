@@ -1,7 +1,7 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="style_start_pages.css">
-        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
         <script src="https://cdn.quilljs.com/1.2.0/quill.js"></script>
         <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
         <script src="start_page.js"></script>
@@ -14,31 +14,34 @@
         <div id="createLogin">
             <div id="menu">
                 <button id="regtab" class="button" onclick="return create();"> Ny bruker</button>
-                <button id="logtab" class="button" onclick="return login();">Log inn </button>
+                <button id="logtab" class="button" onclick="return login();">Logg inn </button>
             </div>
             <div id = "reg" style="display:block;">
                 <h1>Registrering</h1>
-                <form>
+                <form id="registerForm">
                     <div id="container">
                         <input id="input_left"type="text" placeholder="Fornavn">
                         <input id="input_right" type="text" placeholder="Etternavn">
                         <input id="input" type="text" placeholder="Email">
                         <input id="input_left"type="password" placeholder="Passord">
                         <input id="input_right"type="password" placeholder="Gjenta passord">
+                        <input id="regbtn" type="submit" value="send">
                     </div>
-                    <button id="regbtn"> Send </button>
+
                 </form>
             </div>
             <div id = "log" style="display:none;">
-                <form>
-                    <h1>Log inn</h1>
+                <form id="loginForm">
+                    <h1>Logg inn</h1>
                     <div id="container">
                         <input id="input" type="text" placeholder="Email">
-                        <input id="input"type="password" placeholder="Passord">
+                        <input id="input" type="password" placeholder="Passord">
+                        <input id="regbtn" type="submit" value="Logg inn">
                     </div>
-                <button id="regbtn"> log inn </button>
+
+                <!--<button id="regbtn"> log inn </button> -->
                 </form>
-            </div>  
+            </div>
         </div>
     </body>
 </html>

@@ -15,65 +15,110 @@ firebase.initializeApp(config);
 
 
 router.post('/store_content', function(req, res) {
-  console.log(req.query);
+
   var ref = db.ref("aurora");
   var scriptsRef = ref.child("scripts");
   scriptsRef.set({
     script: "test"
-
   });
 });
 
 
 router.post('/create_user', function(req, res) {
   var vals = req.body.vals;
-  console.log("Hei");
   firebase.auth()
-    .createUserWithEmailAndPassword(vals[0].value, vals[1].value)
+    .createUserWithEmailAndPassword(
+      req.body.mail,
+      req.body.password
+    )
+    .then(function() {
+      /*
+      var user = firebase.auth()
+        .currentUser;
+      user.updateProfile({
+        firstname: req.body.fname,
+        lastname: req.body.lname
+        })
+        .then(function() {
+          res.write("success");
+          res.end();
+        }, function(error) {
+          // An error happened.
+          console.log(error);
+        });
+        */
+        res.write("success");
+        res.end();
+    })
     .catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
       if (error) {
-        res.send("error");
-      } else {
-        res.send("success")
+        console.log(error);
+        res.send(errorCode);
+        res.end();
       }
     });
+
 });
 
 
 router.post('/login', function(req, res) {
-  var vals = req.body.vals;
+  var mail = req.body.mail;
+  var password = req.body.password;
   firebase.auth()
-    .signInWithEmailAndPassword(vals[0].value, vals[1].value)
+    .signInWithEmailAndPassword(mail, password)
+    .then(function() {
+      res.write("success");
+      res.end();
+    })
     .catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
       if (error) {
-        res.send("error");
-      } else {
-        res.send("success")
+        console.log(error);
+        res.write(errorCode);
+        res.end();
       }
+
     });
 });
 
 router.post('/logout', function(req, res) {
-  var vals = req.body.vals;
   firebase.auth()
-    .signInWithEmailAndPassword(vals[0].value, vals[1].value)
-    .catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      if (error) {
-        res.send("error");
-      } else {
-        res.send("success")
-      }
+    .signOut()
+    .then(function() {
+      res.write('success');
+      res.end();
+      // Sign-out successful.
+    }, function(error) {
+      res.write(error);
+      res.end();
+      // An error happened.
     });
 });
 
 
-module.exports = router;
+router.post('/userIsLoggedIn', function(req, res) {
+  var user = firebase.auth()
+    .currentUser;
+  if (user) {
+    // User is signed in.
+    return res.send(user.email);
+  }
+});
+
+//for internal calls
+function userIsLoggedIn(){
+  var user = firebase.auth()
+    .currentUser;
+  if (user) {
+    // User is signed in.
+    return true;
+  }
+  return false;
+}
+
+module.exports = {router: router, userIsLoggedIn: userIsLoggedIn};

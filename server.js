@@ -1,14 +1,29 @@
 var express = require('express');
-var router = require('./apiRoutes');
+var api = require('./apiRoutes');
 var serviceAccount = require("./serviceAccountKey.json");
 var bodyParser = require('body-parser')
 
 
-
-
-
 /* SETUP NODE SERVER */
 var app = express();
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'ejs');
+
+
+app.use(express.static('public'));
+
+
+/*
+  TEMP FIX
+*/
+app.all('/', function(req, res) {
+  if (api.userIsLoggedIn()) {
+    res.redirect('views/loggedInIndex');
+  } else {
+    res.redirect('views/startpage');
+  }
+});
+
 
 
 
@@ -22,15 +37,9 @@ function listen() {
   console.log('App listening at http://' + host + ':' + port);
 }
 
-app.use(express.static('public'));
-
-
-
-
-
 /* API ROUTES */
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
-app.use('/api', router);
+app.use('/api', api.router);
