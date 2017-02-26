@@ -11,8 +11,50 @@
     text-align: center;
 }
 
+#userimg {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: auto;
+}
+
+#user{
+    margin: 10px 10px 10px 10px;
+    text-align: center;
+}
+
+#smlmenu {
+    text-align: left;
+}
+
+#settings {
+    position: absolute;
+    bottom: 0;
+    margin: 10px 10px 10px 10px;
+}
+
+#settingsimg{
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+}
+
+h1 {
+    font-family: "Helvetica";
+    color: white;
+    padding-left: 20;
+    padding-right: 20;
+}
+
+p {
+    font-family: "Helvetica";
+    color: white;
+    padding-left: 20;
+    padding-right: 20;
+}
+
 body {
-    background-color: #252525;
+    background-color: #16181E;
 }
 
 #leftcolum {
@@ -22,18 +64,19 @@ body {
     margin-right: 1.2%;
     margin-left: 1.2%;
     text-align: left;
-    background-color: #1D1919;
+    background-color: #0B0C16;
 }
 
 #righcolum {
-    float: left;
-    background-color: #1D1919;
+    float: right;
+    background-color: #0B0C16;
     width: 20%;
     height: 85%;
+    margin-right: 1%;
 }
 
 #texteditor {
-    background-color: #1D1919;
+    background-color: #0B0C16;
     width: 60%;
     float: left;
     margin-right: 1.2%;
@@ -46,17 +89,6 @@ header{
 
 #menu {
     font-family: "Helvetica";
-}
-
-ul {
-    font-family: "Helvetica";
-    color: white;
-    font-size: 12pt;
-    margin-bottom: 20px;
-}
-
-ul p {
-    font-size: 16pt;
 }
 
 #bubble-container {
