@@ -6,9 +6,6 @@ var bodyParser = require('body-parser')
 
 /* SETUP NODE SERVER */
 var app = express();
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'ejs');
-
 
 app.use(express.static('public'));
 
