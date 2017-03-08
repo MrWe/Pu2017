@@ -1,0 +1,88 @@
+<html>
+    <head>
+        <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="addLecture.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../css/style.css">
+        <link rel="stylesheet" href="../../css/style_menu.css">
+        <link rel="stylesheet" href="../loggedInIndex/index.css">
+        <link rel="stylesheet" href="addLecture.css">
+
+
+    </head>
+    <body>
+        <header>
+            <div id="auroradiv">
+                <img src="../../img/logo.png" id="aurora">
+            </div>
+        </header>
+        <main>
+            <div id="leftcolum">
+                <div id="user">
+                    <img id="userimg" src="../../img/user.png">
+                    <p id="username">[insert user name]</p>
+                    <button id="logoutbtn">Logg ut</button></li>
+                </div>
+                <li class="dropdown">
+                <a href="#" data-toggle="dropdown">Javascript <i class="icon-arrow"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Øving_1</a></li>
+                        <li><a href="#">Øving_2</a></li>
+                        <li><a href="#">Øving_3</a></li>
+                        <li><a href="#">Øving_4</a></li>
+                    </ul>
+                </li>
+            <div id="settings">
+                <p>settings <img src="../../img/Settings.png" id="settingsimg"></p></li>
+            </div>
+            </div>
+            <div id="Controll">
+                <div id="ControllMenu">
+                    <p>Dine Forelesninger</p>
+                    <ul>
+                        <li><a href="#">henter</a></li>
+                        <li><a href="#">forelesninger</a></li>
+                        <li><a href="#">fra</a></li>
+                        <li><a href="#">database</a></li>
+                        <li><a href="#">og</a></li>
+                        <li><a href="#">Putter</a></li>
+                        <li><a href="#">De</a></li>
+                        <li><a href="#">Her</a></li>
+                    </ul>
+                    <button id="addLecture">legg til forelesning</button>
+                </div>
+                <div id="ControllContent">
+                    <h1>Controllpanel</h1>
+                    <br>
+                    <br>
+                    <form id="lectureForm">
+                        <div id="PowerPoint">
+                            <h2>Tittel</h2>
+                            <input type="text" id="tittel">
+                            <p>PowerPoint</p>
+                            <input type="file" style="color:white;">
+                        </div>
+                        <div id="ovinger">
+                            <ul>
+                                <li>øvinger <button>X</button></li>
+                                <li>her <button>X</button></li>
+                            </ul>
+                            <h2>Øving tittel</h2>
+                            <input type="text" id="tittel"></br>
+                            <h2>Øving beskrivelse</h2>
+                            <textarea rows="4" cols="50" name="beskrivelse" form="lectureForm"></textarea></br>
+                            <p>input</p>
+                            <input type="text" id="input">
+                            <p>output</p>
+                            <input type="text" id="output">
+                            
+                            <button>legg til øving</button>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+            <script type="text/javascript" src="../../js/drop_down_menu.js"></script>
+
+        </main>
+    </body>
+</html>
