@@ -31,7 +31,7 @@ $(function() {
     $.post('/api/login', {
         'mail': mail, 'password': password
       }).done(function(res) {
-        if (res === 'success') {
+        if (res === '200') {
           sessionStorage.setItem('status', 'loggedIn');
           sessionStorage.setItem('currUser', mail);
           console.log("Logged in");
@@ -65,7 +65,7 @@ $(function() {
         'mail': mail,
         'password': password
       }).done(function(res) {
-        if (res === 'success') {
+        if (res === '200') {
           sessionStorage.setItem('status', 'loggedIn');
           sessionStorage.setItem('currUser', mail);
           console.log("Logged in");
