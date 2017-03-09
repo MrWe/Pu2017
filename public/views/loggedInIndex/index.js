@@ -17,7 +17,6 @@ $(function() {
 
   $('#username').text(sessionStorage['currUser']);
 
-
   $("#logoutbtn")
     .click(function() {
       $.post('/api/logout')
@@ -25,4 +24,15 @@ $(function() {
           window.location = '/';
         });
     });
+
+
+    $('#submitbtn').click(function(){
+      var t = quill.getText();
+      t = t.replace(/\n$/, "")
+      $.post('/api/store_content', {scripts: t})
+        .done(function(res) {
+          console.log("Submitted")
+        });
+    })
+
 });
