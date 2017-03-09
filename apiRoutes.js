@@ -102,6 +102,7 @@ router.post('/userIsLoggedIn', function(req, res) {
   }
 });
 
+
 //for internal calls
 function userIsLoggedIn() {
   var user = firebase.auth()
@@ -117,3 +118,5 @@ module.exports = {
   router: router,
   userIsLoggedIn: userIsLoggedIn
 };
+
+

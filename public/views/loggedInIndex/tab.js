@@ -24,3 +24,8 @@ function Exercise() {
         }
             return false;
 }
+
+function pdf() {
+    var url 
+    document.getElementById("contentarea").object.location.href = url;
+}
