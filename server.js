@@ -7,7 +7,6 @@ var bodyParser = require('body-parser')
 /* SETUP NODE SERVER */
 var app = express();
 
-
 app.use(express.static('public'));
 
 /*
