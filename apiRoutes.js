@@ -41,7 +41,7 @@ router.post('/create_user', function(req, res) {
     )
     .then(function() {
 
-      res.write("success");
+      res.write('200');
       res.end();
     })
     .catch(function(error) {
@@ -49,7 +49,6 @@ router.post('/create_user', function(req, res) {
       var errorCode = error.code;
       var errorMessage = error.message;
       if (error) {
-        console.log(error);
         res.send(errorCode);
         res.end();
       }
@@ -64,7 +63,7 @@ router.post('/login', function(req, res) {
   firebase.auth()
     .signInWithEmailAndPassword(mail, password)
     .then(function() {
-      res.write("success");
+      res.write('200');
       res.end();
     })
     .catch(function(error) {
@@ -72,7 +71,6 @@ router.post('/login', function(req, res) {
       var errorCode = error.code;
       var errorMessage = error.message;
       if (error) {
-        console.log(error);
         res.write(errorCode);
         res.end();
       }
@@ -84,11 +82,11 @@ router.post('/logout', function(req, res) {
   firebase.auth()
     .signOut()
     .then(function() {
-      res.write('success');
+      res.write('200');
       res.end();
       // Sign-out successful.
     }, function(error) {
-      res.write(error);
+      res.write(error.errorCode);
       res.end();
       // An error happened.
     });
