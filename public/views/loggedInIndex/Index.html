@@ -9,10 +9,11 @@
         <link rel="stylesheet" href="../../css/style_menu.css">
         <link rel="stylesheet" href="../../highlight/agate.css">
         <link rel="stylesheet" href="index.css">
+        <script src="tab.js"></script>
 
 
     </head>
-    <body>
+    <body onload="init();">
         <header>
             <div id="auroradiv">
                 <img src="../../img/logo.png" id="aurora">
@@ -39,7 +40,18 @@
             </div>
             </div>
             <div id="texteditor">
-                <div id="editor-container"></div>
+                <div id="Tabs">
+                    <ul>
+                        <li><button id="pp" onclick="return powerpoint();">powerpoint</button></li>
+                        <li><button id="ex1" onclick="return Exercise();">texteditor</button></li>
+                    </ul>
+                </div>
+                <div id="editor-container" style="display:none;"></div>
+                <div id="powerpoint" style="display:block;">
+                    <iframe src="http://docs.google.com/gview?url=http://www.domainname.come/presentation.ppt&embedded=true" style="width:100%; height:95%;" frameborder="0"></iframe>
+                </div>
+            </div>
+                
             </div>
             <div id="righcolum">
                 <h1>Exercise 1</h1>

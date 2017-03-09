@@ -12,3 +12,35 @@
 #logoutbtn:hover{
     background-color: #407F40;
 }
+
+#Tabs{
+    
+}
+
+#Tabs ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+#Tabs li {
+    float: left;
+}
+
+#Tabs button{
+    font-size: 10pt;
+    color: white;
+    background-color: black;
+    border-bottom: none;
+    border-top: none;
+    border-left: none;
+    border-right-color: white;
+    height: 5%;
+    width: 200px;
+}
+
+#Tabs button:hover{
+    
+}
