@@ -53,13 +53,20 @@ $(function() {
     var mail = $(event.currentTarget)[0][2].value;
     var password = $(event.currentTarget)[0][3].value;
     var passwordRepeat = $(event.currentTarget)[0][4].value;
+    var isLecturer;
 
-    console.log(fname, lname, mail, password, passwordRepeat);
+    if ($('input[name="isLecturer"]:checked').length > 0){
+      isLecturer = true;
+    }
+    else{
+      isLecturer = false;
+    }
 
     $.post('/api/create_user', {
       /*
         firstname and lastname are currently not stored to firebase
       */
+        'isLecturer': isLecturer,
         'fname': fname,
         'lname': lname,
         'mail': mail,

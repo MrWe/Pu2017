@@ -16,13 +16,13 @@ firebase.initializeApp(config);
 
 router.post('/store_content', function(req, res) {
   var vals = req.body;
-  console.log("VALS: ", vals);
   var db = firebase.database();
   var ref = db.ref("aurora");
   var users = ref.child("users");
   var user = users.child(firebase.auth()
     .currentUser.uid);
-  var scripts = user.child('scripts').push();
+  var scripts = user.child('scripts')
+    .push();
 
   //var scripts = user.child("scripts");
 
@@ -33,14 +33,22 @@ router.post('/store_content', function(req, res) {
 
 
 router.post('/create_user', function(req, res) {
-  var vals = req.body.vals;
   firebase.auth()
     .createUserWithEmailAndPassword(
       req.body.mail,
       req.body.password
     )
     .then(function() {
-
+      var db = firebase.database();
+      var ref = db.ref("aurora");
+      var users = ref.child("users");
+      var user = users.child(firebase.auth()
+        .currentUser.uid);
+        user.set({
+          'fname':req.body.fname,
+          'lname':req.body.lname,
+          'isLecturer': req.body.isLecturer
+        });
       res.write('200');
       res.end();
     })
@@ -98,7 +106,13 @@ router.post('/userIsLoggedIn', function(req, res) {
     .currentUser;
   if (user) {
     // User is signed in.
-    return res.send(user.email);
+    var db = firebase.database();
+    var ref = db.ref("aurora");
+    var users = ref.child("users");
+    var user = users.child(firebase.auth()
+      .currentUser.uid);
+    var isLecturer = user.child('isLecturer');
+    return res.send(user.email + ',' + isLecturer);
   }
 });
 
