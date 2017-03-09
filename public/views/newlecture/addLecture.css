@@ -70,11 +70,13 @@ h2 {
     top: 0;
     right: 0;
     width: 80%;
+    height: 100%;
 }
 
 #ControllContent p{
     margin-top: 20px;
     padding: 0;
+    position: relative;
 }
 
 #PowerPoint {
@@ -82,6 +84,7 @@ h2 {
     float: left;
     width: 100%;
     margin-left: 20px;
+    margin-bottom: 20px;
 }
 
 #tittel {
@@ -95,9 +98,9 @@ h2 {
 #ovinger{
     position: relative;
     float: left;
-    margin-top: 20px;
-    margin-left: 20px;
     width: 100%;
+    height: 80%;
+    margin-left: 20px;
 }
 
 #ovinger ul{
@@ -116,7 +119,48 @@ h2 {
 #beskrivelse{
     background-color: #0B0C16;
     border: 1px solid white;
-    height: 300px;
+    
+    width: 35%;
+    color: white;
+}
+
+#addExcerciseContainer{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+#addExcerciseContainer button{
+    font-size: 10pt;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    border-right-color: white;
+    height: 50px;
+    width: 200px;
+}
+
+#addExcerciseContainer button:hover{
+    background-color: #28602a;
+}
+
+#beskrivelse {
+    color: white;
+    background-color: #0B0C16;
+}
+
+#input {
+    background-color: #0B0C16;
+    border: 1px solid white;
+    height: 25px;
+    width: 35%;
+    color: white;
+}
+
+#output {
+    background-color: #0B0C16;
+    border: 1px solid white;
+    height: 25px;
     width: 35%;
     color: white;
 }
