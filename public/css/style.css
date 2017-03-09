@@ -76,6 +76,7 @@ body {
 }
 
 #texteditor {
+    position: relative;
     background-color: #0B0C16;
     width: 60%;
     float: left;

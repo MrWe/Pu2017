@@ -44,3 +44,24 @@
 #Tabs button:hover{
     
 }
+
+#contentSubmit {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    
+}
+
+#contentSubmit button{
+    font-size: 10pt;
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    border-right-color: white;
+    height: 50px;
+    width: 200px;
+}
+
+#contentSubmit button:hover{
+    background-color: #28602a;
+}
