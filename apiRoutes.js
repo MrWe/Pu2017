@@ -15,11 +15,19 @@ firebase.initializeApp(config);
 
 
 router.post('/store_content', function(req, res) {
-
+  var vals = req.body;
+  console.log("VALS: ", vals);
+  var db = firebase.database();
   var ref = db.ref("aurora");
-  var scriptsRef = ref.child("scripts");
-  scriptsRef.set({
-    script: "test"
+  var users = ref.child("users");
+  var user = users.child(firebase.auth()
+    .currentUser.uid);
+  var scripts = user.child('scripts').push();
+
+  //var scripts = user.child("scripts");
+
+  scripts.set({
+    vals
   });
 });
 
@@ -32,23 +40,9 @@ router.post('/create_user', function(req, res) {
       req.body.password
     )
     .then(function() {
-      /*
-      var user = firebase.auth()
-        .currentUser;
-      user.updateProfile({
-        firstname: req.body.fname,
-        lastname: req.body.lname
-        })
-        .then(function() {
-          res.write("success");
-          res.end();
-        }, function(error) {
-          // An error happened.
-          console.log(error);
-        });
-        */
-        res.write("success");
-        res.end();
+
+      res.write("success");
+      res.end();
     })
     .catch(function(error) {
       // Handle Errors here.
@@ -111,7 +105,7 @@ router.post('/userIsLoggedIn', function(req, res) {
 });
 
 //for internal calls
-function userIsLoggedIn(){
+function userIsLoggedIn() {
   var user = firebase.auth()
     .currentUser;
   if (user) {
@@ -121,4 +115,7 @@ function userIsLoggedIn(){
   return false;
 }
 
-module.exports = {router: router, userIsLoggedIn: userIsLoggedIn};
+module.exports = {
+  router: router,
+  userIsLoggedIn: userIsLoggedIn
+};
