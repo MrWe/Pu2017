@@ -25,12 +25,13 @@ h2 {
     width: 20%;
     position:absolute;
     height:100%;
+    overflow-y: scroll;
 }
 
 #ControllMenu ul{
     list-style:none;
     padding-left:0;
-    
+
 }
 
 #ControllMenu li{
@@ -106,20 +107,20 @@ h2 {
 #ovinger ul{
     list-style:none;
     padding-left:0;
-    
+
 }
 
 #ovinger li{
     width: 100%;
     text-align: left;
     color: white;
-    
+
 }
 
 #beskrivelse{
     background-color: #0B0C16;
     border: 1px solid white;
-    
+
     width: 35%;
     color: white;
 }
