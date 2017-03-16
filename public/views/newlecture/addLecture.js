@@ -1,5 +1,8 @@
 $(function() {
 
+  var currentSelectedLecture = "";
+
+
   $('#username')
     .text(sessionStorage['currUser']);
 
@@ -8,10 +11,19 @@ $(function() {
   $.post('/api/get_lectures', function(res) {
     for (var i in res) {
       $('#lectures')
-        .append('<li><a href="#">' + i + '</a></li>')
+        .append("<li class='lecture'><a  href='#'>" + i + "</a></li>")
       lectureArray.push(i);
+      currentSelectedLecture = i;
     }
   });
+
+  $('#lectures')
+    .on('click', 'li.lecture', function(event) {
+      event.preventDefault();
+      currentSelectedLecture = $(this)[0].innerText;
+    });
+
+
 
   $("#logoutbtn")
     .click(function() {
@@ -47,23 +59,26 @@ $(function() {
       addExercise();
     });
 
+  function addExercise() {
+    var lecture_title = currentSelectedLecture;
+    console.log("Lecgture", currentSelectedLecture);
+    var exercise_title = $('#exercise_title')[0].value;
+    var exercise_desc = $('#descriptions')[0].value;
+    var exercise_input = $('#input')[0].value;
+    var exercise_output = $('#output')[0].value;
+
+    $.post('/api/add_exercise', {
+        lecture_title: lecture_title,
+        exercise_title: exercise_title,
+        exercise_desc: exercise_desc,
+        exercise_input: exercise_input,
+        exercise_output: exercise_output
+      })
+      .done(function(res) {
+        console.log("Submitted")
+      });
+
+  }
+
 
 });
-
-function addExercise() {
-  var exercise_title = $('#exercise_title')[0].value;
-  var exercise_desc = $('#descriptions')[0].value;
-  var exercise_input = $('#input')[0].value;
-  var exercise_output = $('#output')[0].value;
-  /*
-        $.post('/api/add_exercise', {
-            title: exercise_title,
-            description: exercise_desc,
-            input: exercise_input,
-            output: exercise_output
-          })
-          .done(function(res) {
-            console.log("Submitted")
-          });
-          */
-}
