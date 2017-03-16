@@ -2,7 +2,12 @@ var express = require('express')
 var serviceAccount = require("./serviceAccountKey.json");
 var firebase = require("firebase");
 var router = express.Router()
+var gcloud = require('google-cloud');
 
+var storage = gcloud.storage({
+  projectId: 'aurora-80cde',
+  keyFilename: 'Aurora-c1af4e77cf5a-key.json'
+});
 
 var config = {
   apiKey: "AIzaSyBnf39lchWQO2z7UPf9nrJfm_AN7Tpd8Dg",
@@ -12,7 +17,6 @@ var config = {
   messagingSenderId: "30087111932"
 };
 firebase.initializeApp(config);
-
 
 router.post('/store_content', function(req, res) {
   var vals = req.body;
@@ -115,6 +119,27 @@ router.post('/userIsLoggedIn', function(req, res) {
     return res.send(user.email + ',' + isLecturer);
   }
 });
+
+router.post('/sendPDF', function(req, res) {
+    var bucket = storage.bucket('powerp');
+    //console.log(bucket)
+    var pdf = req.body.pdf
+    bucket.upload("./test.pdf", function(err, pdf){
+        if (!err) {
+            console.log("funket");
+        }else{
+            console.log(err)
+        }
+    })  
+    
+});
+    
+
+    //var storageRef = storage.ref();
+    //var mountainsRef = storageRef.child('/powerpoint/'+req.body.id);
+    //mountainsRef.put(req.body.pdf).then(function(snapshot){
+        //console.log('Uploaded a pdf!');
+    //})
 
 
 //for internal calls

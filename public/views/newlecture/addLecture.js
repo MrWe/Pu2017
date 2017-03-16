@@ -10,4 +10,9 @@ $(function() {
           window.location = '/';
         });
     });
+    
+    $('#addExcercise')
+        .click(function(){
+            $.post('/api/sendPDF', {'pdf':$('#pdf').value, })
+        })
 });
