@@ -46,16 +46,9 @@ router.post('/get_lectures', function(req, res) {
   var values = {};
 
   var get_lectures = function(callback) {
-    
+
     var lectures = ref.child('lectures')
       lectures.once("value", function(snapshot) {
-        //console.log(snapshot.key);
-        //console.log(snapshot.val().creator === creator);
-        // if (snapshot.val()
-        //   .creator === creator) {
-        //   values[snapshot.key] = snapshot.val();
-        //     //res.end();
-        // }
         values = snapshot.val();
         callback();
       });
@@ -91,23 +84,19 @@ router.post('/store_content', function(req, res) {
 
 router.post('/add_exercise', function(req, res) {
 
-  var courseId = req.body.courseId;
+  var lecture_title = req.body.lecture_title;
   var exercise_title = req.body.exercise_title;
   var exercise_desc = req.body.exercise_desc;
   var exercise_input = req.body.exercise_input;
   var exercise_output = req.body.exercise_output;
-  var creator = firebase.auth()
-    .currentUser.uid;
 
   var db = firebase.database();
   var ref = db.ref("aurora");
   var lectures = ref.child("lectures");
-  var lecture = lectures.push();
+  var lecture = lectures.child(lecture_title).push();
 
   lecture.set({
-    'courseId': courseId,
     'exercise_title': exercise_title,
-    'creator': creator,
     'exercise_desc': exercise_desc,
     'exercise_input': exercise_input,
     'exercise_output': exercise_output,
