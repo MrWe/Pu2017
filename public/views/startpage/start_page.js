@@ -55,6 +55,8 @@ $(function() {
     var passwordRepeat = $(event.currentTarget)[0][4].value;
     var isLecturer;
 
+
+    //isLecturer = $('input[name="isLecturer"]:checked').length > 0;
     if ($('input[name="isLecturer"]:checked').length > 0){
       isLecturer = true;
     }

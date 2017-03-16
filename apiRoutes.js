@@ -1,6 +1,7 @@
 var express = require('express')
 var serviceAccount = require("./serviceAccountKey.json");
 var firebase = require("firebase");
+var storage = require('firebase/storage');
 var router = express.Router()
 
 
@@ -13,6 +14,27 @@ var config = {
 };
 firebase.initializeApp(config);
 
+
+router.post('/add_lecture', function(req, res){
+  var title = req.body.title;
+  var db = firebase.database();
+  var ref = db.ref("aurora");
+  var users = ref.child("users");
+  //var creator = users.child(firebase.auth()
+    //.currentUser.uid);
+  var creator = firebase.auth()
+      .currentUser.uid;
+
+  var lectures = ref.child('lectures').push();
+
+  console.log("Title", title, "creator", creator);
+
+  lectures.set({
+    title: title,
+    creator: creator
+  });
+
+});
 
 router.post('/store_content', function(req, res) {
   var vals = req.body;
@@ -30,6 +52,32 @@ router.post('/store_content', function(req, res) {
     vals
   });
 });
+
+router.post('/add_exercise', function(req, res) {
+
+  var courseId = req.body.courseId;
+  var exercise_title = req.body.exercise_title;
+  var exercise_desc = req.body.exercise_desc;
+  var exercise_input = req.body.exercise_input;
+  var exercise_output = req.body.exercise_output;
+  var creator = firebase.auth()
+    .currentUser.uid;
+
+  var db = firebase.database();
+  var ref = db.ref("aurora");
+  var lectures = ref.child("lectures");
+  var lecture = lectures.push();
+
+  lecture.set({
+    'courseId':courseId,
+    'exercise_title':exercise_title,
+    'creator':creator,
+    'exercise_desc':exercise_desc,
+    'exercise_input':exercise_input,
+    'exercise_output':exercise_output,
+  });
+});
+
 
 
 router.post('/create_user', function(req, res) {
@@ -132,5 +180,3 @@ module.exports = {
   router: router,
   userIsLoggedIn: userIsLoggedIn
 };
-
-
