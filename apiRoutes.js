@@ -15,26 +15,62 @@ var config = {
 firebase.initializeApp(config);
 
 
-router.post('/add_lecture', function(req, res){
+router.post('/add_lecture', function(req, res) {
   var title = req.body.title;
   var db = firebase.database();
   var ref = db.ref("aurora");
   var users = ref.child("users");
   //var creator = users.child(firebase.auth()
-    //.currentUser.uid);
+  //.currentUser.uid);
   var creator = firebase.auth()
-      .currentUser.uid;
+    .currentUser.uid;
 
-  var lectures = ref.child('lectures').push();
+  var lectures = ref.child('lectures');
+  var lectureChild = lectures.child(title);
 
-  console.log("Title", title, "creator", creator);
+  //console.log("Title", title, "creator", creator);
 
-  lectures.set({
+  lectureChild.set({
     title: title,
     creator: creator
   });
 
 });
+
+router.post('/get_lectures', function(req, res) {
+  var db = firebase.database();
+  var ref = db.ref("aurora");
+  var creator = firebase.auth()
+    .currentUser.uid;
+
+  var values = {};
+
+  var get_lectures = function(callback) {
+    
+    var lectures = ref.child('lectures')
+      lectures.once("value", function(snapshot) {
+        //console.log(snapshot.key);
+        //console.log(snapshot.val().creator === creator);
+        // if (snapshot.val()
+        //   .creator === creator) {
+        //   values[snapshot.key] = snapshot.val();
+        //     //res.end();
+        // }
+        values = snapshot.val();
+        callback();
+      });
+  }
+
+  get_lectures(function(){
+    for (var key in values) {
+      if (!values[key].creator === creator) {
+        delete values.key;
+      }
+    }
+    res.send(values);
+  })
+
+})
 
 router.post('/store_content', function(req, res) {
   var vals = req.body;
@@ -69,12 +105,12 @@ router.post('/add_exercise', function(req, res) {
   var lecture = lectures.push();
 
   lecture.set({
-    'courseId':courseId,
-    'exercise_title':exercise_title,
-    'creator':creator,
-    'exercise_desc':exercise_desc,
-    'exercise_input':exercise_input,
-    'exercise_output':exercise_output,
+    'courseId': courseId,
+    'exercise_title': exercise_title,
+    'creator': creator,
+    'exercise_desc': exercise_desc,
+    'exercise_input': exercise_input,
+    'exercise_output': exercise_output,
   });
 });
 
@@ -92,11 +128,11 @@ router.post('/create_user', function(req, res) {
       var users = ref.child("users");
       var user = users.child(firebase.auth()
         .currentUser.uid);
-        user.set({
-          'fname':req.body.fname,
-          'lname':req.body.lname,
-          'isLecturer': req.body.isLecturer
-        });
+      user.set({
+        'fname': req.body.fname,
+        'lname': req.body.lname,
+        'isLecturer': req.body.isLecturer
+      });
       res.write('200');
       res.end();
     })
