@@ -3,7 +3,6 @@ var api = require('./apiRoutes');
 var serviceAccount = require("./serviceAccountKey.json");
 var bodyParser = require('body-parser')
 
-
 /* SETUP NODE SERVER */
 var app = express();
 
