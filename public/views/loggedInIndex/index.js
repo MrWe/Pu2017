@@ -13,7 +13,12 @@ $(function() {
     },
     theme: 'bubble'
   });
-  quill.format('code-block', true);
+  quill.setContents([
+            { insert: 'function test(x){' },
+            { insert: '\n\n'},
+            { insert: '}'}
+        ]);
+        quill.formatLine(1,100, 'code-block', true);
 
   $('#username').text(sessionStorage['currUser']);
 
@@ -33,6 +38,22 @@ $(function() {
         .done(function(res) {
           console.log("Submitted")
         });
+        
+        var code = quill.getText();
+        document.getElementById("kode").innerHTML = code;
+        var input = 4;
+        var output = 5;
+        console.log(eval(test(input) == output))
+        
+    })
+    
+    $('#oving').click(function(){
+        quill.setContents([
+            { insert: 'function test(x){' },
+            { insert: '\n\n'},
+            { insert: '}'}
+        ]);
+        quill.formatLine(1,100, 'code-block', true);
     })
 
 });
