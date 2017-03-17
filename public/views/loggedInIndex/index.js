@@ -32,12 +32,12 @@ $(function() {
 
 
     $('#submitbtn').click(function(){
-      /*var t = quill.getText();
+      var t = quill.getText();
       t = t.replace(/\n$/, "")
       $.post('/api/store_content', {scripts: t})
         .done(function(res) {
           console.log("Submitted")
-        });*/
+        });
         
         var code = quill.getText();
         document.getElementById("kode").innerHTML = code;
