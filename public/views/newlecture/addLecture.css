@@ -89,6 +89,16 @@ h2 {
     margin-bottom: 20px;
 }
 
+#exercises {
+    position: relative;
+    float: left;
+    width: 100%;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+
+
 #tittel {
     background-color: #0B0C16;
     border: 1px solid white;
