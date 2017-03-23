@@ -21,15 +21,10 @@ $(function() {
     theme: 'bubble'
   });
   quill.setContents([
-    {
-      insert: 'function test(x){'
-    },
-    {
-      insert: '\n\n'
-    },
-    {
-      insert: '}'
-    }
+
+            { insert: 'function main(x){' },
+            { insert: '\n\n'},
+            { insert: '}'}
         ]);
   quill.formatLine(1, 100, 'code-block', true);
 
@@ -80,41 +75,33 @@ $(function() {
           console.log("Submitted")
         });
 
+        var code = quill.getText();
+        eval(code);
 
-      var code = quill.getText();
-      eval(code);
+        try{
+            var godkjent = main(codeinput) == codeoutput;
+        }catch(err){
+            console.log(err);
+            document.getElementById("GodkjentAvslaatP").innerHTML = "Avslått";
+            document.getElementById("GodkjentAvslaatIMG").src= "../../img/avslaatt.png"
+        }
 
-      console.log(test(codeinput));
+        if (godkjent){
+            document.getElementById("GodkjentAvslaatP").innerHTML = "Godkjent";
+            document.getElementById("GodkjentAvslaatIMG").src= "../../img/godkjent.png"
 
-      var godkjent = test(codeinput) == codeoutput;
-
-      if (godkjent) {
-        document.getElementById("GodkjentAvslaatP")
-          .innerHTML = "Godkjent";
-        document.getElementById("GodkjentAvslaatIMG")
-          .src = "../../img/godkjent.png"
-
-      } else {
-        document.getElementById("GodkjentAvslaatP")
-          .innerHTML = "Avslått";
-        document.getElementById("GodkjentAvslaatIMG")
-          .src = "../../img/avslaatt.png"
-      }
+        } else{
+            document.getElementById("GodkjentAvslaatP").innerHTML = "Avslått";
+            document.getElementById("GodkjentAvslaatIMG").src= "../../img/avslaatt.png"
+        }
 
     })
 
-  $('#oving')
-    .click(function() {
-      quill.setContents([
-        {
-          insert: 'function test(x){'
-        },
-        {
-          insert: '\n\n'
-        },
-        {
-          insert: '}'
-        }
+    $('#reset').click(function(){
+        quill.setContents([
+            { insert: 'function main(x){' },
+            { insert: '\n\n'},
+            { insert: '}'}
         ]);
       quill.formatLine(1, 100, 'code-block', true);
     })
