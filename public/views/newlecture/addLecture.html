@@ -2,6 +2,7 @@
     <head>
         <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
         <script src="addLecture.js"></script>
+        <script src="tab.js"></script>
         <link rel="stylesheet" type="text/css" href="../../css/style.css">
         <link rel="stylesheet" href="../../css/style_menu.css">
         <link rel="stylesheet" href="../loggedInIndex/index.css">
@@ -9,7 +10,7 @@
 
 
     </head>
-    <body>
+    <body onload="init();">
         <header>
             <div id="auroradiv">
                 <img src="../../img/logo.png" id="aurora">
@@ -35,9 +36,17 @@
                 <p>settings <img src="../../img/Settings.png" id="settingsimg"></p></li>
             </div>
             </div>
+            <div id="Tabs">
+                    <ul>
+                        <li><button id="fag" onclick="return fag();">fag</button></li>
+                        <li><button id="forelesning" onclick="return forelesning();">forelesning</button></li>
+                        <li><button id="øving" onclick="return  oving();">øving</button></li>
+                    </ul>
+                </div>
             <div id="Controll">
+                
                 <div id="ControllMenu">
-                    <p>Dine Forelesninger</p>
+                    <p id="menuTitle">Dine fag</p>
                     <ul id="lectures">
 
                     </ul>
@@ -45,30 +54,64 @@
                 </div>
                 <div id="ControllContent">
                     <h1>Controllpanel</h1>
-                    <br>
-                    <br>
-                    <form id="lectureForm">
-                        <div id="PowerPoint">
-                            <h2>Tittel</h2>
-                            <input type="text" id="course_title">
-                            <p>PowerPoint</p>
-                            <input id="powerpointFile" type="file" style="color:white;">
-                        </div>
+                    <div id="fagside" style="display:block;">
+                        <br>
+                        <br>
+                        <form id="fagForm">
 
-                        <div id="exercises">
-                            <h2>Øving tittel</h2>
-                            <input type="text" id="exercise_title"></br>
-                            <h2>Øving beskrivelse</h2>
-                            <textarea id="descriptions" rows="4" cols="50" form="lectureForm"></textarea></br>
-                            <p>input</p>
-                            <input type="text" id="input">
-                            <p>Forventet output</p>
-                            <input type="text" id="output">
-                        </div>
-                        <div id="addExcerciseContainer">
-                            <button id="addExercise">legg til øving</button>
-                        </div>
-                    </form>
+                            <h2>Fagnavn</h2>
+                            <input type="text" id="course_title">
+                            
+                            <div id="addExcerciseContainer">
+                                <button id="addCourse">legg til fag</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="forelesningside" style="display:none;">
+                        <br>
+                        <br>
+                        <form id="lectureForm">
+                            
+                            <div id="PowerPoint">
+                                <h2>Velg fag</h2>
+                                <select>
+                                    <option value="fag1">fag1</option>
+                                    <option value="fag2">fag2</option>
+                                </select>
+                                <h2>Tittel</h2>
+                                <input type="text" id="course_title">
+                                <p>PowerPoint</p>
+                                <input id="powerpointFile" type="file" style="color:white;">
+                            </div>
+
+                            <div id="addExcerciseContainer">
+                                <button id="addLecture">legg til Forelesning</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="øvingsside" style="display:none;">
+                        <br>
+                        <br>
+                            <div id="exercises">
+                                <h2>Velg Forelesning</h2>
+                                <select>
+                                    <option value="fag1">Forelesning 1</option>
+                                    <option value="fag2">Forelesning 2</option>
+                                </select>
+                                <h2>Øving tittel</h2>
+                                <input type="text" id="exercise_title"></br>
+                                <h2>Øving beskrivelse</h2>
+                                <textarea id="descriptions" rows="4" cols="50" form="lectureForm"></textarea></br>
+                                <p>input</p>
+                                <input type="text" id="input">
+                                <p>Forventet output</p>
+                                <input type="text" id="output">
+                            </div>
+                            <div id="addExcerciseContainer">
+                                <button id="addExercise">legg til Øving</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
             <script type="text/javascript" src="../../js/drop_down_menu.js"></script>

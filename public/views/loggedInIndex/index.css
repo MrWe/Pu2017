@@ -65,3 +65,41 @@
 #contentSubmit button:hover{
     background-color: #28602a;
 }
+
+#GodkjentAvslaat{
+    height: 40px;
+    width: 20%;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+#GodkjentAvslaat p{
+    font-size: 16pt;
+    color: white;
+}
+
+#GodkjentAvslaat img{
+    height: 35px;
+    margin-right: 40px;
+    float: right;
+}
+
+#reset{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    width: 50%;
+    height: 40px;
+    left: 100%;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    font-size: 10pt;
+    float: right;
+    margin-right: 10px;
+}
+#reset:hover{
+    background-color: #407F40;
+}

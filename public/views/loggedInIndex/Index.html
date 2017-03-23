@@ -32,15 +32,15 @@
 
                     </ul>
                 </li>
-            <div id="settings">
-                <p>settings <img src="../../img/Settings.png" id="settingsimg"></p></li>
-            </div>
+                <div id="settings">
+                    <p>settings <img src="../../img/Settings.png" id="settingsimg"></p></li>
+                </div>
             </div>
             <div id="texteditor">
                 <div id="Tabs">
-                    <ul>
-                        <li><button id="pp" onclick="return powerpoint();">powerpoint</button></li>
-                        <li><button id="ex1" onclick="return Exercise();">texteditor</button></li>
+                    <ul id='tabsArray'>
+                        <li><button class='exercise' id="pp">powerpoint</button></li>
+                        <!--<li><button id="ex1" onclick="return Exercise();">texteditor</button></li>-->
                     </ul>
                 </div>
                 <div id="editor-container" style="display:none;"></div>
@@ -56,8 +56,15 @@
 
             </div>
             <div id="righcolum">
-                <h1>Exercise 1</h1>
-                <p>Lorem ipsum dolor sit amet, ubique vocent facilisi an eos. Vix salutandi suscipiantur at. Aliquam docendi legendos te mei. Te dolore nusquam moderatius his, ei aliquid vituperata dissentiunt sed. Purto inciderint mediocritatem qui cu, pro fierent consequuntur ne. Delectus nominati sit id, prima interesset est ex.</p>
+
+                <h1>Beskrivelse</h1>
+                <p id="exercise_desc"></p>
+                <button id="reset">Reset</button>
+
+                <div id="GodkjentAvslaat">
+                    <p id="GodkjentAvslaatP">Ikke levert</p>
+                    <img id="GodkjentAvslaatIMG" src="../../img/ikke_levert.png">
+                </div>
             </div>
             <script type="text/javascript" src="../../js/drop_down_menu.js"></script>
 
