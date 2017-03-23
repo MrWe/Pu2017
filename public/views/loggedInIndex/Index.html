@@ -38,9 +38,9 @@
             </div>
             <div id="texteditor">
                 <div id="Tabs">
-                    <ul>
-                        <li><button id="pp" onclick="return powerpoint();">powerpoint</button></li>
-                        <li><button id="ex1" onclick="return Exercise();">texteditor</button></li>
+                    <ul id='tabsArray'>
+                        <li><button class='exercise' id="pp">powerpoint</button></li>
+                        <!--<li><button id="ex1" onclick="return Exercise();">texteditor</button></li>-->
                     </ul>
                 </div>
                 <div id="editor-container" style="display:none;">
@@ -53,16 +53,17 @@
                     </object>
                 </div>
                 <div id="contentSubmit">
-                    <button id="submitbtn" onclick="testKode()">Submit</button>
+                    <button id="submitbtn">Submit</button>
                 </div>
             </div>
 
             </div>
             <div id="righcolum">
-                <h1>Øving 1</h1>
-                <p>Returner tallet som er på x sin plass i Fibonacci rekken</p>
-                <p>Ikke endre på navnet eller parameter til funksjonen.</p>
+
+                <h1>Beskrivelse</h1>
+                <p id="exercise_desc"></p>
                 <button id="reset">Reset</button>
+
                 <div id="GodkjentAvslaat">
                     <p id="GodkjentAvslaatP">Ikke levert</p>
                     <img id="GodkjentAvslaatIMG" src="../../img/ikke_levert.png">
