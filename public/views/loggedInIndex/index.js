@@ -42,8 +42,11 @@ var quill = new Quill('#quillText', {
           window.location = '/';
         });
     });
-
-
+    
+    $.post('/api/userIsLoggedIn', function(req, res){
+        console.log(res);
+    })
+            
 
   $.post('/api/get_lectures', function(res) {
     for (var i in res) {
