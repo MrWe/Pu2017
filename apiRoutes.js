@@ -48,13 +48,13 @@ router.post('/get_lectures', function(req, res) {
   var get_lectures = function(callback) {
 
     var lectures = ref.child('lectures')
-      lectures.once("value", function(snapshot) {
-        values = snapshot.val();
-        callback();
-      });
+    lectures.once("value", function(snapshot) {
+      values = snapshot.val();
+      callback();
+    });
   }
 
-  get_lectures(function(){
+  get_lectures(function() {
     for (var key in values) {
       if (!values[key].creator === creator) {
         delete values.key;
@@ -62,8 +62,32 @@ router.post('/get_lectures', function(req, res) {
     }
     res.send(values);
   })
+});
 
-})
+
+/*
+May not get used
+*/
+router.post('/get_exercises', function(req, res) {
+  console.log(req.body.title);
+  var lecture = 'fewfew';
+
+  var db = firebase.database();
+  var ref = db.ref("aurora")
+    .child('lectures');
+  var dbLecture = ref.child(lecture);
+
+  var get_exercise = function(callback) {
+    dbLecture.once('value', function(snapshot) {
+      callback(snapshot.val());
+    });
+  }
+
+  get_exercise(function(value) {
+    res.send(value);
+  });
+
+});
 
 router.post('/store_content', function(req, res) {
   var vals = req.body;
@@ -93,7 +117,8 @@ router.post('/add_exercise', function(req, res) {
   var db = firebase.database();
   var ref = db.ref("aurora");
   var lectures = ref.child("lectures");
-  var lecture = lectures.child(lecture_title).push();
+  var lecture = lectures.child(lecture_title)
+    .push();
 
   lecture.set({
     'exercise_title': exercise_title,
