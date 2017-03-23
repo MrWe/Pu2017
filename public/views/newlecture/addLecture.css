@@ -2,6 +2,7 @@ h1 {
     font-family: 'Titillium Web', sans-serif;
     color: white;
     font-size: 20pt;
+    margin-top: 50px;
 }
 
 h2 {
@@ -164,4 +165,35 @@ h2 {
     height: 25px;
     width: 35%;
     color: white;
+}
+
+#Tabs {
+    width: 77.4%;  
+}
+
+#Tabs button{
+    font-size: 10pt;
+    color: white;
+    background-color: black;
+    border-bottom: none;
+    border-top: none;
+    border-left: none;
+    border-right-color: white;
+    height: 5%;
+    width: 200px;
+}
+
+#Tabs button:hover{
+    background-color: #4CAF50;
+}
+#Tabs ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+#Tabs li {
+    float: left;
 }

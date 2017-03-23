@@ -8,14 +8,19 @@ $(function() {
 
   hljs.initHighlightingOnLoad();
 
-  var quill = new Quill('#editor-container', {
+var quill = new Quill('#editor-container', {
     modules: {
       syntax: true,
       toolbar: [['code-block']]
     },
     theme: 'bubble'
   });
-  quill.format('code-block', true);
+  quill.setContents([
+            { insert: 'function test(x){' },
+            { insert: '\n\n'},
+            { insert: '}'}
+        ]);
+        quill.formatLine(1,100, 'code-block', true);
 
   $('#username')
     .text(sessionStorage['currUser']);
@@ -57,6 +62,33 @@ $(function() {
         .done(function(res) {
           console.log("Submitted")
         });
+        
+        var code = quill.getText();
+        eval(code);
+        
+        var input = 4;
+        var output = 5;
+        
+        var godkjent = test(input) == output;
+        
+        if (godkjent){
+            document.getElementById("GodkjentAvslaatP").innerHTML = "Godkjent";
+            document.getElementById("GodkjentAvslaatIMG").src= "../../img/godkjent.png"
+            
+        } else{
+            document.getElementById("GodkjentAvslaatP").innerHTML = "Avslått";
+            document.getElementById("GodkjentAvslaatIMG").src= "../../img/avslaatt.png"
+        }
+        
+    })
+    
+    $('#oving').click(function(){
+        quill.setContents([
+            { insert: 'function test(x){' },
+            { insert: '\n\n'},
+            { insert: '}'}
+        ]);
+        quill.formatLine(1,100, 'code-block', true);
     })
 
 });
