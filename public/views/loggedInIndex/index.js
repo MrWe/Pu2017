@@ -8,7 +8,7 @@ $(function() {
 
   hljs.initHighlightingOnLoad();
 
-var quill = new Quill('#editor-container', {
+var quill = new Quill('#quillText', {
     modules: {
       syntax: true,
       toolbar: [['code-block']]
@@ -62,7 +62,7 @@ var quill = new Quill('#editor-container', {
         .done(function(res) {
           console.log("Submitted")
         });
-        
+        document.getElementById("consoleText").innerHTML= "";
         var code = quill.getText();
         eval(code);
         
@@ -71,7 +71,7 @@ var quill = new Quill('#editor-container', {
         try{
             var godkjent = main(input) == output;
         }catch(err){
-            console.log(err);
+            document.getElementById("consoleText").innerHTML= err;
             document.getElementById("GodkjentAvslaatP").innerHTML = "Avslått";
             document.getElementById("GodkjentAvslaatIMG").src= "../../img/avslaatt.png"
         }
