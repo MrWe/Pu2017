@@ -14,7 +14,7 @@ var quill = new Quill('#editor-container', {
     theme: 'bubble'
   });
   quill.setContents([
-            { insert: 'function test(x){' },
+            { insert: 'function main(x){' },
             { insert: '\n\n'},
             { insert: '}'}
         ]);
@@ -42,10 +42,15 @@ var quill = new Quill('#editor-container', {
         var code = quill.getText();
         eval(code);
         
-        var input = 4;
+        var input = 5;
         var output = 5;
-        
-        var godkjent = test(input) == output;
+        try{
+            var godkjent = main(input) == output;
+        }catch(err){
+            console.log(err);
+            document.getElementById("GodkjentAvslaatP").innerHTML = "Avslått";
+            document.getElementById("GodkjentAvslaatIMG").src= "../../img/avslaatt.png"
+        }
         
         if (godkjent){
             document.getElementById("GodkjentAvslaatP").innerHTML = "Godkjent";
@@ -58,9 +63,9 @@ var quill = new Quill('#editor-container', {
         
     })
     
-    $('#oving').click(function(){
+    $('#reset').click(function(){
         quill.setContents([
-            { insert: 'function test(x){' },
+            { insert: 'function main(x){' },
             { insert: '\n\n'},
             { insert: '}'}
         ]);
