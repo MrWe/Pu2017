@@ -6,7 +6,7 @@ $(function() {
 
   hljs.initHighlightingOnLoad();
 
-  var quill = new Quill('#editor-container', {
+var quill = new Quill('#editor-container', {
     modules: {
       syntax: true,
       toolbar: [['code-block']]
@@ -40,10 +40,21 @@ $(function() {
         });
         
         var code = quill.getText();
-        document.getElementById("kode").innerHTML = code;
+        eval(code);
+        
         var input = 4;
         var output = 5;
-        console.log(eval(test(input) == output))
+        
+        var godkjent = test(input) == output;
+        
+        if (godkjent){
+            document.getElementById("GodkjentAvslaatP").innerHTML = "Godkjent";
+            document.getElementById("GodkjentAvslaatIMG").src= "../../img/godkjent.png"
+            
+        } else{
+            document.getElementById("GodkjentAvslaatP").innerHTML = "Avslått";
+            document.getElementById("GodkjentAvslaatIMG").src= "../../img/avslaatt.png"
+        }
         
     })
     

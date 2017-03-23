@@ -65,3 +65,24 @@
 #contentSubmit button:hover{
     background-color: #28602a;
 }
+
+#GodkjentAvslaat{
+    height: 40px;
+    width: 20%;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+#GodkjentAvslaat p{
+    font-size: 16pt;
+    color: white;
+}
+
+#GodkjentAvslaat img{
+    height: 35px;
+    margin-right: 40px;
+    float: right;
+}
