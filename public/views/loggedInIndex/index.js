@@ -1,9 +1,11 @@
 var lectures = {};
 var currentSelectedLecture = "";
+
 var currExercises = {};
 
 var codeinput = 0;
 var codeoutput = 0;
+
 
 $(function() {
 
@@ -13,7 +15,9 @@ $(function() {
 
   hljs.initHighlightingOnLoad();
 
-  var quill = new Quill('#editor-container', {
+
+var quill = new Quill('#quillText', {
+
     modules: {
       syntax: true,
       toolbar: [['code-block']]
@@ -43,6 +47,7 @@ $(function() {
 
   $.post('/api/get_lectures', function(res) {
     for (var i in res) {
+
       $('#lectures')
         .append("<li class='lecture'><a  href='#'>" + i + "</a></li>")
       lectures = res;
@@ -56,12 +61,10 @@ $(function() {
     .on('click', 'li.lecture', function(event) {
       event.preventDefault();
       currentSelectedLecture = lectures[event.target.text];
+
       update_lecture(currentSelectedLecture);
-      /*
-      $.post('/api/get_exercises',{lecture: currentSelectedLecture}, function(res){
-        console.log(res);
-      });
-      */
+
+
     });
 
   $('#submitbtn')
@@ -75,13 +78,15 @@ $(function() {
           console.log("Submitted")
         });
 
+        document.getElementById("consoleText").innerHTML= "";
+
         var code = quill.getText();
         eval(code);
 
         try{
             var godkjent = main(codeinput) == codeoutput;
         }catch(err){
-            console.log(err);
+            document.getElementById("consoleText").innerHTML= err;
             document.getElementById("GodkjentAvslaatP").innerHTML = "Avslått";
             document.getElementById("GodkjentAvslaatIMG").src= "../../img/avslaatt.png"
         }

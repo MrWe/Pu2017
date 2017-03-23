@@ -103,3 +103,13 @@
 #reset:hover{
     background-color: #407F40;
 }
+
+#quillText{
+    width: 60%;
+    float: left;
+}
+
+#console{
+    width: 30%;
+    float: left;
+}
