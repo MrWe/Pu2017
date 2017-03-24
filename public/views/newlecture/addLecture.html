@@ -24,9 +24,13 @@
                 <img id="userimg" src="../../img/user.png">
                 <p id="username">[insert user name]</p>
                 <button id="logoutbtn">Logg ut</button></li>
+               <a id="forelesninglink" href="../loggedInIndex/Index.html">Startsiden</a>
             </div>
-            <!--
-            <li class="dropdown">
+
+                
+                
+<!--
+              <li class="dropdown">
                 <a href="#" data-toggle="dropdown">Javascript <i class="icon-arrow"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="#">Øving_1</a></li>
@@ -64,18 +68,31 @@
                     <br>
                     <form id="fagForm">
 
-                        <h2>Fagnavn</h2>
-
-
-                        <div id="addExcerciseContainer">
-                            <button id="addCourse">legg til fag</button>
-                        </div>
-                    </form>
+                    </ul>
+                    <button id="addLecture">legg til forelesning</button>
                 </div>
-                <div id="forelesningside" style="display:none;">
-                    <br>
-                    <br>
-                    <div id="lectures">
+                <div id="ControllContent">
+                    <h1>Controllpanel</h1>
+                    <div id="fagside" style="display:block;">
+                        <div id="PowerPoint">
+                            <br>
+                        <br>
+                        <form id="fagForm">
+
+                            <h2>Fagnavn</h2>
+                            <input type="text" id="course_title">
+                            
+                            
+                        </form>
+                        </div>
+                        <div id="addExcerciseContainer">
+                                <button id="addCourse">legg til fag</button>
+                            </div>
+                    </div>
+                    <div id="forelesningside" style="display:none;">
+                        <br>
+                        <br>
+
                         <form id="lectureForm">
                             <div id="PowerPoint">
                                 <h2>Valgt forelesning</h2>

@@ -48,7 +48,6 @@ var quill = new Quill('#quillText', {
            console.log(res);
        })
 
-
   $.post('/api/get_lectures', function(res) {
     for (var i in res) {
 
