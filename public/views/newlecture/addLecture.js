@@ -15,14 +15,16 @@ $(function() {
       lectureArray.push(i);
       currentSelectedLecture = i;
     }
+    $('.currentCourse').text(currentSelectedLecture);
   });
 
   $('#lectures')
     .on('click', 'li.lecture', function(event) {
       event.preventDefault();
       currentSelectedLecture = $(this)[0].innerText;
+      console.log(currentSelectedLecture);
+      $('.currentCourse').text(currentSelectedLecture);
     });
-
 
 
   $("#logoutbtn")
@@ -46,10 +48,8 @@ $(function() {
         })
         .done(function(req, res) {
           console.log(res);
-          if (exercise_title = $('#exercise_title')[0].value) {
-            addExercise();
-          }
         });
+        location.reload();
 
     });
 
@@ -61,7 +61,7 @@ $(function() {
 
   function addExercise() {
     var lecture_title = currentSelectedLecture;
-    console.log("Lecgture", currentSelectedLecture);
+    console.log("Lecture", currentSelectedLecture);
     var exercise_title = $('#exercise_title')[0].value;
     var exercise_desc = $('#descriptions')[0].value;
     var exercise_input = $('#input')[0].value;
@@ -77,7 +77,7 @@ $(function() {
       .done(function(res) {
         console.log("Submitted")
       });
-
+      location.reload();
   }
 
 
