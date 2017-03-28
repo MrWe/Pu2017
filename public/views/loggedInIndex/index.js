@@ -42,11 +42,11 @@ var quill = new Quill('#quillText', {
           window.location = '/';
         });
     });
-    
+
+
     $.post('/api/userIsLoggedIn', function(req, res){
-        console.log(res);
-    })
-            
+           console.log(res);
+       })
 
   $.post('/api/get_lectures', function(res) {
     for (var i in res) {
@@ -112,9 +112,16 @@ var quill = new Quill('#quillText', {
             { insert: '}'}
         ]);
       quill.formatLine(1, 100, 'code-block', true);
+      reset_index();
     })
 
+
 });
+
+
+function reset_index(){
+document.getElementById("consoleText").innerHTML= "";
+}
 
 
 $(document)
@@ -125,13 +132,11 @@ $(document)
     $(".exercise")
       .each(function(index, t) {
         if (t.id != liId) {
-          console.log("1", t.id);
           $(this)
             .removeAttr("style");
           $(this)
             .css('background-color', '#24333B');
         } else {
-          console.log("2", t.id);
           $(this)
             .removeAttr("style");
           $(this)
@@ -151,6 +156,7 @@ $(document)
       Exercise(liId);
     }
     else{
+
       powerpoint();
     }
 
