@@ -39,3 +39,5 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 }));
 
 app.use('/api', api.router);
+
+module.exports = app; // for testing

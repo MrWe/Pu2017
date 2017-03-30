@@ -16,7 +16,6 @@ firebase.initializeApp(config);
 
 
 router.post('/add_lecture', function(req, res) {
-  console.log(req.body)
   var title = req.body.title;
   var db = firebase.database();
   var ref = db.ref("aurora");
@@ -70,7 +69,6 @@ router.post('/get_lectures', function(req, res) {
 May not get used
 */
 router.post('/get_exercises', function(req, res) {
-  console.log(req.body.title);
   var lecture = 'fewfew';
 
   var db = firebase.database();
@@ -212,8 +210,11 @@ router.post('/userIsLoggedIn', function(req, res) {
       .currentUser.uid);
     var isLecturer = user.child('isLecturer');
 
-    console.log(user.email + ',' + isLecturer);
+    //console.log(user.email + ',' + isLecturer);
     return res.send(user.email + ',' + isLecturer);
+  }
+  else{
+    return res.send('Not logged in');2
   }
 });
 
