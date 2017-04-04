@@ -3,6 +3,17 @@ var serviceAccount = require("./serviceAccountKey.json");
 var firebase = require("firebase");
 var storage = require('firebase/storage');
 var router = express.Router()
+var gcloud = require('gcloud');
+var fs = require('fs');
+var Busboy = require('busboy');
+
+
+var storage = gcloud.storage({
+  projectId: 'aurora-80cde',
+  keyFilename: 'serviceAccountKeygc.json'
+});
+
+var bucket = storage.bucket('aurora-80cde.appspot.com');
 
 
 var config = {
@@ -37,6 +48,29 @@ router.post('/add_lecture', function(req, res) {
   });
 
 });
+
+router.post('/upload_PDF', function(req, res){
+    var PDF = req.body.PDF;
+    var busboy = new Busboy({ headers: req.PDF });
+    /*console.log("kommer vi hit?")
+    var bucket = storage.bucket('aurora-80cde.appspot.com');
+    console.log(bucket.selfLink);
+    console.log(bucket.name);
+    console.log(bucket.acl);
+    bucket.upload("/Powerpoints/pdf.pdf", function(err, PDF){
+        if(!err){
+            console.log("lastet opp");
+        }else{
+            console.log(err);
+        }
+    })
+    */
+    console.log(req.body.PDF);
+    console.log("sup?");
+    /*var localReadStream = fs.createReadStream(PDF);
+    var remoteWriteStream = bucket.file('pdf.pdf').createWriteStream();
+    localReadStream.pipe(remoteWriteStream);*/
+    })
 
 router.post('/get_lectures', function(req, res) {
   var db = firebase.database();

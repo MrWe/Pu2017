@@ -97,8 +97,31 @@
                 <div id="forelesningside" style="display:none;">
                     <br>
                     <br>
-
+                    <!--
                     <form id="lectureForm">
+                        <div id="PowerPoint">
+                            <h2>Valgt forelesning</h2>
+                            <p class='currentCourse'>
+
+                            </p>
+                            <!--
+                                <select>
+                                    <option value="fag1">fag1</option>
+                                    <option value="fag2">fag2</option>
+                                </select>
+
+                            <h2>Tittel</h2>
+                            <input placeholder="Tittel" type="text" id="course_title">
+                            <p>PowerPoint</p>
+                            <input id="powerpointFile" type="file" style="color:white;">
+                        </div>
+
+                        <div id="addExcerciseContainer">
+                            <button id="addLecture">legg til Forelesning</button>
+                        </div>
+                    </form>
+                    -->
+                    <form id="lectureForm" enctype="multipart/form-data" action="/api/upload_PDF" method="post">
                         <div id="PowerPoint">
                             <h2>Valgt forelesning</h2>
                             <p class='currentCourse'>
@@ -113,7 +136,8 @@
                             <h2>Tittel</h2>
                             <input placeholder="Tittel" type="text" id="course_title">
                             <p>PowerPoint</p>
-                            <input id="powerpointFile" type="file" style="color:white;">
+                            <input id="powerpointFile" type="file" style="color:white;" name="PDF">
+                            <input type="submit" value="Upload PDF" name="submit">
                         </div>
 
                         <div id="addExcerciseContainer">

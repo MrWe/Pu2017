@@ -38,18 +38,30 @@ $(function() {
 
   $('#addLecture')
     .click(function(event) {
-      var title = $('#course_title')[0].value;
+      //var title = $('#course_title')[0].value;
       if ($('#powerpointFile')[0]) {
-        var powerpointFile = $('#powerpointFile')[0].value;
+        var powerpointFile = $('#powerpointFile');
+        
       }
+      console.log(powerpointFile);
+      
+      
+      /*
 
       $.post('/api/add_lecture', {
           title: title
         })
         .done(function(req, res) {
           console.log(res);
-        });
-        location.reload();
+        });*/
+      $.post('/api/upload_PDF', {
+          PDF: $('#powerpointFile')
+          //PDFPath: PDFPath
+      })
+      .done(function(req, res){
+            console.log(res);
+            })
+        //location.reload();
 
     });
 
@@ -77,7 +89,7 @@ $(function() {
       .done(function(res) {
         console.log("Submitted")
       });
-      location.reload();
+      //location.reload();
   }
 
 
