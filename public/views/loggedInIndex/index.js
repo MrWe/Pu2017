@@ -161,14 +161,16 @@ $(document)
       var data = lectures[currentSelectedLecture.title][currExercises[liId]];
       $('#exercise_desc')
         .text(data.exercise_desc);
-      codeinput = data.exercise_input_1 * 1;
-      codeoutput = data.exercise_output_1 * 1;
-      codeinput = data.exercise_input_2 * 1;
-      codeoutput = data.exercise_output_2 * 1;
-      codeinput = data.exercise_input_3 * 1;
-      codeoutput = data.exercise_output_3 * 1;
+      codeinput_1 = data.exercise_input_1 * 1;
+      codeoutput_1 = data.exercise_output_1 * 1;
+      codeinput_2 = data.exercise_input_2 * 1;
+      codeoutput_2 = data.exercise_output_2 * 1;
+      codeinput_3 = data.exercise_input_3 * 1;
+      codeoutput_3 = data.exercise_output_3 * 1;
 
-      //console.log(codeinput, codeoutput);
+      console.log("input: " + codeinput_1 + "output: " + codeoutput_1)
+      console.log("input: " + codeinput_2 + "output: " + codeoutput_2)
+      console.log("input: " + codeinput_3 + "output: " + codeoutput_3)
       Exercise(liId);
     }
     else{
