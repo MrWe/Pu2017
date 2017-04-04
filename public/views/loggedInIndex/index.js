@@ -3,8 +3,12 @@ var currentSelectedLecture = "";
 
 var currExercises = {};
 
-var codeinput = 0;
-var codeoutput = 0;
+var codeinput_1 = 0;
+var codeoutput_1 = 0;
+var codeinput_2 = 0;
+var codeoutput_2 = 0;
+var codeinput_3 = 0;
+var codeoutput_3 = 0;
 
 
 $(function() {
@@ -87,14 +91,22 @@ var quill = new Quill('#quillText', {
         eval(code);
 
         try{
-            var godkjent = main(codeinput) == codeoutput;
+            console.log("input: " + codeinput_1 + "output: " + codeoutput_1)
+            console.log("input: " + codeinput_2 + "output: " + codeoutput_2)
+            console.log("input: " + codeinput_3 + "output: " + codeoutput_3)
+            var godkjent_1 = main(codeinput_1) == codeoutput_1;
+            var godkjent_2 = main(codeinput_2) == codeoutput_2;
+            var godkjent_3 = main(codeinput_3) == codeoutput_3;
+            console.log(godkjent_1);
+            console.log(godkjent_2);
+            console.log(godkjent_3);
         }catch(err){
             document.getElementById("consoleText").innerHTML= err;
             document.getElementById("GodkjentAvslaatP").innerHTML = "Avslått";
             document.getElementById("GodkjentAvslaatIMG").src= "../../img/avslaatt.png"
         }
 
-        if (godkjent){
+        if (godkjent_1 && godkjent_2 && godkjent_3){
             document.getElementById("GodkjentAvslaatP").innerHTML = "Godkjent";
             document.getElementById("GodkjentAvslaatIMG").src= "../../img/godkjent.png"
 
@@ -149,10 +161,16 @@ $(document)
       var data = lectures[currentSelectedLecture.title][currExercises[liId]];
       $('#exercise_desc')
         .text(data.exercise_desc);
-      codeinput = data.exercise_input * 1;
-      codeoutput = data.exercise_output * 1;
+      codeinput_1 = data.exercise_input_1 * 1;
+      codeoutput_1 = data.exercise_output_1 * 1;
+      codeinput_2 = data.exercise_input_2 * 1;
+      codeoutput_2 = data.exercise_output_2 * 1;
+      codeinput_3 = data.exercise_input_3 * 1;
+      codeoutput_3 = data.exercise_output_3 * 1;
 
-      console.log(codeinput, codeoutput);
+      console.log("input: " + codeinput_1 + "output: " + codeoutput_1)
+      console.log("input: " + codeinput_2 + "output: " + codeoutput_2)
+      console.log("input: " + codeinput_3 + "output: " + codeoutput_3)
       Exercise(liId);
     }
     else{

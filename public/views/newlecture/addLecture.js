@@ -64,15 +64,23 @@ $(function() {
     console.log("Lecture", currentSelectedLecture);
     var exercise_title = $('#exercise_title')[0].value;
     var exercise_desc = $('#descriptions')[0].value;
-    var exercise_input = $('#input')[0].value;
-    var exercise_output = $('#output')[0].value;
+    var exercise_input_1 = $('#input_1')[0].value;
+    var exercise_output_1 = $('#output_1')[0].value;
+    var exercise_input_2 = $('#input_2')[0].value;
+    var exercise_output_2 = $('#output_2')[0].value;
+    var exercise_input_3 = $('#input_3')[0].value;
+    var exercise_output_3 = $('#output_3')[0].value;
 
     $.post('/api/add_exercise', {
         lecture_title: lecture_title,
         exercise_title: exercise_title,
         exercise_desc: exercise_desc,
-        exercise_input: exercise_input,
-        exercise_output: exercise_output
+        exercise_input_1: exercise_input_1,
+        exercise_output_1: exercise_output_1,
+        exercise_input_2: exercise_input_2,
+        exercise_output_2: exercise_output_2,
+        exercise_input_3: exercise_input_3,
+        exercise_output_3: exercise_output_3
       })
       .done(function(res) {
         console.log("Submitted")
