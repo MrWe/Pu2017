@@ -232,8 +232,12 @@ router.post('/add_exercise', function(req, res) {
   var lecture_title = req.body.lecture_title;
   var exercise_title = req.body.exercise_title;
   var exercise_desc = req.body.exercise_desc;
-  var exercise_input = req.body.exercise_input;
-  var exercise_output = req.body.exercise_output;
+  var exercise_input_1 = req.body.exercise_input_1;
+  var exercise_output_1 = req.body.exercise_output_1;
+  var exercise_input_2 = req.body.exercise_input_2;
+  var exercise_output_2 = req.body.exercise_output_2;
+  var exercise_input_3 = req.body.exercise_input_3;
+  var exercise_output_3 = req.body.exercise_output_3;
 
   var db = firebase.database();
   var ref = db.ref("aurora");
@@ -244,8 +248,13 @@ router.post('/add_exercise', function(req, res) {
   lecture.set({
     'exercise_title': exercise_title,
     'exercise_desc': exercise_desc,
-    'exercise_input': exercise_input,
-    'exercise_output': exercise_output,
+    'exercise_input_1': exercise_input_1,
+    'exercise_output_1': exercise_output_1,
+    'exercise_input_2': exercise_input_2,
+    'exercise_output_2': exercise_output_2,
+    'exercise_input_3': exercise_input_3,
+    'exercise_output_3': exercise_output_3,
+      
   });
 });
 

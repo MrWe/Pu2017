@@ -163,20 +163,64 @@ h2 {
     background-color: #0B0C16;
 }
 
-#input {
+#input_1 {
     background-color: #0B0C16;
     border: 1px solid white;
     height: 25px;
     width: 35%;
     color: white;
+    margin: 20px;
+    margin-left: 0px;
 }
 
-#output {
+#output_1 {
     background-color: #0B0C16;
     border: 1px solid white;
     height: 25px;
     width: 35%;
     color: white;
+    margin: 20px;
+    margin-left: 0px;
+}
+
+#input_2 {
+    background-color: #0B0C16;
+    border: 1px solid white;
+    height: 25px;
+    width: 35%;
+    color: white;
+    margin: 20px;
+    margin-left: 0px;
+}
+
+#output_2 {
+    background-color: #0B0C16;
+    border: 1px solid white;
+    height: 25px;
+    width: 35%;
+    color: white;
+    margin: 20px;
+    margin-left: 0px;
+}
+
+#input_3 {
+    background-color: #0B0C16;
+    border: 1px solid white;
+    height: 25px;
+    width: 35%;
+    color: white;
+    margin: 20px;
+    margin-left: 0px;
+}
+
+#output_3 {
+    background-color: #0B0C16;
+    border: 1px solid white;
+    height: 25px;
+    width: 35%;
+    color: white;
+    margin: 20px;
+    margin-left: 0px;
 }
 
 #Tabs {
