@@ -10,7 +10,8 @@ var codeoutput_2 = 0;
 var codeinput_3 = 0;
 var codeoutput_3 = 0;
 
-
+var PDFLINK = 'https://storage.googleapis.com/aurora-80cde.appspot.com/';
+var numPdfs = 0;
 $(function() {
 
   hljs.configure({ // optionally configure hljs
@@ -20,7 +21,7 @@ $(function() {
   hljs.initHighlightingOnLoad();
 
 
-var quill = new Quill('#quillText', {
+  var quill = new Quill('#quillText', {
 
     modules: {
       syntax: true,
@@ -30,9 +31,15 @@ var quill = new Quill('#quillText', {
   });
   quill.setContents([
 
-            { insert: 'function main(x){' },
-            { insert: '\n\n'},
-            { insert: '}'}
+    {
+      insert: 'function main(x){'
+    },
+    {
+      insert: '\n\n'
+    },
+    {
+      insert: '}'
+    }
         ]);
   quill.formatLine(1, 100, 'code-block', true);
 
@@ -48,9 +55,9 @@ var quill = new Quill('#quillText', {
     });
 
 
-    $.post('/api/userIsLoggedIn', function(req, res){
-           console.log(res);
-       })
+  $.post('/api/userIsLoggedIn', function(req, res) {
+    console.log(res);
+  })
 
   $.post('/api/get_lectures', function(res) {
     for (var i in res) {
@@ -69,9 +76,21 @@ var quill = new Quill('#quillText', {
       event.preventDefault();
       currentSelectedLecture = lectures[event.target.text];
 
+      // $.post('/api/download_PDF', {
+      //   lecture: currentSelectedLecture.title
+      // }, function(res) {
+      //   numPdfs = res;
+      // });
+
+      console.log(currentSelectedLecture.title);
+      console.log(lectures);
+
+      $('#pdf')
+        .remove();
+      $("<object id='pdf' data='https://storage.googleapis.com/aurora-80cde.appspot.com/" + currentSelectedLecture.title + ".pdf' type='application/pdf' width='100%' height='95%'></object>")
+        .appendTo($('#powerpoint'));
+
       update_lecture(currentSelectedLecture);
-
-
     });
 
   $('#submitbtn')
@@ -84,6 +103,7 @@ var quill = new Quill('#quillText', {
         .done(function(res) {
           console.log("Submitted")
         });
+
 
         document.getElementById("consoleText").innerHTML= "";
 
@@ -115,13 +135,21 @@ var quill = new Quill('#quillText', {
             document.getElementById("GodkjentAvslaatIMG").src= "../../img/avslaatt.png"
         }
 
+
     })
 
-    $('#reset').click(function(){
-        quill.setContents([
-            { insert: 'function main(x){' },
-            { insert: '\n\n'},
-            { insert: '}'}
+  $('#reset')
+    .click(function() {
+      quill.setContents([
+        {
+          insert: 'function main(x){'
+        },
+        {
+          insert: '\n\n'
+        },
+        {
+          insert: '}'
+        }
         ]);
       quill.formatLine(1, 100, 'code-block', true);
       reset_index();
@@ -131,8 +159,9 @@ var quill = new Quill('#quillText', {
 });
 
 
-function reset_index(){
-document.getElementById("consoleText").innerHTML= "";
+function reset_index() {
+  document.getElementById("consoleText")
+    .innerHTML = "";
 }
 
 
@@ -172,8 +201,7 @@ $(document)
       console.log("input: " + codeinput_2 + "output: " + codeoutput_2)
       console.log("input: " + codeinput_3 + "output: " + codeoutput_3)
       Exercise(liId);
-    }
-    else{
+    } else {
 
       powerpoint();
     }
@@ -181,13 +209,12 @@ $(document)
   });
 
 
-
-
 function update_lecture(lecture) {
   $('#tabsArray li:not(:first)')
     .remove();
   for (var l in lecture) {
-    if (!(typeof lecture[l] === 'string')) {
+
+    if (!(typeof lecture[l] === 'string') && lecture[l].exercise_title != undefined) {
       currExercises[lecture[l].exercise_title] = l;
 
       $("<li><button class='exercise' id=" + lecture[l].exercise_title + " >" + lecture[l].exercise_title + "</button></li>")

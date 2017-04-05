@@ -15,7 +15,8 @@ $(function() {
       lectureArray.push(i);
       currentSelectedLecture = i;
     }
-    $('.currentCourse').text(currentSelectedLecture);
+    $('.currentCourse')
+      .text(currentSelectedLecture);
   });
 
   $('#lectures')
@@ -23,7 +24,8 @@ $(function() {
       event.preventDefault();
       currentSelectedLecture = $(this)[0].innerText;
       console.log(currentSelectedLecture);
-      $('.currentCourse').text(currentSelectedLecture);
+      $('.currentCourse')
+        .text(currentSelectedLecture);
     });
 
 
@@ -39,17 +41,50 @@ $(function() {
   $('#addLecture')
     .click(function(event) {
       var title = $('#course_title')[0].value;
-      if ($('#powerpointFile')[0]) {
-        var powerpointFile = $('#powerpointFile')[0].value;
+      event.preventDefault();
+
+      var powerpoint = new FormData();
+      if ($('#powerpointFile')[0].files[0]) {
+        var nameWithCourse = $('#powerpointFile')[0].files[0].name.split('.');
+        nameWithCourse[0] += '--' + currentSelectedLecture + '.';
+        nameWithCourse = nameWithCourse.join('');
+        powerpoint.append('file', $('#powerpointFile')[0].files[0], nameWithCourse);
+
+        $.ajax({
+          url: '/api/upload_PDF',
+          data: powerpoint,
+          cache: false,
+          contentType: false,
+          processData: false,
+          type: 'POST',
+          success: function(data) {
+
+          },
+          error: function(error) {
+            console.log(error)
+          }
+        });
       }
 
-      $.post('/api/add_lecture', {
-          title: title
-        })
-        .done(function(req, res) {
-          console.log(res);
-        });
-        location.reload();
+      if (title !== '') {
+        $.post('/api/add_lecture', {
+            title: title
+          })
+          .done(function(req, res) {
+            console.log(res);
+          });
+      }
+      // $.post('/api/upload_PDF', {
+      //     file:$('#powerpointFile')[0].files[0].serialize()
+      //       //PDFPath: PDFPath
+      //   })
+      //   .done(function(req, res) {
+      //     console.log(res);
+      //   })
+
+    
+      location.reload();
+
 
     });
 
@@ -85,7 +120,7 @@ $(function() {
       .done(function(res) {
         console.log("Submitted")
       });
-      location.reload();
+    //location.reload();
   }
 
 

@@ -1,8 +1,20 @@
 var express = require('express')
 var serviceAccount = require("./serviceAccountKey.json");
 var firebase = require("firebase");
-var storage = require('firebase/storage');
+//var storage = require('firebase/storage');
 var router = express.Router()
+  //var gcloud = require('gcloud');
+var fs = require('fs');
+var Busboy = require('busboy');
+var multiparty = require('multiparty');
+
+
+var gcs = require('@google-cloud/storage')({
+  projectId: 'aurora-80cde.appspot.com',
+  keyFilename: 'serviceAccountKeygc.json'
+});
+
+//var bucket = storage.bucket('aurora-80cde.appspot.com');
 
 
 var config = {
@@ -16,7 +28,6 @@ firebase.initializeApp(config);
 
 
 router.post('/add_lecture', function(req, res) {
-  console.log(req.body)
   var title = req.body.title;
   var db = firebase.database();
   var ref = db.ref("aurora");
@@ -29,14 +40,123 @@ router.post('/add_lecture', function(req, res) {
   var lectures = ref.child('lectures');
   var lectureChild = lectures.child(title);
 
+
   //console.log("Title", title, "creator", creator);
 
   lectureChild.set({
     title: title,
-    creator: creator
+    creator: creator,
+    numPowerpoints: 0
   });
 
 });
+
+router.post('/upload_PDF', function(req, res) {
+
+  var db = firebase.database();
+  var ref = db.ref("aurora");
+  var bucket = gcs.bucket('aurora-80cde.appspot.com');
+
+  var options = {
+    entity: 'allUsers',
+    role: gcs.acl.WRITER_ROLE
+  };
+
+  bucket.acl.add(options, function(err, aclObject) {
+    console.log(err)
+  });
+
+  req.pipe(req.busboy);
+  req.busboy.on('error', function(err) {
+    console.log(err);
+  });
+
+
+  req.busboy.on('field', function(fieldname, val, valTruncated, keyTruncated) {
+    console.log("fieldname: " + fieldname);
+
+  });
+  var fstream;
+  req.busboy.on('file', function(fieldname, file, filename) {
+
+
+    var lecture = filename.split('--')[1].split('.')[0];
+    var value;
+    var lectures;
+    var update_lecture = function(callback) {
+      lectures = ref.child('lectures')
+        .child(lecture);
+      lectures.once("value", function(snapshot) {
+        value = snapshot.val();
+        callback(value.numPowerpoints);
+      });
+    }
+
+    update_lecture(function(value) {
+      value = value + 1;
+      lectures.update({
+        numPowerpoints: value
+      })
+
+      filename = filename.split('--')[1].split('.')[0] + '.' + filename.split('--')[1].split('.')[1];
+      fstream = fs.createWriteStream(__dirname + '/' + filename);
+      file.pipe(fstream);
+      fstream.on('close', function() {
+        console.log("Upload Finished of " + filename);
+        //res.redirect('back'); //where to go next
+      });
+      bucket.upload(__dirname + '/' + filename, function(err, file) {
+        if (!err) {
+          console.log("lastet opp");
+          fs.unlink(__dirname + '/' + filename);
+        } else {
+          console.log(err);
+          fs.unlink(__dirname + '/' + filename);
+        }
+      })
+    });
+    // var remoteReadStream = bucket.file(file)
+    //   .createReadStream();
+    // var localWriteStream = fs.createWriteStream('/test/'+ filename + '.jpg');
+    // remoteReadStream.pipe(localWriteStream);
+
+  });
+
+  req.busboy.on('finish', function() {
+    //Finish it
+    res.writeHead(200, {
+      'Connection': 'close'
+    });
+    res.end("That's all folks!");
+  });
+});
+
+
+router.post('/download_PDF', function(req, res) {
+  var bucket = gcs.bucket('aurora-80cde.appspot.com');
+  var db = firebase.database();
+  var ref = db.ref("aurora");
+
+  var lecture = req.body.lecture;
+  console.log(req.body.lecture);
+
+  var update_lecture = function(callback) {
+    lectures = ref.child('lectures')
+      .child(lecture);
+    lectures.once("value", function(snapshot) {
+      value = snapshot.val();
+      callback(value.numPowerpoints);
+    });
+  }
+
+  update_lecture(function(value) {
+    res.send(value+'');
+  });
+});
+
+
+
+
 
 router.post('/get_lectures', function(req, res) {
   var db = firebase.database();
@@ -221,8 +341,8 @@ router.post('/userIsLoggedIn', function(req, res) {
       .currentUser.uid);
     var isLecturer = user.child('isLecturer');
 
-    console.log(user.email + ',' + isLecturer);
-    return res.send(user.email + ',' + isLecturer);
+    console.log('//TODO');
+    return res.send('//TODO');
   }
 });
 
