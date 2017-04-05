@@ -93,10 +93,12 @@ router.post('/upload_PDF', function(req, res) {
     }
 
     update_lecture(function(value) {
-      value = value + 1;
-      lectures.update({
-        numPowerpoints: value
-      })
+      if (!isNaN(value)) {
+        value = value + 1;
+        lectures.update({
+          numPowerpoints: value
+        })
+      }
 
       filename = filename.split('--')[1].split('.')[0] + '.' + filename.split('--')[1].split('.')[1];
       fstream = fs.createWriteStream(__dirname + '/' + filename);
@@ -150,7 +152,7 @@ router.post('/download_PDF', function(req, res) {
   }
 
   update_lecture(function(value) {
-    res.send(value+'');
+    res.send(value + '');
   });
 });
 
@@ -254,7 +256,7 @@ router.post('/add_exercise', function(req, res) {
     'exercise_output_2': exercise_output_2,
     'exercise_input_3': exercise_input_3,
     'exercise_output_3': exercise_output_3,
-      
+
   });
 });
 
