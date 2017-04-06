@@ -38,6 +38,7 @@ $(function() {
           window.location = "/";
         }
         else{
+            document.getElementById('feilmeldinglog').innerHTML = "feil mail eller passord";
           console.log("Could not log in");
         }
       });
@@ -54,6 +55,7 @@ $(function() {
     var password = $(event.currentTarget)[0][3].value;
     var passwordRepeat = $(event.currentTarget)[0][4].value;
     var isLecturer;
+    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
     //isLecturer = $('input[name="isLecturer"]:checked').length > 0;
@@ -74,13 +76,20 @@ $(function() {
         'mail': mail,
         'password': password
       }).done(function(res) {
-        if (res === '200') {
+        if (res === '200' && password == passwordRepeat) {
           sessionStorage.setItem('status', 'loggedIn');
           sessionStorage.setItem('currUser', mail);
           console.log("Logged in");
           window.location = '/';
         }
         else{
+          if(password != passwordRepeat){
+              document.getElementById('feilmelding').innerHTML = "passorende er ikke like"
+          }else if (password.length < 6){
+              document.getElementById('feilmelding').innerHTML = "passord er for kort"
+          }else if(!regex.test(mail)){
+              document.getElementById('feilmelding').innerHTML = "ikke gyldig mail";
+          }
           console.log("Could not log in");
         }
       });

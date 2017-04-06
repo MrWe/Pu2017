@@ -15,7 +15,9 @@
 <body onload="init();">
     <header>
         <div id="auroradiv">
-            <img src="../../img/logo.png" id="aurora">
+            <a href="../loggedInIndex/Index.html">
+                <img src="../../img/logo.png" id="aurora">
+            </a>
         </div>
     </header>
     <main>
@@ -24,7 +26,6 @@
                 <img id="userimg" src="../../img/user.png">
                 <p id="username">[insert user name]</p>
                 <button id="logoutbtn">Logg ut</button></li>
-                <a id="forelesninglink" href="../loggedInIndex/Index.html">Startsiden</a>
             </div>
 
 
@@ -40,10 +41,11 @@
                 </ul>
             </li>
         -->
-            <div id="settings">
-                <p>settings <img src="../../img/Settings.png" id="settingsimg"></p>
-                </li>
-            </div>
+            <a id="forelesninglink" href="../loggedInIndex/Index.html" style="display:block">
+                <div id="settings">
+                    Startsiden
+                </div>
+            </a>
         </div>
         <div id="Tabs">
             <ul>
@@ -56,7 +58,10 @@
 
             <div id="ControllMenu">
                 <p id="menuTitle">Dine forelesninger</p>
-                <ul id="lectures">
+                <ul id="courses">
+
+                </ul>
+                <ul id='lectures'>
 
                 </ul>
                 <!--<button id="addLecture">legg til forelesning</button> -->
@@ -69,6 +74,13 @@
                     <form id="fagForm">
 
                         </ul>
+
+                    <input placeholder="Fagnavn" type="text" id="course_title"/>
+
+                    <div id="addExcerciseContainer">
+                        <button id="addCourse">Legg til fag</button>
+                    </div>
+
                         <!--<button id="addLecture">legg til forelesning</button>-->
                 </div>
                 <!--<div id="ControllContent">
@@ -101,7 +113,7 @@
                     <form id="lectureForm">
                         <div id="PowerPoint">
                             <h2>Valgt forelesning</h2>
-                            <p class='currentCourse'>
+                            <p class='currentLecture'>
 
                             </p>
                             <!--
@@ -111,7 +123,7 @@
                                 </select>
                             -->
                             <h2>Tittel</h2>
-                            <input placeholder="Tittel" type="text" id="course_title">
+                            <input placeholder="Tittel" type="text" id="lecture_title">
                             <p>PowerPoint</p>
                             <input id="powerpointFile" type="file" style="color:white;">
                         </div>
@@ -124,11 +136,10 @@
 
 
                 <div id="øvingsside" style="display:none;">
-                    <br>
-                    <br>
+
                     <div id="exercises">
                         <h2>Valgt forelesning</h2>
-                        <p class='currentCourse'>
+                        <p class='currentLecture'>
 
                         </p>
                         <!--
@@ -141,10 +152,22 @@
                         <input type="text" id="exercise_title"></br>
                         <h2>Øving beskrivelse</h2>
                         <textarea id="descriptions" rows="4" cols="50" form="lectureForm"></textarea></br>
-                        <p>input</p>
-                        <input type="text" id="input">
-                        <p>Forventet output</p>
-                        <input type="text" id="output">
+
+
+                        <h2>input og output</h2>
+                        <p>legg til 3 inputs og 3 forventet outputs</p>
+
+                        <input type="text" id="input_1" placeholder="input_1">
+
+                        <input type="text" id="output_1" placeholder="output_1">
+
+                        <input type="text" id="input_2" placeholder="input_2">
+
+                        <input type="text" id="output_2" placeholder="output_2">
+
+                        <input type="text" id="input_3" placeholder="input_3">
+
+                        <input type="text" id="output_3" placeholder="output_3">
                     </div>
                     <div id="addExcerciseContainer">
                         <button id="addExercise">legg til Øving</button>

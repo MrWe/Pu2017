@@ -27,3 +27,25 @@ dropdownArray.forEach(function(el){
 Element.prototype.hasClass = function(className) {
     return this.className && new RegExp("(^|\\s)" + className + "(\\s|$)").test(this.className);
 };
+
+$(document).on('click', '.dropdown', function(event){
+	var id = '#'+event.target.text;
+	var elem = $(id);
+	console.log(elem.siblings().children());
+	if(!elem.hasClass('show')){
+		elem.removeClass('hide');
+		elem.addClass('show');
+		elem.siblings().children().addClass('open');
+		elem.siblings().children().removeClass('close');
+		event.preventDefault();
+	}
+	else{
+		elem.removeClass('show');
+		elem.addClass('hide');
+		elem.siblings().children().addClass('close');
+		elem.siblings().children().removeClass('open');
+		event.preventDefault();
+	}
+
+
+})
