@@ -141,12 +141,12 @@ router.post('/create_user', function(req, res) {
       var users = ref.child("users");
       var user = users.child(firebase.auth()
         .currentUser.uid);
-      user.set({
+      /*user.set({
         'fname': req.body.fname,
         'lname': req.body.lname,
         'isLecturer': req.body.isLecturer
-      });
-      res.write('200');
+      });*/
+      res.write('User created');
       res.end();
     })
     .catch(function(error) {
@@ -168,7 +168,7 @@ router.post('/login', function(req, res) {
   firebase.auth()
     .signInWithEmailAndPassword(mail, password)
     .then(function() {
-      res.write('200');
+      res.write('Login successful');
       res.end();
     })
     .catch(function(error) {
@@ -187,7 +187,7 @@ router.post('/logout', function(req, res) {
   firebase.auth()
     .signOut()
     .then(function() {
-      res.write('200');
+      res.write('Logout successful');
       res.end();
       // Sign-out successful.
     }, function(error) {
@@ -234,3 +234,16 @@ module.exports = {
   router: router,
   userIsLoggedIn: userIsLoggedIn
 };
+
+router.post('/delete', function(req, res) {
+  try {
+    var user = firebase.auth().currentUser;
+    user.delete().then(function() {
+      res.write('Delete successful');
+      res.end();
+    });
+  } catch (error) {
+    res.write(error.message);
+    res.end();
+  }
+});
