@@ -178,9 +178,10 @@ router.post('/get_lectures', function(req, res) {
   }
 
   get_lectures(function() {
+
     for (var key in values) {
-      if (!values[key].creator === creator) {
-        delete values.key;
+      if (values[key].creator !== creator) {
+        delete values[key];
       }
     }
     res.send(values);
@@ -343,8 +344,7 @@ router.post('/userIsLoggedIn', function(req, res) {
       .currentUser.uid);
     var isLecturer = user.child('isLecturer');
 
-    console.log('//TODO');
-    return res.send('//TODO');
+  
   }
 });
 
