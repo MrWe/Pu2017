@@ -1,6 +1,7 @@
 $(function() {
 
   var currentSelectedLecture = "";
+  var currentSelectedCourse = "";
 
 
   $('#username')
@@ -8,23 +9,42 @@ $(function() {
 
   var lectureArray = [];
 
-  $.post('/api/get_lectures', function(res) {
+  $.post('/api/get_courses', function(res) {
     for (var i in res) {
-      $('#lectures')
-        .append("<li class='lecture'><a  href='#'>" + i + "</a></li>")
+      $('#courses')
+        .append("<li class='course'><a  href='#'>" + i + "</a></li>")
       lectureArray.push(i);
-      currentSelectedLecture = i;
+      currentSelectedCourse = i;
     }
     $('.currentCourse')
-      .text(currentSelectedLecture);
-  });
+      .text(currentSelectedCourse);
+      
+  })
+
+  $('#courses')
+    .on('click', 'li.course', function(event) {
+      event.preventDefault();
+      currentSelectedCourse = $(this)[0].innerText;
+      $.post('/api/get_lectures', {
+        course: currentSelectedCourse
+      }, function(res) {
+        console.log(res);
+        $('#lectures')
+          .html("");
+        for (var i in res) {
+          $('#lectures')
+            .append("<li class='lecture'><a  href='#'>" + i + "</a></li>")
+          lectureArray.push(i);
+          currentSelectedLecture = i;
+        }
+      });
+    });
 
   $('#lectures')
     .on('click', 'li.lecture', function(event) {
       event.preventDefault();
       currentSelectedLecture = $(this)[0].innerText;
-      console.log(currentSelectedLecture);
-      $('.currentCourse')
+      $('.currentLecture')
         .text(currentSelectedLecture);
     });
 
@@ -37,10 +57,23 @@ $(function() {
         });
     });
 
+  $('#addCourse')
+    .click(function(event) {
+      event.preventDefault();
+      var courseTitle = $('#course_title')[0].value;
+
+      $.post('/api/add_course', {
+        course: courseTitle
+      }, function(res) {
+
+      });
+      location.reload();
+    })
+
 
   $('#addLecture')
     .click(function(event) {
-      var title = $('#course_title')[0].value;
+      var title = $('#lecture_title')[0].value;
       event.preventDefault();
 
       var powerpoint = new FormData();
@@ -65,24 +98,18 @@ $(function() {
           }
         });
       }
-
+      console.log(title);
       if (title !== '') {
         $.post('/api/add_lecture', {
-            title: title
+            title: title,
+            course: currentSelectedCourse
           })
           .done(function(req, res) {
             console.log(res);
           });
       }
-      // $.post('/api/upload_PDF', {
-      //     file:$('#powerpointFile')[0].files[0].serialize()
-      //       //PDFPath: PDFPath
-      //   })
-      //   .done(function(req, res) {
-      //     console.log(res);
-      //   })
 
-    
+
       location.reload();
 
 
@@ -135,6 +162,7 @@ $(function() {
 
     $.post('/api/add_exercise', {
         lecture_title: lecture_title,
+        course: currentSelectedCourse,
         exercise_title: exercise_title,
         exercise_desc: exercise_desc,
         exercise_input_1: exercise_input_1,
