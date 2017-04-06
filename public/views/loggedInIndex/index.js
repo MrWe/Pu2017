@@ -112,11 +112,13 @@ $(function() {
 
         try{
             console.log("input: " + codeinput_1 + "output: " + codeoutput_1)
+            console.log("din output1: " + main(codeinput_1));
             console.log("input: " + codeinput_2 + "output: " + codeoutput_2)
             console.log("input: " + codeinput_3 + "output: " + codeoutput_3)
             var godkjent_1 = main(codeinput_1) == codeoutput_1;
             var godkjent_2 = main(codeinput_2) == codeoutput_2;
             var godkjent_3 = main(codeinput_3) == codeoutput_3;
+            console.log(main(codeinput_1) + codeoutput_1);
             console.log(godkjent_1);
             console.log(godkjent_2);
             console.log(godkjent_3);
@@ -190,12 +192,39 @@ $(document)
       var data = lectures[currentSelectedLecture.title][currExercises[liId]];
       $('#exercise_desc')
         .text(data.exercise_desc);
-      codeinput_1 = data.exercise_input_1 * 1;
-      codeoutput_1 = data.exercise_output_1 * 1;
-      codeinput_2 = data.exercise_input_2 * 1;
-      codeoutput_2 = data.exercise_output_2 * 1;
-      codeinput_3 = data.exercise_input_3 * 1;
-      codeoutput_3 = data.exercise_output_3 * 1;
+      var isInt = /^\d+$/.test(data.exercise_input_1);
+      var isArray = data.exercise_input_1.charAt(0) == "[" && data.exercise_input_1.slice(-1) == "]";
+      if(isInt){
+          codeinput_1 = data.exercise_input_1 * 1;
+          codeoutput_1 = data.exercise_output_1 * 1;
+          codeinput_2 = data.exercise_input_2 * 1;
+          codeoutput_2 = data.exercise_output_2 * 1;
+          codeinput_3 = data.exercise_input_3 * 1;
+          codeoutput_3 = data.exercise_output_3 * 1;
+      }else if (isArray){
+          var list = [data.exercise_input_1, data.exercise_output_1, data.exercise_input_2, data.exercise_output_2, data.exercise_input_3, data.exercise_output_3]
+          for (i = 0; i < list.length; i++){
+              list[i] = list[i].replace("[", "");
+              list[i] = list[i].replace("]", "");
+              list[i] = list[i].replace(/'/g, "")
+              list[i] = list[i].replace(/ /g, "")
+          }
+          codeinput_1 = list[0].split(",");
+          console.log("etter spllit:" + codeinput_1);
+          codeoutput_1 = list[1].split(",");
+          codeinput_2 = list[2].split(",");
+          codeoutput_2 = list[3].split(",");
+          codeinput_3 = list[4].split(",");
+          codeoutput_3 = list[5].split(",");
+        
+      }else{
+          codeinput_1 = data.exercise_input_1;
+          codeoutput_1 = data.exercise_output_1;
+          codeinput_2 = data.exercise_input_2;
+          codeoutput_2 = data.exercise_output_2;
+          codeinput_3 = data.exercise_input_3;
+          codeoutput_3 = data.exercise_output_3;
+      }
 
       console.log("input: " + codeinput_1 + "output: " + codeoutput_1)
       console.log("input: " + codeinput_2 + "output: " + codeoutput_2)
