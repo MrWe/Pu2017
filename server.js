@@ -2,6 +2,7 @@ var express = require('express');
 var api = require('./apiRoutes');
 var serviceAccount = require("./serviceAccountKey.json");
 var bodyParser = require('body-parser')
+var busboy = require('connect-busboy');
 
 /* SETUP NODE SERVER */
 var app = express();
@@ -37,6 +38,7 @@ app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
+app.use(busboy()); // to support JSON-encoded bodies
 
 app.use('/api', api.router);
 

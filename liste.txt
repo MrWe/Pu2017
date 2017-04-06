@@ -1,0 +1,18 @@
+Ting som må gjøres:
+
+Trykke på øving må oppdatere kode og godkjent ikon med info fra firebase.
+
+Laste opp og ned PDF.
+
+fikse css og plassering av ting og brukervennlighet.
+
+fikse slik at det er fag - forelesning - øving
+
+fikse slik at man har flere input og output på en oppgave.
+
+Legg til forelesnings knapp som kun er synlig for foreleser.
+
+Fikse controllpanel med fag.
+
+Hvis vi har tid, ikke viktig(Legge til funksjonalitet som mistet passord endre passord?)
+
