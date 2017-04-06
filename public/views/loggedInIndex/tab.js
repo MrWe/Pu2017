@@ -21,6 +21,7 @@ function powerpoint() {
             }
             return false;
 }
+
 function Exercise(id) {
             if(document.getElementById('powerpoint').style.display=='block') {
                 document.getElementById("reset").style.visibility='visible';
@@ -30,6 +31,7 @@ function Exercise(id) {
                 document.getElementById(id).style.background='#4CAF50';
                 document.getElementById("pp").style.background='#24333B';
                 document.getElementById("submitbtn").style.visibility='visible';
+                
         }
             return false;
 }

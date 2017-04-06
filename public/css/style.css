@@ -18,25 +18,8 @@
     margin: auto;
 }
 
-#user{
-    margin: 10px 10px 10px 10px;
-    text-align: center;
-}
-
 #smlmenu {
     text-align: left;
-}
-
-#settings {
-    position: absolute;
-    bottom: 0;
-    margin: 10px 10px 10px 10px;
-}
-
-#settingsimg{
-    width: 15px;
-    height: 15px;
-    vertical-align: middle;
 }
 
 h1 {

@@ -139,9 +139,8 @@ $(function() {
 
 
     })
-
-  $('#reset')
-    .click(function() {
+  
+  function reset(){
       quill.setContents([
         {
           insert: 'function main(x){'
@@ -155,10 +154,14 @@ $(function() {
         ]);
       quill.formatLine(1, 100, 'code-block', true);
       reset_index();
-    })
+  }
+
+  $('#reset')
+    .click(reset())
+      
 
 
-});
+
 
 
 function reset_index() {
@@ -189,11 +192,14 @@ $(document)
       });
 
     if (liId !== 'pp') {
+        document.getElementById("consoleText").innerHTML= "";
+        document.getElementById("GodkjentAvslaatP").innerHTML = "Ikke levert";
+        document.getElementById("GodkjentAvslaatIMG").src= "../../img/ikke_levert.png"
+        reset();
       var data = lectures[currentSelectedLecture.title][currExercises[liId]];
       $('#exercise_desc')
         .text(data.exercise_desc);
       var isInt = /^\d+$/.test(data.exercise_input_1);
-      var isArray = data.exercise_input_1.charAt(0) == "[" && data.exercise_input_1.slice(-1) == "]";
       if(isInt){
           codeinput_1 = data.exercise_input_1 * 1;
           codeoutput_1 = data.exercise_output_1 * 1;
@@ -201,23 +207,7 @@ $(document)
           codeoutput_2 = data.exercise_output_2 * 1;
           codeinput_3 = data.exercise_input_3 * 1;
           codeoutput_3 = data.exercise_output_3 * 1;
-      }else if (isArray){
-          var list = [data.exercise_input_1, data.exercise_output_1, data.exercise_input_2, data.exercise_output_2, data.exercise_input_3, data.exercise_output_3]
-          for (i = 0; i < list.length; i++){
-              list[i] = list[i].replace("[", "");
-              list[i] = list[i].replace("]", "");
-              list[i] = list[i].replace(/'/g, "")
-              list[i] = list[i].replace(/ /g, "")
-          }
-          codeinput_1 = list[0].split(",");
-          console.log("etter spllit:" + codeinput_1);
-          codeoutput_1 = list[1].split(",");
-          codeinput_2 = list[2].split(",");
-          codeoutput_2 = list[3].split(",");
-          codeinput_3 = list[4].split(",");
-          codeoutput_3 = list[5].split(",");
-        
-      }else{
+      } else {
           codeinput_1 = data.exercise_input_1;
           codeoutput_1 = data.exercise_output_1;
           codeinput_2 = data.exercise_input_2;
@@ -251,3 +241,5 @@ function update_lecture(lecture) {
     }
   }
 }
+
+});
