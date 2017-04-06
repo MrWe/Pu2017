@@ -25,7 +25,7 @@ $(function() {
 
     modules: {
       syntax: true,
-      toolbar: [['code-block']]
+      toolbar: false
     },
     theme: 'bubble'
   });
@@ -42,6 +42,7 @@ $(function() {
     }
         ]);
   quill.formatLine(1, 100, 'code-block', true);
+    
 
   $('#username')
     .text(sessionStorage['currUser']);
