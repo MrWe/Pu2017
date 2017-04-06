@@ -26,7 +26,7 @@ $(function() {
 
     modules: {
       syntax: true,
-      toolbar: [['code-block']]
+      toolbar: false
     },
     theme: 'bubble'
   });
@@ -43,6 +43,7 @@ $(function() {
     }
         ]);
   quill.formatLine(1, 100, 'code-block', true);
+    
 
   $('#username')
     .text(sessionStorage['currUser']);
@@ -208,9 +209,8 @@ $(function() {
 
 
     })
-
-  $('#reset')
-    .click(function() {
+  
+  function reset(){
       quill.setContents([
         {
           insert: 'function main(x){'
@@ -224,10 +224,14 @@ $(function() {
         ]);
       quill.formatLine(1, 100, 'code-block', true);
       reset_index();
-    })
+  }
+
+  $('#reset')
+    .click(reset())
+      
 
 
-});
+
 
 
 function reset_index() {
@@ -258,11 +262,17 @@ $(document)
       });
 
     if (liId !== 'pp') {
-      console.log(lectures);
+
+        document.getElementById("consoleText").innerHTML= "";
+        document.getElementById("GodkjentAvslaatP").innerHTML = "Ikke levert";
+        document.getElementById("GodkjentAvslaatIMG").src= "../../img/ikke_levert.png"
+        reset();
+
       var data = lectures[currentSelectedLecture.title][currExercises[liId]];
       $('#exercise_desc')
         .text(data.exercise_desc);
       var isInt = /^\d+$/.test(data.exercise_input_1);
+
       var isArray = data.exercise_input_1.charAt(0) == "[" && data.exercise_input_1.slice(-1) == "]";
       if (isInt) {
         codeinput_1 = data.exercise_input_1 * 1;
@@ -294,6 +304,7 @@ $(document)
         codeoutput_2 = data.exercise_output_2;
         codeinput_3 = data.exercise_input_3;
         codeoutput_3 = data.exercise_output_3;
+
       }
 
       console.log("input: " + codeinput_1 + "output: " + codeoutput_1)
@@ -321,3 +332,5 @@ function update_lecture(lecture) {
     }
   }
 }
+
+});

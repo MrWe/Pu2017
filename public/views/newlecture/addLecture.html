@@ -15,7 +15,9 @@
 <body onload="init();">
     <header>
         <div id="auroradiv">
-            <img src="../../img/logo.png" id="aurora">
+            <a href="../loggedInIndex/Index.html">
+                <img src="../../img/logo.png" id="aurora">
+            </a>
         </div>
     </header>
     <main>
@@ -24,7 +26,6 @@
                 <img id="userimg" src="../../img/user.png">
                 <p id="username">[insert user name]</p>
                 <button id="logoutbtn">Logg ut</button></li>
-                <a id="forelesninglink" href="../loggedInIndex/Index.html">Startsiden</a>
             </div>
 
 
@@ -40,10 +41,11 @@
                 </ul>
             </li>
         -->
-            <div id="settings">
-                <p>settings <img src="../../img/Settings.png" id="settingsimg"></p>
-                </li>
-            </div>
+            <a id="forelesninglink" href="../loggedInIndex/Index.html" style="display:block">
+                <div id="settings">
+                    Startsiden
+                </div>
+            </a>
         </div>
         <div id="Tabs">
             <ul>
@@ -134,8 +136,7 @@
 
 
                 <div id="øvingsside" style="display:none;">
-                    <br>
-                    <br>
+
                     <div id="exercises">
                         <h2>Valgt forelesning</h2>
                         <p class='currentLecture'>
@@ -152,6 +153,9 @@
                         <h2>Øving beskrivelse</h2>
                         <textarea id="descriptions" rows="4" cols="50" form="lectureForm"></textarea></br>
 
+
+                        <h2>input og output</h2>
+                        <p>legg til 3 inputs og 3 forventet outputs</p>
 
                         <input type="text" id="input_1" placeholder="input_1">
 

@@ -1,3 +1,8 @@
+#user{
+    margin: 10px 10px 10px 10px;
+    text-align: center;
+}
+
 #logoutbtn{
     background-color: #4CAF50;
     border: none;
@@ -11,10 +16,6 @@
 }
 #logoutbtn:hover{
     background-color: #407F40;
-}
-
-#Tabs{
-    
 }
 
 #Tabs ul {
@@ -32,17 +33,13 @@
 #Tabs button{
     font-size: 10pt;
     color: white;
-    background-color: black;
+    background-color: #24333B;
     border-bottom: none;
     border-top: none;
     border-left: none;
     border-right-color: white;
     height: 5%;
     width: 200px;
-}
-
-#Tabs button:hover{
-    
 }
 
 #contentSubmit {
@@ -107,6 +104,7 @@
 #quillText{
     width: 60%;
     float: left;
+    height: 80%;
 }
 
 #console{
@@ -115,7 +113,27 @@
 }
 
 #forelesninglink{
+    border: none;
     text-decoration: none;
     color: white;
-    padding: 10px;
+    width: 100%;
+    left: 100%;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    font-size: 10pt;
+}
+
+#settings:hover{
+    background-color: #407F40;
+}
+
+#settings {
+    position: absolute;
+    bottom: 0;
+    margin: 10px 10px 10px 0px;
+    padding-top: 10px;
+    width: 15%;
+    height: 30px;
+    background-color: #4CAF50;
+    text-align: center;
 }
