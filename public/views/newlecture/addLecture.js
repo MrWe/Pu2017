@@ -99,12 +99,39 @@ $(function() {
     console.log("Lecture", currentSelectedLecture);
     var exercise_title = $('#exercise_title')[0].value;
     var exercise_desc = $('#descriptions')[0].value;
-    var exercise_input_1 = $('#input_1')[0].value;
-    var exercise_output_1 = $('#output_1')[0].value;
-    var exercise_input_2 = $('#input_2')[0].value;
-    var exercise_output_2 = $('#output_2')[0].value;
-    var exercise_input_3 = $('#input_3')[0].value;
-    var exercise_output_3 = $('#output_3')[0].value;
+    if ($('#input_1')[0].value.charAt(0) == "["){
+        var list = [$('#input_1')[0].value, $('#input_2')[0].value, $('#input_3')[0].value]
+        for (i = 0; i < list.length; i++){
+            list[i] = list[i].replace("[", "");
+            list[i] = list[i].replace("]", "");
+            list[i] = list[i].replace(/'/g, "")
+            list[i] = list[i].replace(/ /g, "")
+        }
+        var exercise_input_1 = list[0].split(",");
+        var exercise_input_2 = list[1].split(",");
+        var exercise_input_3 = list[2].split(",");
+        
+    } else{
+        var exercise_input_1 = $('#input_1')[0].value;
+        var exercise_input_2 = $('#input_2')[0].value;
+        var exercise_input_3 = $('#input_3')[0].value;
+    }
+    if ($('#output_1')[0].value.charAt(0) == "["){
+        var list = [$('#output_1')[0].value, $('#output_2')[0].value, $('#output_3')[0].value]
+        for (i = 0; i < list.length; i++){
+            list[i] = list[i].replace("[", "");
+            list[i] = list[i].replace("]", "");
+            list[i] = list[i].replace(/'/g, "")
+            list[i] = list[i].replace(/ /g, "")
+        }
+        var exercise_output_1 = list[0];
+        var exercise_output_2 = list[1];
+        var exercise_output_3 = list[2];
+    }else{
+        var exercise_output_1 = $('#output_1')[0].value;
+        var exercise_output_2 = $('#output_2')[0].value;
+        var exercise_output_3 = $('#output_3')[0].value;
+    }
 
     $.post('/api/add_exercise', {
         lecture_title: lecture_title,
@@ -120,7 +147,7 @@ $(function() {
       .done(function(res) {
         console.log("Submitted")
       });
-    //location.reload();
+    //location.reload();*/
   }
 
 

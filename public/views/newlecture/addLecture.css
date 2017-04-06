@@ -16,7 +16,7 @@ h2 {
     width: 60%;
     float: left;
     margin-right: 1.2%;
-    height: 85%;
+    height: 80%;
     position:relative;
 }
 
@@ -169,8 +169,7 @@ h2 {
     height: 25px;
     width: 35%;
     color: white;
-    margin: 20px;
-    margin-left: 0px;
+    margin: 5px 20px 5px 0px;
 }
 
 #output_1 {
@@ -179,8 +178,7 @@ h2 {
     height: 25px;
     width: 35%;
     color: white;
-    margin: 20px;
-    margin-left: 0px;
+    margin: 5px 20px 5px 0px;
 }
 
 #input_2 {
@@ -189,8 +187,7 @@ h2 {
     height: 25px;
     width: 35%;
     color: white;
-    margin: 20px;
-    margin-left: 0px;
+    margin: 5px 20px 5px 0px;
 }
 
 #output_2 {
@@ -199,8 +196,7 @@ h2 {
     height: 25px;
     width: 35%;
     color: white;
-    margin: 20px;
-    margin-left: 0px;
+    margin: 5px 20px 5px 0px;
 }
 
 #input_3 {
@@ -209,8 +205,7 @@ h2 {
     height: 25px;
     width: 35%;
     color: white;
-    margin: 20px;
-    margin-left: 0px;
+    margin: 5px 20px 5px 0px;
 }
 
 #output_3 {
@@ -219,8 +214,7 @@ h2 {
     height: 25px;
     width: 35%;
     color: white;
-    margin: 20px;
-    margin-left: 0px;
+    margin: 5px 20px 5px 0px;
 }
 
 #Tabs {
@@ -252,4 +246,30 @@ h2 {
 
 #Tabs li {
     float: left;
+}
+
+#forelesninglink{
+    border: none;
+    text-decoration: none;
+    color: white;
+    width: 100%;
+    left: 100%;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    font-size: 10pt;
+}
+
+#settings:hover{
+    background-color: #407F40;
+}
+
+#settings {
+    position: absolute;
+    bottom: 0;
+    margin: 10px 10px 10px 0px;
+    padding-top: 10px;
+    width: 15%;
+    height: 30px;
+    background-color: #4CAF50;
+    text-align: center;
 }

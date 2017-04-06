@@ -16,7 +16,9 @@
     <body onload="init();">
         <header>
             <div id="auroradiv">
-                <img src="../../img/logo.png" id="aurora">
+                <a href="../loggedInIndex/Index.html">
+                    <img src="../../img/logo.png" id="aurora">
+                </a>
             </div>
         </header>
         <main>
@@ -26,17 +28,19 @@
                     <p id="username"></p>
                     <button id="logoutbtn">Logg ut</button></li>
                 </div>
-
-                <a id="forelesninglink" href="../newlecture/addLecture.html">Legg til forelesning</a>
+                
                 <li class="dropdown">
                 <a href="#" data-toggle="dropdown">Forelesninger <i class="icon-arrow"></i></a>
                     <ul id="lectures" class="dropdown-menu">
 
                     </ul>
+                
                 </li>
+                <a id="forelesninglink" href="../newlecture/addLecture.html" style="display:block">
                 <div id="settings">
-                    <p>settings <img src="../../img/Settings.png" id="settingsimg"></p></li>
+                    Kontrollpanel
                 </div>
+                </a>
             </div>
             <div id="texteditor">
                 <div id="Tabs">
