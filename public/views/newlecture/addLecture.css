@@ -16,7 +16,7 @@ h2 {
     width: 60%;
     float: left;
     margin-right: 1.2%;
-    height: 80%;
+    height: 85%;
     position:relative;
 }
 
@@ -272,4 +272,12 @@ h2 {
     height: 30px;
     background-color: #4CAF50;
     text-align: center;
+}
+
+#fagside{
+    position: relative;
+    float: left;
+    width: 100%;
+    margin-left: 20px;
+    margin-bottom: 20px;
 }

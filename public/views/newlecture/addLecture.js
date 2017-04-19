@@ -175,7 +175,7 @@ $(function() {
       .done(function(res) {
         console.log("Submitted")
       });
-    //location.reload();*/
+    location.reload();
   }
 
 
