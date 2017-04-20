@@ -33,6 +33,10 @@
     background-color: #407F40;
 }
 
+.hidden{
+    display: none;
+}
+
 #Tabs ul {
     list-style-type: none;
     margin: 0;
@@ -61,7 +65,7 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    
+
 }
 
 #contentSubmit button{
