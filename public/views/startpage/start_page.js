@@ -76,7 +76,7 @@ $(function() {
         'mail': mail,
         'password': password
       }).done(function(res) {
-        if (res === '200' && password == passwordRepeat) {
+        if (/*res === '200' && */password == passwordRepeat) {
           sessionStorage.setItem('status', 'loggedIn');
           sessionStorage.setItem('currUser', mail);
           console.log("Logged in");
