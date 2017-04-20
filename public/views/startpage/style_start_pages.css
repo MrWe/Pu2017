@@ -71,6 +71,36 @@ img {
     height: 25px;
 }
 
+#fornavn{
+    margin-top: 20px;
+    border: 1px solid white;
+    background-color: 24333B;
+    width: 47%;
+    float: left;
+    border-radius: 2px;
+    height: 25px;
+}
+
+#pass{
+    margin-top: 20px;
+    border: 1px solid white;
+    background-color: 24333B;
+    width: 47%;
+    float: left;
+    border-radius: 2px;
+    height: 25px;
+}
+
+#repPass{
+    margin-top: 20px;
+    border: 1px solid white;
+    background-color: 24333B;
+    width: 47%;
+    float: right;
+    border-radius: 2px;
+    height: 25px;
+}
+
 #input_right{
     margin-top: 20px;
     border: 1px solid white;
@@ -81,7 +111,44 @@ img {
     height: 25px;
 }
 
+#etternavn{
+    margin-top: 20px;
+    border: 1px solid white;
+    background-color: 24333B;
+    width: 47%;
+    float: right;
+    border-radius: 2px;
+    height: 25px;
+}
+
 #input{
+    margin-top: 20px;
+    border: 1px solid white;
+    background-color: 24333B;
+    width: 100%;
+    border-radius: 2px;
+    height: 25px;
+}
+
+#regMail{
+    margin-top: 20px;
+    border: 1px solid white;
+    background-color: 24333B;
+    width: 100%;
+    border-radius: 2px;
+    height: 25px;
+}
+
+#logMail{
+    margin-top: 20px;
+    border: 1px solid white;
+    background-color: 24333B;
+    width: 100%;
+    border-radius: 2px;
+    height: 25px;
+}
+
+#logPass{
     margin-top: 20px;
     border: 1px solid white;
     background-color: 24333B;
