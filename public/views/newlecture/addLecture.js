@@ -26,8 +26,9 @@ $(function() {
     }
     $('.currentCourse')
       .text(currentSelectedCourse);
+      
+  })  
 
-  })
 
   $('#courses')
     .on('click', 'li.course', function(event) {
@@ -40,8 +41,8 @@ $(function() {
         $('#lectures')
           .html("");
         for (var i in res) {
-          $('#lectures')
-            .append("<li class='lecture'><a  href='#'>" + i + "</a></li>")
+          $('#dropdown_courses')
+            .append("<option value="+i+">"+i+"</option>")
           lectureArray.push(i);
           currentSelectedLecture = i;
         }
@@ -130,7 +131,8 @@ $(function() {
     });
 
   function addExercise() {
-    var lecture_title = currentSelectedLecture;
+    var selection = document.getElementById("dropdown_courses");
+    var lecture_title = selection.options[selection.selectedIndex].value;
     console.log("Lecture", currentSelectedLecture);
     var exercise_title = $('#exercise_title')[0].value;
     var exercise_desc = $('#descriptions')[0].value;

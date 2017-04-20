@@ -74,8 +74,8 @@
                     <form id="fagForm">
 
                         </ul>
-
-                    <input placeholder="Fagnavn" type="text" id="course_title"/>
+                    <h2>Fagnavn</h2>
+                    <input type="text" id="course_title"/>
                 </div>
                     <div id="addExcerciseContainer">
                         <button id="addCourse">Legg til fag</button>
@@ -123,7 +123,7 @@
                                 </select>
                             -->
                             <h2>Tittel</h2>
-                            <input placeholder="Tittel" type="text" id="lecture_title">
+                            <input type="text" id="lecture_title">
                             <p>PowerPoint</p>
                             <input id="powerpointFile" type="file" style="color:white;">
                         </div>
@@ -152,10 +152,15 @@
                         <input type="text" id="exercise_title"></br>
                         <h2>Øving beskrivelse</h2>
                         <textarea id="descriptions" rows="4" cols="50" form="lectureForm"></textarea></br>
+                        
+                        <h2>Velg Forelesning</h2>
+                        <select id="dropdown_courses" required>
+                        </select>
 
 
                         <h2>input og output</h2>
-                        <p>legg til 3 inputs og 3 forventet outputs</p>
+                        <p id="info">legg til 3 inputs og 3 forventet outputs
+                        <img src="../../img/questionmark.png" style="max-height: 15px;"><span>Her skal du legge inn inputen funksjonen i oppgaven skal få inn som parameter. Som output putter du verdien som funksjonen skal returnere. Du trenger 3 inputs og 3 outputs for å ungå juks</span></p>
 
                         <input type="text" id="input_1" placeholder="input_1">
 
