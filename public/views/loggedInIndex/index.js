@@ -289,6 +289,7 @@ $(function() {
                   ]);
               quill.formatLine(1, 100, 'code-block', true);
               reset_index();
+              setTimeout(function(){ $('#submitbtn').trigger( "click" ); }, 10); 
             }
 
 
