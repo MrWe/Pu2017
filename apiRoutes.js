@@ -72,7 +72,7 @@ router.post('/add_lecture', function(req, res) {
 
 });
 
-router.post('/get_all_courses', function(req, res){
+router.post('/get_all_courses', function(req, res) {
   var db = firebase.database();
   var ref = db.ref("aurora");
 
@@ -92,7 +92,7 @@ router.post('/get_all_courses', function(req, res){
 });
 
 
-router.post('/get_courses', function(req, res){
+router.post('/get_courses', function(req, res) {
   var db = firebase.database();
   var ref = db.ref("aurora");
   var creator = firebase.auth()
@@ -119,7 +119,7 @@ router.post('/get_courses', function(req, res){
   })
 });
 
-router.post('/add_course', function(req, res){
+router.post('/add_course', function(req, res) {
   var course = req.body.course;
   var db = firebase.database();
   var ref = db.ref("aurora");
@@ -137,7 +137,6 @@ router.post('/add_course', function(req, res){
 });
 
 router.post('/get_lectures', function(req, res) {
-  //console.log(req.body.course);
   var course = req.body.course;
   var db = firebase.database();
   var ref = db.ref("aurora");
@@ -147,7 +146,8 @@ router.post('/get_lectures', function(req, res) {
   var values = {};
 
   var get_lectures = function(callback) {
-    var firebasecourse = ref.child('courses').child(course);
+    var firebasecourse = ref.child('courses')
+      .child(course);
     var lectures = firebasecourse.child('lectures');
     lectures.once("value", function(snapshot) {
       values = snapshot.val();
@@ -156,95 +156,90 @@ router.post('/get_lectures', function(req, res) {
   }
 
   get_lectures(function() {
-    //console.log(values);
     res.send(values);
-    //Deprecated?
-    // for (var key in values) {
-    //   if (values[key].creator !== creator) {
-    //     delete values[key];
-    //   }
-    // }
-
 
   })
 });
 
 router.post('/upload_PDF', function(req, res) {
+  try {
+    var db = firebase.database();
+    var ref = db.ref("aurora");
+    var bucket = gcs.bucket('aurora-80cde.appspot.com');
 
-  var db = firebase.database();
-  var ref = db.ref("aurora");
-  var bucket = gcs.bucket('aurora-80cde.appspot.com');
+    var options = {
+      entity: 'allUsers',
+      role: gcs.acl.WRITER_ROLE
+    };
 
-  var options = {
-    entity: 'allUsers',
-    role: gcs.acl.WRITER_ROLE
-  };
+    bucket.acl.add(options, function(err, aclObject) {
+      console.log(err)
+    });
 
-  bucket.acl.add(options, function(err, aclObject) {
-    console.log(err)
-  });
-
-  req.pipe(req.busboy);
-  req.busboy.on('error', function(err) {
-    console.log(err);
-  });
-
-
-  req.busboy.on('field', function(fieldname, val, valTruncated, keyTruncated) {
-    console.log("fieldname: " + fieldname);
-
-  });
-  var fstream;
-  req.busboy.on('file', function(fieldname, file, filename) {
+    req.pipe(req.busboy);
+    req.busboy.on('error', function(err) {
+      console.log(err);
+    });
 
 
-    var lecture = filename.split('--')[1].split('.')[0];
-    var value;
-    var lectures;
-    var update_lecture = function(callback) {
-      lectures = ref.child('lectures')
-        .child(lecture);
-      lectures.once("value", function(snapshot) {
-        value = snapshot.val();
-        callback(value.numPowerpoints);
-      });
-    }
+    req.busboy.on('field', function(fieldname, val, valTruncated, keyTruncated) {
+      console.log("fieldname: " + fieldname);
 
-    update_lecture(function(value) {
-      if (!isNaN(value)) {
-        value = value + 1;
-        lectures.update({
-          numPowerpoints: value
-        })
+    });
+    var fstream;
+    req.busboy.on('file', function(fieldname, file, filename) {
+
+
+      var lecture = filename.split('--')[1].split('.')[0];
+      var value;
+      var lectures;
+      var update_lecture = function(callback) {
+        lectures = ref.child('lectures')
+          .child(lecture);
+        lectures.once("value", function(snapshot) {
+          value = snapshot.val();
+          callback(value.numPowerpoints);
+        });
       }
 
-      filename = filename.split('--')[1].split('.')[0] + '.' + filename.split('--')[1].split('.')[1];
-      fstream = fs.createWriteStream(__dirname + '/' + filename);
-      file.pipe(fstream);
-      fstream.on('close', function() {
-        console.log("Upload Finished of " + filename);
-        //res.redirect('back'); //where to go next
-      });
-      bucket.upload(__dirname + '/' + filename, function(err, file) {
-        if (!err) {
-          console.log("lastet opp");
-          fs.unlink(__dirname + '/' + filename);
-        } else {
-          console.log(err);
-          fs.unlink(__dirname + '/' + filename);
+      update_lecture(function(value) {
+        if (!isNaN(value)) {
+          value = value + 1;
+          lectures.update({
+            numPowerpoints: value
+          })
         }
-      })
+
+        filename = filename.split('--')[1].split('.')[0] + '.' + filename.split('--')[1].split('.')[1];
+        fstream = fs.createWriteStream(__dirname + '/' + filename);
+        file.pipe(fstream);
+        fstream.on('close', function() {
+          console.log("Upload Finished of " + filename);
+          //res.redirect('back'); //where to go next
+        });
+        bucket.upload(__dirname + '/' + filename, function(err, file) {
+          if (!err) {
+            console.log("lastet opp");
+            fs.unlink(__dirname + '/' + filename);
+          } else {
+            console.log(err);
+            fs.unlink(__dirname + '/' + filename);
+          }
+        })
+      });
+
     });
 
-  });
-
-  req.busboy.on('finish', function() {
-    //Finish it
-    res.writeHead(200, {
-      'Connection': 'close'
+    req.busboy.on('finish', function() {
+      //Finish it
+      res.writeHead(200, {
+        'Connection': 'close'
+      });
+      res.end("That's all folks!");
     });
-    res.end("That's all folks!");
-  });
+  } catch (er) {
+    next(err);
+  }
 });
 
 
@@ -299,6 +294,7 @@ router.post('/get_exercises', function(req, res) {
 router.post('/store_content', function(req, res) {
   var userCode = req.body.userCode;
   var exerciseId = req.body.exerciseId;
+  console.log(userCode, exerciseId);
   var db = firebase.database();
   var ref = db.ref("aurora");
   var users = ref.child("users");
@@ -312,7 +308,7 @@ router.post('/store_content', function(req, res) {
   });
 });
 
-router.post('/get_content', function(req, res){
+router.post('/get_content', function(req, res) {
   var exerciseId = req.body.exerciseId;
   var db = firebase.database();
   var ref = db.ref("aurora");
@@ -330,12 +326,12 @@ router.post('/get_content', function(req, res){
   }
 
   get_code(function(value) {
+    console.log(value);
     return res.send(value);
   })
 
 
 });
-
 
 router.post('/add_exercise', function(req, res) {
   var course = req.body.course;
@@ -351,7 +347,8 @@ router.post('/add_exercise', function(req, res) {
 
   var db = firebase.database();
   var ref = db.ref("aurora");
-  var firebasecourse = ref.child('courses').child(course);
+  var firebasecourse = ref.child('courses')
+    .child(course);
   var lectures = firebasecourse.child("lectures");
   var lecture = lectures.child(lecture_title)
     .push();
@@ -443,35 +440,75 @@ router.post('/logout', function(req, res) {
 router.post('/userIsLoggedIn', function(req, res) {
   var user = firebase.auth()
     .currentUser;
+  var db = firebase.database();
+  var ref = db.ref("aurora");
+  var users = ref.child("users");
   if (user) {
-    // User is signed in.
-    var db = firebase.database();
-    var ref = db.ref("aurora");
-    var users = ref.child("users");
     var user = users.child(firebase.auth()
       .currentUser.uid);
-    var isLecturer = user.child('isLecturer');
+
+    var get_user = function(callback) {
+      user.once("value", function(snapshot) {
+        callback(snapshot.val());
+      });
+    }
+
+    get_user(function(value) {
+      return res.send(value.fname + ',' + value.isLecturer);
+    })
+
     //console.log(user.email + ',' + isLecturer);
-    return res.send(user.email + ',' + isLecturer);
-  }
-  else{
+  } else {
     return res.send('Not logged in');
   }
 });
 
 
+
+
 //for internal calls
-function userIsLoggedIn() {
+function userIsLoggedIn(req, res, next) {
   var user = firebase.auth()
     .currentUser;
+
   if (user) {
     // User is signed in.
     return true;
   }
+
   return false;
+}
+
+function userIsLecturer(req, res, next) {
+  var user = firebase.auth()
+    .currentUser;
+  var db = firebase.database();
+  var ref = db.ref("aurora");
+  var users = ref.child("users");
+  if (user) {
+    var user = users.child(firebase.auth()
+      .currentUser.uid);
+
+    var get_user = function(callback) {
+      user.once("value", function(snapshot) {
+        callback(snapshot.val());
+      });
+    }
+
+    get_user(function(value) {
+      console.log(value['isLecturer']);
+      return value['isLecturer'];
+    })
+
+    //console.log(user.email + ',' + isLecturer);
+  } else {
+    return false;
+  }
 }
 
 module.exports = {
   router: router,
-  userIsLoggedIn: userIsLoggedIn
+  userIsLoggedIn: userIsLoggedIn,
+  userIsLecturer: userIsLecturer
+
 };
