@@ -57,11 +57,15 @@ $(function() {
     });
 
 
-  $.post('/api/userIsLoggedIn', function(req, res) {
-    console.log(res);
-  })
+  $.post('/api/user_is_lecturer', function() {
 
-
+    })
+    .done(function(res) {
+      if (res == 'true') {
+        $('#controlpanellink')
+          .removeClass('hidden');
+      }
+    });
 
   $.post('/api/get_all_courses', function(res) {
     for (var i in res) {

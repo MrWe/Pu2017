@@ -27,9 +27,7 @@ app.use(express.static('public'))
 
 app.all('/', function(req, res) {
   //console.log("Heisann",api.userIsLecturer());
-  if (api.userIsLoggedIn() && api.userIsLecturer()) {
-    res.redirect('views/newlecture/addLecture.html');
-  } else if (api.userIsLoggedIn()) {
+  if (api.userIsLoggedIn()) {
     res.redirect('views/loggedInIndex');
   } else {
     res.redirect('views/startpage');
