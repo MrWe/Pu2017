@@ -3,6 +3,14 @@ $(function() {
   var currentSelectedLecture = "";
   var currentSelectedCourse = "";
 
+  $.post('/api/user_is_lecturer', function() {
+
+  }).done(function(res){
+    if(res == 'false'){
+      $("input, text").attr("disabled", true);
+      window.location.replace("/");
+    }
+  });
 
   $('#username')
     .text(sessionStorage['currUser']);
@@ -20,6 +28,7 @@ $(function() {
       .text(currentSelectedCourse);
       
   })  
+
 
   $('#courses')
     .on('click', 'li.course', function(event) {
@@ -138,7 +147,7 @@ $(function() {
         var exercise_input_1 = list[0].split(",");
         var exercise_input_2 = list[1].split(",");
         var exercise_input_3 = list[2].split(",");
-        
+
     } else{
         var exercise_input_1 = $('#input_1')[0].value;
         var exercise_input_2 = $('#input_2')[0].value;

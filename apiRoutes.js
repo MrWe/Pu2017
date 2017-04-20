@@ -26,13 +26,31 @@ var config = {
 };
 firebase.initializeApp(config);
 
+router.post('/user_is_lecturer', function(req, res){
+  var db = firebase.database();
+  var ref = db.ref("aurora");
+  var users = ref.child("users");
+  //var creator = users.child(firebase.auth()
+  //.currentUser.uid);
+  var user = users.child(firebase.auth()
+    .currentUser.uid).child('isLecturer');
+
+
+    var isLecturer = function(callback) {
+      user.once("value", function(snapshot) {
+        callback(snapshot);
+      });
+    }
+
+    isLecturer(function(value) {
+      res.send(value);
+    })
+
+});
 
 router.post('/add_lecture', function(req, res) {
   var title = req.body.title;
   var course = req.body.course;
-  console.log("Heisann");
-
-  console.log(title, course);
   var db = firebase.database();
   var ref = db.ref("aurora");
   var users = ref.child("users");
@@ -119,7 +137,7 @@ router.post('/add_course', function(req, res){
 });
 
 router.post('/get_lectures', function(req, res) {
-  console.log(req.body.course);
+  //console.log(req.body.course);
   var course = req.body.course;
   var db = firebase.database();
   var ref = db.ref("aurora");
@@ -138,7 +156,7 @@ router.post('/get_lectures', function(req, res) {
   }
 
   get_lectures(function() {
-    console.log(values);
+    //console.log(values);
     res.send(values);
     //Deprecated?
     // for (var key in values) {
@@ -279,21 +297,45 @@ router.post('/get_exercises', function(req, res) {
 */
 
 router.post('/store_content', function(req, res) {
-  var vals = req.body;
+  var userCode = req.body.userCode;
+  var exerciseId = req.body.exerciseId;
   var db = firebase.database();
   var ref = db.ref("aurora");
   var users = ref.child("users");
   var user = users.child(firebase.auth()
     .currentUser.uid);
-  var scripts = user.child('scripts')
-    .push();
+  var scripts = user.child('scripts');
+  var exercise = scripts.child(exerciseId);
 
-  //var scripts = user.child("scripts");
-
-  scripts.set({
-    vals
+  exercise.set({
+    userCode
   });
 });
+
+router.post('/get_content', function(req, res){
+  var exerciseId = req.body.exerciseId;
+  var db = firebase.database();
+  var ref = db.ref("aurora");
+  var users = ref.child("users");
+  var user = users.child(firebase.auth()
+    .currentUser.uid);
+  var scripts = user.child('scripts');
+  var exercise = scripts.child(exerciseId);
+
+
+  var get_code = function(callback) {
+    exercise.once("value", function(snapshot) {
+      callback(snapshot.val());
+    });
+  }
+
+  get_code(function(value) {
+    return res.send(value);
+  })
+
+
+});
+
 
 router.post('/add_exercise', function(req, res) {
   var course = req.body.course;
