@@ -26,25 +26,26 @@ var config = {
 };
 firebase.initializeApp(config);
 
-router.post('/user_is_lecturer', function(req, res){
+router.post('/user_is_lecturer', function(req, res) {
   var db = firebase.database();
   var ref = db.ref("aurora");
   var users = ref.child("users");
   //var creator = users.child(firebase.auth()
   //.currentUser.uid);
   var user = users.child(firebase.auth()
-    .currentUser.uid).child('isLecturer');
+      .currentUser.uid)
+    .child('isLecturer');
 
 
-    var isLecturer = function(callback) {
-      user.once("value", function(snapshot) {
-        callback(snapshot);
-      });
-    }
+  var isLecturer = function(callback) {
+    user.once("value", function(snapshot) {
+      callback(snapshot);
+    });
+  }
 
-    isLecturer(function(value) {
-      res.send(value);
-    })
+  isLecturer(function(value) {
+    res.send(value);
+  })
 
 });
 
@@ -64,10 +65,17 @@ router.post('/add_lecture', function(req, res) {
   var lectures = courseChild.child('lectures');
   var lectureChild = lectures.child(title);
 
+
   lectureChild.set({
     title: title,
     creator: creator,
     numPowerpoints: 0
+  }, function(error) {
+    if (error) {
+      res.send(error);
+    } else {
+      res.send("200");
+    }
   });
 
 });
@@ -162,84 +170,84 @@ router.post('/get_lectures', function(req, res) {
 });
 
 router.post('/upload_PDF', function(req, res) {
-  try {
-    var db = firebase.database();
-    var ref = db.ref("aurora");
-    var bucket = gcs.bucket('aurora-80cde.appspot.com');
+  var db = firebase.database();
+  var ref = db.ref("aurora");
+  var bucket = gcs.bucket('aurora-80cde.appspot.com');
 
-    var options = {
-      entity: 'allUsers',
-      role: gcs.acl.WRITER_ROLE
-    };
+  var options = {
+    entity: 'allUsers',
+    role: gcs.acl.WRITER_ROLE
+  };
 
-    bucket.acl.add(options, function(err, aclObject) {
-      console.log(err)
-    });
+  bucket.acl.add(options, function(err, aclObject) {
+    console.log(err)
+  });
 
-    req.pipe(req.busboy);
-    req.busboy.on('error', function(err) {
-      console.log(err);
-    });
-
-
-    req.busboy.on('field', function(fieldname, val, valTruncated, keyTruncated) {
-      console.log("fieldname: " + fieldname);
-
-    });
-    var fstream;
-    req.busboy.on('file', function(fieldname, file, filename) {
+  req.pipe(req.busboy);
+  req.busboy.on('error', function(err) {
+    console.log(err);
+  });
 
 
-      var lecture = filename.split('--')[1].split('.')[0];
-      var value;
-      var lectures;
-      var update_lecture = function(callback) {
-        lectures = ref.child('lectures')
-          .child(lecture);
-        lectures.once("value", function(snapshot) {
-          value = snapshot.val();
-          callback(value.numPowerpoints);
-        });
+  req.busboy.on('field', function(fieldname, val, valTruncated, keyTruncated) {
+    console.log("fieldname: " + fieldname);
+
+  });
+  var fstream;
+  req.busboy.on('file', function(fieldname, file, filename) {
+
+    var lecture = filename.split(':')[1].split('.')[0];
+    var course = filename.split(':')[0].split('.')[0];
+    console.log("Lecture:", lecture)
+    console.log("Course:", course)
+    var value;
+    var lectures;
+
+    var update_lecture = function(callback) {
+      lectures = ref.child('courses').child(course)
+        .child('lectures')
+        .child(lecture);
+      lectures.once("value", function(snapshot) {
+        value = snapshot.val();
+        callback(value.numPowerpoints);
+      });
+    }
+
+    update_lecture(function(value) {
+      if (!isNaN(value)) {
+        value = value + 1;
+        lectures.update({
+          numPowerpoints: value
+        })
       }
 
-      update_lecture(function(value) {
-        if (!isNaN(value)) {
-          value = value + 1;
-          lectures.update({
-            numPowerpoints: value
-          })
+      fstream = fs.createWriteStream(__dirname + '/' + filename);
+      file.pipe(fstream);
+      fstream.on('close', function() {
+        console.log("Upload Finished of " + filename);
+        //res.redirect('back'); //where to go next
+      });
+      bucket.upload(__dirname + '/' + filename, function(err, file) {
+        if (!err) {
+          console.log("lastet opp");
+          fs.unlink(__dirname + '/' + filename);
+        } else {
+          console.log(err);
+          fs.unlink(__dirname + '/' + filename);
         }
-
-        filename = filename.split('--')[1].split('.')[0] + '.' + filename.split('--')[1].split('.')[1];
-        fstream = fs.createWriteStream(__dirname + '/' + filename);
-        file.pipe(fstream);
-        fstream.on('close', function() {
-          console.log("Upload Finished of " + filename);
-          //res.redirect('back'); //where to go next
-        });
-        bucket.upload(__dirname + '/' + filename, function(err, file) {
-          if (!err) {
-            console.log("lastet opp");
-            fs.unlink(__dirname + '/' + filename);
-          } else {
-            console.log(err);
-            fs.unlink(__dirname + '/' + filename);
-          }
-        })
-      });
-
+      })
     });
 
-    req.busboy.on('finish', function() {
-      //Finish it
-      res.writeHead(200, {
-        'Connection': 'close'
-      });
-      res.end("That's all folks!");
+  });
+
+  req.busboy.on('finish', function() {
+    //Finish it
+    res.writeHead(200, {
+      'Connection': 'close'
     });
-  } catch (er) {
-    next(err);
-  }
+    res.end("That's all folks!");
+  });
+
 });
 
 
@@ -249,9 +257,11 @@ router.post('/download_PDF', function(req, res) {
   var ref = db.ref("aurora");
 
   var lecture = req.body.lecture;
+  var course = req.body.course;
 
   var update_lecture = function(callback) {
-    lectures = ref.child('lectures')
+    lectures = ref.child('courses').child(course)
+      .child('lectures')
       .child(lecture);
     lectures.once("value", function(snapshot) {
       value = snapshot.val();

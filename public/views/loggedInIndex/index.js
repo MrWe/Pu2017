@@ -152,7 +152,7 @@ $(function() {
 
         $('#pdf')
           .remove();
-        $("<object id='pdf' data='https://storage.googleapis.com/aurora-80cde.appspot.com/" + currentSelectedLecture.title + ".pdf' type='application/pdf' width='100%' height='95%'></object>")
+        $("<object id='pdf' data='https://storage.googleapis.com/aurora-80cde.appspot.com/" + currentSelectedCourse + ':' + currentSelectedLecture.title + ".pdf' type='application/pdf' width='100%' height='95%'></object>")
           .appendTo($('#powerpoint'));
 
         update_lecture(currentSelectedLecture);
