@@ -3,6 +3,21 @@
     text-align: center;
 }
 
+#aurora {
+    max-width: 90%;
+    max-height: 90%;
+    display: block;
+    margin: -40 0 0 0;
+}
+
+#auroradiv{
+    width: 15%;
+    height: 10%;
+    margin-right: 1.2%;
+    margin-left: 1.2%;
+    text-align: center;
+}
+
 #logoutbtn{
     background-color: #4CAF50;
     border: none;
@@ -112,7 +127,7 @@
     float: left;
 }
 
-#forelesninglink{
+#controlpanellink{
     border: none;
     text-decoration: none;
     color: white;

@@ -1,7 +1,7 @@
 var lectures = {};
 var currentSelectedLecture = "";
 var currentSelectedCourse = "";
-
+var currentExerciseId = "";
 var currExercises = {};
 
 var codeinput_1 = 0;
@@ -43,7 +43,7 @@ $(function() {
     }
         ]);
   quill.formatLine(1, 100, 'code-block', true);
-    
+
 
   $('#username')
     .text(sessionStorage['currUser']);
@@ -97,7 +97,8 @@ $(function() {
 
       $('.course')
         .each(function() {
-          console.log($(this).children());
+          console.log($(this)
+            .children());
 
           if ($(this)
             .siblings()
@@ -142,7 +143,6 @@ $(function() {
   $(document)
     .on('click', '#lecture', function(event) {
       event.preventDefault();
-      console.log("Hei", lectures);
       if (lectures) {
         currentSelectedLecture = lectures[event.target.text];
 
@@ -159,14 +159,11 @@ $(function() {
     .click(function() {
       var t = quill.getText();
       t = t.replace(/\n$/, "")
+
       $.post('/api/store_content', {
-          scripts: t
-        })
-        .done(function(res) {
-          console.log("Submitted")
-        });
-
-
+        userCode: t,
+        exerciseId: currentExerciseId
+      });
       document.getElementById("consoleText")
         .innerHTML = "";
 
@@ -209,128 +206,154 @@ $(function() {
 
 
     })
-  
-  function reset(){
-      quill.setContents([
-        {
-          insert: 'function main(x){'
+
+  function reset() {
+    quill.setContents([
+      {
+        insert: 'function main(x){'
         },
-        {
-          insert: '\n\n'
+      {
+        insert: '\n\n'
         },
-        {
-          insert: '}'
+      {
+        insert: '}'
         }
         ]);
-      quill.formatLine(1, 100, 'code-block', true);
-      reset_index();
+    quill.formatLine(1, 100, 'code-block', true);
+    reset_index();
   }
 
   $('#reset')
     .click(reset())
-      
 
 
 
 
 
-function reset_index() {
-  document.getElementById("consoleText")
-    .innerHTML = "";
-}
+
+  function reset_index() {
+    document.getElementById("consoleText")
+      .innerHTML = "";
+  }
 
 
-$(document)
-  .on('click', ".exercise", function() {
-    var liId = $(this)
-      .attr('id');
+  $(document)
+    .on('click', ".exercise", function() {
+      var liId = $(this)
+        .attr('id');
+      currentExerciseId = currExercises[liId];
 
-    $(".exercise")
-      .each(function(index, t) {
-        if (t.id != liId) {
-          $(this)
-            .removeAttr("style");
-          $(this)
-            .css('background-color', '#24333B');
-        } else {
-          $(this)
-            .removeAttr("style");
-          $(this)
-            .css('background-color', '#4CAF50');
-        }
-        //console.log(index, t.id);
-      });
 
-    if (liId !== 'pp') {
+      $(".exercise")
+        .each(function(index, t) {
+          if (t.id != liId) {
+            $(this)
+              .removeAttr("style");
+            $(this)
+              .css('background-color', '#24333B');
+          } else {
+            $(this)
+              .removeAttr("style");
+            $(this)
+              .css('background-color', '#4CAF50');
+          }
+          //console.log(index, t.id);
+        });
 
-        document.getElementById("consoleText").innerHTML= "";
-        document.getElementById("GodkjentAvslaatP").innerHTML = "Ikke levert";
-        document.getElementById("GodkjentAvslaatIMG").src= "../../img/ikke_levert.png"
-        reset();
+      if (liId !== 'pp') {
+        $.post('/api/get_content', {
+            exerciseId: currentExerciseId
+          }, function() {
 
-      var data = lectures[currentSelectedLecture.title][currExercises[liId]];
-      $('#exercise_desc')
-        .text(data.exercise_desc);
-      var isInt = /^\d+$/.test(data.exercise_input_1);
+          })
+          .done(function(res) {
 
-      var isArray = data.exercise_input_1.charAt(0) == "[" && data.exercise_input_1.slice(-1) == "]";
-      if (isInt) {
-        codeinput_1 = data.exercise_input_1 * 1;
-        codeoutput_1 = data.exercise_output_1 * 1;
-        codeinput_2 = data.exercise_input_2 * 1;
-        codeoutput_2 = data.exercise_output_2 * 1;
-        codeinput_3 = data.exercise_input_3 * 1;
-        codeoutput_3 = data.exercise_output_3 * 1;
-      } else if (isArray) {
-        var list = [data.exercise_input_1, data.exercise_output_1, data.exercise_input_2, data.exercise_output_2, data.exercise_input_3, data.exercise_output_3]
-        for (i = 0; i < list.length; i++) {
-          list[i] = list[i].replace("[", "");
-          list[i] = list[i].replace("]", "");
-          list[i] = list[i].replace(/'/g, "")
-          list[i] = list[i].replace(/ /g, "")
-        }
-        codeinput_1 = list[0].split(",");
-        console.log("etter spllit:" + codeinput_1);
-        codeoutput_1 = list[1].split(",");
-        codeinput_2 = list[2].split(",");
-        codeoutput_2 = list[3].split(",");
-        codeinput_3 = list[4].split(",");
-        codeoutput_3 = list[5].split(",");
+            document.getElementById("consoleText")
+              .innerHTML = "";
+            document.getElementById("GodkjentAvslaatP")
+              .innerHTML = "Ikke levert";
+            document.getElementById("GodkjentAvslaatIMG")
+              .src = "../../img/ikke_levert.png"
+            if (!res) {
+              reset();
+            } else {
+              quill.setContents([
+                {
+                  insert: res.userCode
+                  }
 
+                  ]);
+              quill.formatLine(1, 100, 'code-block', true);
+              reset_index();
+            }
+
+
+            var data = lectures[currentSelectedLecture.title][currExercises[liId]];
+
+            $('#exercise_desc')
+              .text(data.exercise_desc);
+            var isInt = /^\d+$/.test(data.exercise_input_1);
+
+            var isArray = data.exercise_input_1.charAt(0) == "[" && data.exercise_input_1.slice(-1) == "]";
+            if (isInt) {
+              codeinput_1 = data.exercise_input_1 * 1;
+              codeoutput_1 = data.exercise_output_1 * 1;
+              codeinput_2 = data.exercise_input_2 * 1;
+              codeoutput_2 = data.exercise_output_2 * 1;
+              codeinput_3 = data.exercise_input_3 * 1;
+              codeoutput_3 = data.exercise_output_3 * 1;
+            } else if (isArray) {
+              var list = [data.exercise_input_1, data.exercise_output_1, data.exercise_input_2, data.exercise_output_2, data.exercise_input_3, data.exercise_output_3]
+              for (i = 0; i < list.length; i++) {
+                list[i] = list[i].replace("[", "");
+                list[i] = list[i].replace("]", "");
+                list[i] = list[i].replace(/'/g, "")
+                list[i] = list[i].replace(/ /g, "")
+              }
+              codeinput_1 = list[0].split(",");
+              console.log("etter spllit:" + codeinput_1);
+              codeoutput_1 = list[1].split(",");
+              codeinput_2 = list[2].split(",");
+              codeoutput_2 = list[3].split(",");
+              codeinput_3 = list[4].split(",");
+              codeoutput_3 = list[5].split(",");
+
+            } else {
+              codeinput_1 = data.exercise_input_1;
+              codeoutput_1 = data.exercise_output_1;
+              codeinput_2 = data.exercise_input_2;
+              codeoutput_2 = data.exercise_output_2;
+              codeinput_3 = data.exercise_input_3;
+              codeoutput_3 = data.exercise_output_3;
+
+            }
+
+            console.log("input: " + codeinput_1 + "output: " + codeoutput_1)
+            console.log("input: " + codeinput_2 + "output: " + codeoutput_2)
+            console.log("input: " + codeinput_3 + "output: " + codeoutput_3)
+            Exercise(liId);
+          });
       } else {
-        codeinput_1 = data.exercise_input_1;
-        codeoutput_1 = data.exercise_output_1;
-        codeinput_2 = data.exercise_input_2;
-        codeoutput_2 = data.exercise_output_2;
-        codeinput_3 = data.exercise_input_3;
-        codeoutput_3 = data.exercise_output_3;
 
+        powerpoint();
       }
 
-      console.log("input: " + codeinput_1 + "output: " + codeoutput_1)
-      console.log("input: " + codeinput_2 + "output: " + codeoutput_2)
-      console.log("input: " + codeinput_3 + "output: " + codeoutput_3)
-      Exercise(liId);
-    } else {
 
-      powerpoint();
-    }
-
-  });
+    });
 
 
-function update_lecture(lecture) {
-  $('#tabsArray li:not(:first)')
-    .remove();
-  for (var l in lecture) {
+  function update_lecture(lecture) {
+    $('#tabsArray li:not(:first)')
+      .remove();
+    for (var l in lecture) {
 
-    if (!(typeof lecture[l] === 'string') && lecture[l].exercise_title != undefined) {
-      currExercises[lecture[l].exercise_title] = l;
+      if (!(typeof lecture[l] === 'string') && lecture[l].exercise_title != undefined) {
+        currExercises[lecture[l].exercise_title] = l;
 
-      $("<li><button class='exercise' id=" + lecture[l].exercise_title + " >" + lecture[l].exercise_title + "</button></li>")
-        .appendTo($('#tabsArray'));
+        $("<li><button class='exercise' id=" + lecture[l].exercise_title + " >" + lecture[l].exercise_title + "</button></li>")
+          .appendTo($('#tabsArray'));
+      }
     }
   }
-}
 
 });

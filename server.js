@@ -7,21 +7,34 @@ var busboy = require('connect-busboy');
 /* SETUP NODE SERVER */
 var app = express();
 
-app.use(express.static('public'));
+app.use(express.static('public'))
+  /*
+  app.use(function(req, res, next) {
+      console.log(req.path);
+      console.log(req.path.indexOf('/get_all_courses'));
+      if (!api.userIsLecturer() && req.path.indexOf('/get_all_courses') !== -1)
+      {
+        console.log("Hei2");
+        res.redirect('views/loggedInIndex');
+      }
+      else{
+        next();
+      }
 
-/*
-  TEMP FIX
-*/
+  });
+
+  */
+
 app.all('/', function(req, res) {
-  if (api.userIsLoggedIn()) {
+  //console.log("Heisann",api.userIsLecturer());
+  if (api.userIsLoggedIn() && api.userIsLecturer()) {
+    res.redirect('views/newlecture/addLecture.html');
+  } else if (api.userIsLoggedIn()) {
     res.redirect('views/loggedInIndex');
   } else {
     res.redirect('views/startpage');
   }
 });
-
-
-
 
 var server = app.listen(process.env.PORT || 3000, listen);
 
