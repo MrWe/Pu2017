@@ -49,9 +49,9 @@
         </div>
         <div id="Tabs">
             <ul>
-                <li><button id="fag" onclick="return fag();">fag</button></li>
-                <li><button class='hidden' id="forelesning" onclick="return forelesning();">forelesning</button></li>
-                <li><button class='hidden' id="øving" onclick="return  oving();">øving</button></li>
+                <li><button id="fag" onclick="return fag();">Fag</button></li>
+                <li><button class='hidden' id="forelesning" onclick="return forelesning();">Forelesning</button></li>
+                <li><button class='hidden' id="øving" onclick="return  oving();">Øving</button></li>
             </ul>
         </div>
         <div id="Controll">
@@ -112,8 +112,9 @@
 
                     <form id="lectureForm">
                         <div id="PowerPoint">
-                            <h2>Valgt forelesning</h2>
-                            <p class='currentLecture'>
+                            <h2 id='titleError' class='hidden'>Legg til en tittel</h2>
+                            <h2>Legg til forelesning</h2>
+                            <p class='currentCourse'>
 
                             </p>
                             <!--
@@ -129,7 +130,7 @@
                         </div>
 
                         <div id="addExcerciseContainer">
-                            <button id="addLecture">legg til Forelesning</button>
+                            <button id="addLecture">Legg til Forelesning</button>
                         </div>
                     </form>
                 </div>
@@ -138,7 +139,7 @@
                 <div id="øvingsside" style="display:none;">
 
                     <div id="exercises">
-                        <h2>Valgt forelesning</h2>
+                        <h2>Legg til øving</h2>
                         <p class='currentLecture'>
 
                         </p>

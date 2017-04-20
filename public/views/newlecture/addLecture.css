@@ -10,6 +10,17 @@ h2 {
     color: white;
 }
 
+#titleError{
+    color:red;
+}
+
+.hidden{
+    display: none;
+}
+
+.show{
+    display: block;
+}
 
 #Controll {
     background-color: #0B0C16;

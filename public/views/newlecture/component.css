@@ -21,9 +21,6 @@
     /* 10px 20px */
 }
 
-.hidden{
-    display: none;
-}
 
 .no-js .inputfile + label {
     display: none;
