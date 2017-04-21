@@ -36,6 +36,11 @@ $(function() {
     .on('click', 'li.course', function(event) {
       event.preventDefault();
       currentSelectedCourse = event.target.text;
+      if(currentSelectedCourse == undefined){
+        currentSelectedCourse = event.target.children[0].outerText;
+        console.log(event.target.children[0].outerText);
+      }
+
       $('.currentCourse')
         .text("Valgt fag: " + currentSelectedCourse);
       $.post('/api/get_lectures', {
@@ -54,8 +59,9 @@ $(function() {
         console.log(res);
         $('#lectures')
           .html("");
+        $('#dropdown_courses')
+          .empty();
         for (var i in res) {
-          $('#dropdown_courses').empty();
           $('#dropdown_courses')
             .append("<option value=" + i + ">" + i + "</option>")
           lectureArray.push(i);
