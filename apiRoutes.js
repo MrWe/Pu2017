@@ -27,25 +27,30 @@ var config = {
 firebase.initializeApp(config);
 
 router.post('/user_is_lecturer', function(req, res) {
-  var db = firebase.database();
-  var ref = db.ref("aurora");
-  var users = ref.child("users");
-  //var creator = users.child(firebase.auth()
-  //.currentUser.uid);
-  var user = users.child(firebase.auth()
-      .currentUser.uid)
-    .child('isLecturer');
+  try {
+    var db = firebase.database();
+    var ref = db.ref("aurora");
+    var users = ref.child("users");
+    //var creator = users.child(firebase.auth()
+    //.currentUser.uid);
+    var user = users.child(firebase.auth()
+        .currentUser.uid)
+      .child('isLecturer');
 
 
-  var isLecturer = function(callback) {
-    user.once("value", function(snapshot) {
-      callback(snapshot);
-    });
+    var isLecturer = function(callback) {
+      user.once("value", function(snapshot) {
+        callback(snapshot);
+      });
+    }
+
+    isLecturer(function(value) {
+      res.send(value);
+    })
+  } catch (error) {
+    res.write(error.message);
+    res.end();
   }
-
-  isLecturer(function(value) {
-    res.send(value);
-  })
 
 });
 

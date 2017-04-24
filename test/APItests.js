@@ -78,17 +78,17 @@ describe('Login', function() {
   });
 });
 
-/*describe('user is lecture', function() {
+describe('user is lecture', function() {
   it('should return status 200 on call to userIsLoggedIn', function(done) {
     chai.request(server)
       .post('/api/login')
       .send({mail:'mocha@test.com', password:'1234567'})
       .end(function(err, res) {
         chai.request(server)
-          .post('/api/userIsLoggedIn')
+          .post('/api/user_is_lecturer')
           .end(function(err, res) {
             res.should.have.status(200);
-            res.text.should.equal('backend,true');
+            res.text.should.equal('"true"');
             done();
           });
       });
@@ -98,15 +98,15 @@ describe('Login', function() {
       .post('/api/logout')
       .end(function(err, res) {
         chai.request(server)
-          .post('/api/userIsLoggedIn')
+          .post('/api/user_is_lecturer')
           .end(function(err, res) {
             res.should.have.status(200);
-            res.text.should.equal('Not logged in');
+            res.text.should.equal("Cannot read property 'uid' of null");
             done();
       });
     });
   });
-});*/
+});
 
 describe('userIsLoggedIn', function() {
   it('should return status 200 on call to userIsLoggedIn', function(done) {
