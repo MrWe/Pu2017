@@ -18,7 +18,7 @@ $(function() {
     }
     $('.currentCourse')
       .text(currentSelectedCourse);
-      
+
   })
 
   $('#courses')
@@ -137,7 +137,7 @@ $(function() {
         var exercise_input_1 = list[0].split(",");
         var exercise_input_2 = list[1].split(",");
         var exercise_input_3 = list[2].split(",");
-        
+
     } else{
         var exercise_input_1 = $('#input_1')[0].value;
         var exercise_input_2 = $('#input_2')[0].value;

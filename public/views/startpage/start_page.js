@@ -31,14 +31,14 @@ $(function() {
     $.post('/api/login', {
         'mail': mail, 'password': password
       }).done(function(res) {
-        if (res === '200') {
+        if (res === 'Login successful') {
           sessionStorage.setItem('status', 'loggedIn');
           sessionStorage.setItem('currUser', mail);
           console.log("Logged in");
           window.location = "/";
         }
         else{
-            document.getElementById('feilmeldinglog').innerHTML = "feil mail eller passord";
+          document.getElementById('feilmeldinglog').innerHTML = "feil mail eller passord";
           console.log("Could not log in");
         }
       });
@@ -66,33 +66,36 @@ $(function() {
       isLecturer = false;
     }
 
-    $.post('/api/create_user', {
-      /*
-        firstname and lastname are currently not stored to firebase
-      */
-        'isLecturer': isLecturer,
-        'fname': fname,
-        'lname': lname,
-        'mail': mail,
-        'password': password
-      }).done(function(res) {
-        if (/*res === '200' && */password == passwordRepeat) {
-          sessionStorage.setItem('status', 'loggedIn');
-          sessionStorage.setItem('currUser', mail);
-          console.log("Logged in");
-          window.location = '/';
-        }
-        else{
-          if(password != passwordRepeat){
-              document.getElementById('feilmelding').innerHTML = "passorende er ikke like"
-          }else if (password.length < 6){
-              document.getElementById('feilmelding').innerHTML = "passord er for kort"
-          }else if(!regex.test(mail)){
-              document.getElementById('feilmelding').innerHTML = "ikke gyldig mail";
+    if (password == passwordRepeat) {
+      $.post('/api/create_user', {
+        /*
+          firstname and lastname are currently not stored to firebase
+        */
+          'isLecturer': isLecturer,
+          'fname': fname,
+          'lname': lname,
+          'mail': mail,
+          'password': password
+        }).done(function(res) {
+          if (res === 'User created') {
+            sessionStorage.setItem('status', 'loggedIn');
+            sessionStorage.setItem('currUser', mail);
+            console.log("Logged in");
+            window.location = '/';
           }
-          console.log("Could not log in");
-        }
-      });
+          else{
+            if (password.length < 6){
+                document.getElementById('feilmelding').innerHTML = "passord er for kort"
+            }else if(!regex.test(mail)){
+                document.getElementById('feilmelding').innerHTML = "ikke gyldig mail";
+            }
+            console.log("Could not log in");
+          }
+        });
+    }
+    else {
+      document.getElementById('feilmelding').innerHTML = "passorende er ikke like"
+    }
     return false;
   });
 
