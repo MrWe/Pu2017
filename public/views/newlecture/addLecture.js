@@ -169,6 +169,7 @@ $(function() {
     console.log("Lecture", currentSelectedLecture);
     var exercise_title = $('#exercise_title')[0].value;
     var exercise_desc = $('#descriptions')[0].value;
+
     if ($('#input_1')[0].value.charAt(0) == "[") {
       var list = [$('#input_1')[0].value, $('#input_2')[0].value, $('#input_3')[0].value]
       for (i = 0; i < list.length; i++) {
