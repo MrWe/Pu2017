@@ -488,8 +488,6 @@ router.post('/userIsLoggedIn', function(req, res) {
     get_user(function(value) {
       return res.send(value.fname + ',' + value.isLecturer);
     })
-
-    //console.log(user.email + ',' + isLecturer);
   } else {
     return res.send('Not logged in');
   }
@@ -502,7 +500,6 @@ router.post('/userIsLoggedIn', function(req, res) {
 function userIsLoggedIn(req, res, next) {
   var user = firebase.auth()
     .currentUser;
-
   if (user) {
     // User is signed in.
     return true;
@@ -511,38 +508,10 @@ function userIsLoggedIn(req, res, next) {
   return false;
 }
 
-function userIsLecturer(req, res, next) {
-  var user = firebase.auth()
-    .currentUser;
-  var db = firebase.database();
-  var ref = db.ref("aurora");
-  var users = ref.child("users");
-  if (user) {
-    var user = users.child(firebase.auth()
-      .currentUser.uid);
-
-    var get_user = function(callback) {
-      user.once("value", function(snapshot) {
-        callback(snapshot.val());
-      });
-    }
-
-    get_user(function(value) {
-      console.log(value['isLecturer']);
-      return value['isLecturer'];
-    })
-
-    //console.log(user.email + ',' + isLecturer);
-  } else {
-    return false;
-  }
-}
 
 module.exports = {
   router: router,
   userIsLoggedIn: userIsLoggedIn,
-  userIsLecturer: userIsLecturer
-
 };
 
 router.post('/delete', function(req, res) {

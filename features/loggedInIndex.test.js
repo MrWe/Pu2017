@@ -6,6 +6,9 @@ var should = chai.should();
 chai.use(chaiHttp);
 
 describe('loggedInIndex @watch', function () {
+  before('Login', function (){
+
+  })
   it('should load page and check init', function () {
     browser.url('http://localhost:3000/');
     browser.getUrl().should.equal('http://localhost:3000/views/startpage/');

@@ -78,16 +78,19 @@ describe('Login', function() {
   });
 });
 
-//Venter på fiks i APIet
-/*
-describe('userIsLoggedIn', function() {
+/*describe('user is lecture', function() {
   it('should return status 200 on call to userIsLoggedIn', function(done) {
     chai.request(server)
-      .post('/api/userIsLoggedIn')
+      .post('/api/login')
+      .send({mail:'mocha@test.com', password:'1234567'})
       .end(function(err, res) {
-        res.should.have.status(200);
-        console.log(res.text);
-        done();
+        chai.request(server)
+          .post('/api/userIsLoggedIn')
+          .end(function(err, res) {
+            res.should.have.status(200);
+            res.text.should.equal('backend,true');
+            done();
+          });
       });
   });
   it('should return error on not logged in', function(done) {
@@ -97,7 +100,6 @@ describe('userIsLoggedIn', function() {
         chai.request(server)
           .post('/api/userIsLoggedIn')
           .end(function(err, res) {
-            console.log(res.text);
             res.should.have.status(200);
             res.text.should.equal('Not logged in');
             done();
@@ -105,6 +107,36 @@ describe('userIsLoggedIn', function() {
     });
   });
 });*/
+
+describe('userIsLoggedIn', function() {
+  it('should return status 200 on call to userIsLoggedIn', function(done) {
+    chai.request(server)
+      .post('/api/login')
+      .send({mail:'mocha@test.com', password:'1234567'})
+      .end(function(err, res) {
+        chai.request(server)
+          .post('/api/userIsLoggedIn')
+          .end(function(err, res) {
+            res.should.have.status(200);
+            res.text.should.equal('backend,true');
+            done();
+          });
+      });
+  });
+  it('should return error on not logged in', function(done) {
+    chai.request(server)
+      .post('/api/logout')
+      .end(function(err, res) {
+        chai.request(server)
+          .post('/api/userIsLoggedIn')
+          .end(function(err, res) {
+            res.should.have.status(200);
+            res.text.should.equal('Not logged in');
+            done();
+      });
+    });
+  });
+});
 
 describe('userIsLoggedIN', function() {
   it('should return true', function(done) {
@@ -125,28 +157,6 @@ describe('userIsLoggedIN', function() {
       });
   });
 });
-
-/*describe('userIsLecturer', function() {
-  it('should return isLecturer', function(done) {
-    chai.request(server)
-      .post('/api/login')
-      .send({mail:'mocha@test.com', password:'1234567'})
-      .end(function(err, res) {
-        console.log(apiRoutes.userIsLecturer());
-        false.should.equal('true');
-        done();
-      });
-  });
-  it('should return false', function(done) {
-    chai.request(server)
-      .post('/api/login')
-      .send({mail:'mochatemp@test.com', password:'1234567'})
-      .end(function(err, res) {
-        apiRoutes.userIsLecturer().should.equal('false');
-        done();
-      });
-  });
-});*/
 
 describe('Logout', function() {
   it('should return status 200 on success', function(done) {

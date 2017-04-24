@@ -8,25 +8,7 @@ var busboy = require('connect-busboy');
 var app = express();
 
 app.use(express.static('public'))
-  /*
-  app.use(function(req, res, next) {
-      console.log(req.path);
-      console.log(req.path.indexOf('/get_all_courses'));
-      if (!api.userIsLecturer() && req.path.indexOf('/get_all_courses') !== -1)
-      {
-        console.log("Hei2");
-        res.redirect('views/loggedInIndex');
-      }
-      else{
-        next();
-      }
-
-  });
-
-  */
-
 app.all('/', function(req, res) {
-  //console.log("Heisann",api.userIsLecturer());
   if (api.userIsLoggedIn()) {
     res.redirect('views/loggedInIndex');
   } else {
