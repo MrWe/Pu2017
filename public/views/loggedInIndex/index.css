@@ -1,5 +1,4 @@
 #user{
-    margin: 10px 10px 10px 10px;
     text-align: center;
 }
 
@@ -7,7 +6,7 @@
     max-width: 90%;
     max-height: 90%;
     display: block;
-    margin: -40 0 0 0;
+    margin: -40 0 0 10;
 }
 
 #auroradiv{
@@ -31,6 +30,10 @@
 }
 #logoutbtn:hover{
     background-color: #407F40;
+}
+
+.hidden{
+    display: none;
 }
 
 #Tabs ul {
@@ -61,7 +64,7 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    
+
 }
 
 #contentSubmit button{

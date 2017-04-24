@@ -26,6 +26,28 @@ var config = {
 };
 firebase.initializeApp(config);
 
+router.post('/user_is_lecturer', function(req, res) {
+  var db = firebase.database();
+  var ref = db.ref("aurora");
+  var users = ref.child("users");
+  //var creator = users.child(firebase.auth()
+  //.currentUser.uid);
+  var user = users.child(firebase.auth()
+      .currentUser.uid)
+    .child('isLecturer');
+
+
+  var isLecturer = function(callback) {
+    user.once("value", function(snapshot) {
+      callback(snapshot);
+    });
+  }
+
+  isLecturer(function(value) {
+    res.send(value);
+  })
+
+});
 
 router.post('/add_lecture', function(req, res) {
   try {
@@ -38,7 +60,6 @@ router.post('/add_lecture', function(req, res) {
     //.currentUser.uid);
     var creator = firebase.auth()
       .currentUser.uid;
-
     var courses = ref.child('courses');
     var courseChild = courses.child(course);
     var lectures = courseChild.child('lectures');
@@ -155,7 +176,6 @@ router.post('/get_lectures', function(req, res) {
 });
 
 router.post('/upload_PDF', function(req, res) {
-
   var db = firebase.database();
   var ref = db.ref("aurora");
   var bucket = gcs.bucket('aurora-80cde.appspot.com');
@@ -182,12 +202,16 @@ router.post('/upload_PDF', function(req, res) {
   var fstream;
   req.busboy.on('file', function(fieldname, file, filename) {
 
-
-    var lecture = filename.split('--')[1].split('.')[0];
+    var lecture = filename.split(':')[1].split('.')[0];
+    var course = filename.split(':')[0].split('.')[0];
+    console.log("Lecture:", lecture)
+    console.log("Course:", course)
     var value;
     var lectures;
+
     var update_lecture = function(callback) {
-      lectures = ref.child('lectures')
+      lectures = ref.child('courses').child(course)
+        .child('lectures')
         .child(lecture);
       lectures.once("value", function(snapshot) {
         value = snapshot.val();
@@ -203,7 +227,6 @@ router.post('/upload_PDF', function(req, res) {
         })
       }
 
-      filename = filename.split('--')[1].split('.')[0] + '.' + filename.split('--')[1].split('.')[1];
       fstream = fs.createWriteStream(__dirname + '/' + filename);
       file.pipe(fstream);
       fstream.on('close', function() {
@@ -230,6 +253,7 @@ router.post('/upload_PDF', function(req, res) {
     });
     res.end("That's all folks!");
   });
+
 });
 
 
@@ -239,9 +263,11 @@ router.post('/download_PDF', function(req, res) {
   var ref = db.ref("aurora");
 
   var lecture = req.body.lecture;
+  var course = req.body.course;
 
   var update_lecture = function(callback) {
-    lectures = ref.child('lectures')
+    lectures = ref.child('courses').child(course)
+      .child('lectures')
       .child(lecture);
     lectures.once("value", function(snapshot) {
       value = snapshot.val();
@@ -485,7 +511,7 @@ function userIsLoggedIn(req, res, next) {
   return false;
 }
 
-function userIsLecturer(req, res, next){
+function userIsLecturer(req, res, next) {
   var user = firebase.auth()
     .currentUser;
   var db = firebase.database();

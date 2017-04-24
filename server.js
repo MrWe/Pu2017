@@ -27,9 +27,7 @@ app.use(express.static('public'))
 
 app.all('/', function(req, res) {
   //console.log("Heisann",api.userIsLecturer());
-  if (api.userIsLoggedIn() && api.userIsLecturer()) {
-    res.redirect('views/newlecture/addLecture.html');
-  } else if (api.userIsLoggedIn()) {
+  if (api.userIsLoggedIn()) {
     res.redirect('views/loggedInIndex');
   } else {
     res.redirect('views/startpage');
@@ -54,5 +52,11 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 app.use(busboy()); // to support JSON-encoded bodies
 
 app.use('/api', api.router);
+
+app.use(function(err, req, res, next) {
+  console.log(err);
+  res.status(err.status || 500);
+  res.end();
+});
 
 module.exports = app; // for testing

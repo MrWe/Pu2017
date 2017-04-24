@@ -49,9 +49,9 @@
         </div>
         <div id="Tabs">
             <ul>
-                <li><button id="fag" onclick="return fag();">fag</button></li>
-                <li><button id="forelesning" onclick="return forelesning();">forelesning</button></li>
-                <li><button id="øving" onclick="return  oving();">øving</button></li>
+                <li><button id="fag" onclick="return fag();">Fag</button></li>
+                <li><button class='hidden' id="forelesning" onclick="return forelesning();">Forelesning</button></li>
+                <li><button class='hidden' id="øving" onclick="return  oving();">Øving</button></li>
             </ul>
         </div>
         <div id="Controll">
@@ -74,15 +74,15 @@
                     <form id="fagForm">
 
                         </ul>
-
-                    <input placeholder="Fagnavn" type="text" id="course_title"/>
+                        <h2>Fagnavn</h2>
+                        <input type="text" id="course_title" />
                 </div>
-                    <div id="addExcerciseContainer">
-                        <button id="addCourse">Legg til fag</button>
-                    </div>
+                <div id="addExcerciseContainer">
+                    <button id="addCourse">Legg til fag</button>
+                </div>
 
-                        <!--<button id="addLecture">legg til forelesning</button>-->
-                
+                <!--<button id="addLecture">legg til forelesning</button>-->
+
                 <!--<div id="ControllContent">
 
                     <h1>Controllpanel</h1>
@@ -112,8 +112,9 @@
 
                     <form id="lectureForm">
                         <div id="PowerPoint">
-                            <h2>Valgt forelesning</h2>
-                            <p class='currentLecture'>
+                            <h2 id='titleError' class='hidden'>Legg til en tittel</h2>
+                            <h2>Legg til forelesning</h2>
+                            <p class='currentCourse'>
 
                             </p>
                             <!--
@@ -123,13 +124,13 @@
                                 </select>
                             -->
                             <h2>Tittel</h2>
-                            <input placeholder="Tittel" type="text" id="lecture_title">
+                            <input type="text" id="lecture_title">
                             <p>PowerPoint</p>
                             <input id="powerpointFile" type="file" style="color:white;">
                         </div>
 
                         <div id="addExcerciseContainer">
-                            <button id="addLecture">legg til Forelesning</button>
+                            <button id="addLecture">Legg til Forelesning</button>
                         </div>
                     </form>
                 </div>
@@ -138,7 +139,7 @@
                 <div id="øvingsside" style="display:none;">
 
                     <div id="exercises">
-                        <h2>Valgt forelesning</h2>
+                        <h2>Legg til øving</h2>
                         <p class='currentLecture'>
 
                         </p>
@@ -153,21 +154,29 @@
                         <h2>Øving beskrivelse</h2>
                         <textarea id="descriptions" rows="4" cols="50" form="lectureForm"></textarea></br>
 
+                        <h2>Velg Forelesning</h2>
+                        <select id="dropdown_courses" required>
+                        </select>
+
 
                         <h2>input og output</h2>
-                        <p>legg til 3 inputs og 3 forventet outputs</p>
+                        <div id="infoDiv">
+                            <p id="info">legg til 3 inputs og 3 forventet outputs
+                                <img src="../../img/questionmark.png" style="max-height: 15px;"><span>Her skal du legge inn inputen funksjonen i oppgaven skal få inn som parameter. Som output putter du verdien som funksjonen skal returnere. Du trenger 3 inputs og 3 outputs for å ungå juks. Strings må skrives med "" og arrays med []</span></p>
+                        </div>
+                        <div id="codeInputs">
+                            <input type="text" id="input_1" placeholder="input_1">
 
-                        <input type="text" id="input_1" placeholder="input_1">
+                            <input type="text" id="output_1" placeholder="output_1">
 
-                        <input type="text" id="output_1" placeholder="output_1">
+                            <input type="text" id="input_2" placeholder="input_2">
 
-                        <input type="text" id="input_2" placeholder="input_2">
+                            <input type="text" id="output_2" placeholder="output_2">
 
-                        <input type="text" id="output_2" placeholder="output_2">
+                            <input type="text" id="input_3" placeholder="input_3">
 
-                        <input type="text" id="input_3" placeholder="input_3">
-
-                        <input type="text" id="output_3" placeholder="output_3">
+                            <input type="text" id="output_3" placeholder="output_3">
+                        </div>
                     </div>
                     <div id="addExcerciseContainer">
                         <button id="addExercise">legg til Øving</button>
