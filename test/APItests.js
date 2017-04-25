@@ -7,6 +7,14 @@ var should = chai.should();
 
 chai.use(chaiHttp);
 
+/*
+This file contain back-end unit tests for the project, to see front-end unit tests
+see the features directory.
+To run back-end unit tests, execute "run test"
+To show coverage, execute "run showcoverage"
+To run front-end tests, execute "chimp --mocha"
+*/
+
 describe('Create_User', function() {
   it('should return status 200 on call to create_user', function(done) {
     chai.request(server)
