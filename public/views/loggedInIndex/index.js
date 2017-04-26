@@ -155,7 +155,7 @@ $(function() {
 
         $('#pdf')
           .remove();
-        $("<object id='pdf' data='https://storage.googleapis.com/aurora-80cde.appspot.com/" + currentSelectedCourse + ':' + currentSelectedLecture.title + ".pdf' type='application/pdf' width='100%' height='95%'></object>")
+        $("<object id='pdf' data='https://storage.googleapis.com/aurora-80cde.appspot.com/" + currentSelectedCourse + '%3A' + currentSelectedLecture.title + ".pdf' type='application/pdf' width='100%' height='95%'></object>")
           .appendTo($('#powerpoint'));
 
         update_lecture(currentSelectedLecture);
@@ -287,7 +287,7 @@ $(function() {
                   ]);
               quill.formatLine(1, 100, 'code-block', true);
               reset_index();
-              setTimeout(function(){ $('#submitbtn').trigger( "click" ); }, 10); 
+              setTimeout(function(){ $('#submitbtn').trigger( "click" ); }, 10);
             }
 
 

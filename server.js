@@ -7,7 +7,14 @@ var busboy = require('connect-busboy');
 /* SETUP NODE SERVER */
 var app = express();
 
+/*
+Set public folder as client side
+ */
 app.use(express.static('public'))
+
+/*
+Automatic redirect based on user logged in status. Redirect to views/loggedInIndex if logged in, views/startpage if not.
+ */
 app.all('/', function(req, res) {
   if (api.userIsLoggedIn()) {
     res.redirect('views/loggedInIndex');
@@ -33,8 +40,14 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 }));
 app.use(busboy()); // to support JSON-encoded bodies
 
+/*
+Define api endpoints
+ */
 app.use('/api', api.router);
 
+/*
+Error handling
+ */
 app.use(function(err, req, res, next) {
   console.log(err);
   res.status(err.status || 500);

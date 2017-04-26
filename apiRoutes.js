@@ -1,22 +1,19 @@
 var express = require('express')
 var serviceAccount = require("./serviceAccountKey.json");
 var firebase = require("firebase");
-//var storage = require('firebase/storage');
 var router = express.Router()
-  //var gcloud = require('gcloud');
 var fs = require('fs');
 var Busboy = require('busboy');
 var multiparty = require('multiparty');
 
+/*
+Define google cloud storage config
+ */
+var gcs = require('@google-cloud/storage')({projectId: 'aurora-80cde.appspot.com', keyFilename: 'serviceAccountKeygc.json'});
 
-var gcs = require('@google-cloud/storage')({
-  projectId: 'aurora-80cde.appspot.com',
-  keyFilename: 'serviceAccountKeygc.json'
-});
-
-//var bucket = storage.bucket('aurora-80cde.appspot.com');
-
-
+/*
+Define firebase config
+ */
 var config = {
   apiKey: "AIzaSyBnf39lchWQO2z7UPf9nrJfm_AN7Tpd8Dg",
   authDomain: "aurora-80cde.firebaseapp.com",
@@ -26,17 +23,17 @@ var config = {
 };
 firebase.initializeApp(config);
 
+/**
+ * Queries Firebase to see if current user is registered as a lecturer.
+ * @param  {Object} req [Not used]
+ * @param  {Object} res [Responds with true or false]
+ */
 router.post('/user_is_lecturer', function(req, res) {
   try {
     var db = firebase.database();
     var ref = db.ref("aurora");
     var users = ref.child("users");
-    //var creator = users.child(firebase.auth()
-    //.currentUser.uid);
-    var user = users.child(firebase.auth()
-        .currentUser.uid)
-      .child('isLecturer');
-
+    var user = users.child(firebase.auth().currentUser.uid).child('isLecturer');
 
     var isLecturer = function(callback) {
       user.once("value", function(snapshot) {
@@ -54,6 +51,11 @@ router.post('/user_is_lecturer', function(req, res) {
 
 });
 
+/**
+ * Adds a lecture to the database under correct course.
+ * @param  {Object} req [req.title = lecture title]
+ * @param  {Object} res [Responds with error message if exists]
+ */
 router.post('/add_lecture', function(req, res) {
   try {
     var title = req.body.title;
@@ -63,18 +65,13 @@ router.post('/add_lecture', function(req, res) {
     var users = ref.child("users");
     //var creator = users.child(firebase.auth()
     //.currentUser.uid);
-    var creator = firebase.auth()
-      .currentUser.uid;
+    var creator = firebase.auth().currentUser.uid;
     var courses = ref.child('courses');
     var courseChild = courses.child(course);
     var lectures = courseChild.child('lectures');
     var lectureChild = lectures.child(title);
 
-    lectureChild.set({
-      title: title,
-      creator: creator,
-      numPowerpoints: 0
-    });
+    lectureChild.set({title: title, creator: creator, numPowerpoints: 0});
     res.write('lecture_added');
     res.end();
   } catch (error) {
@@ -83,6 +80,11 @@ router.post('/add_lecture', function(req, res) {
   }
 });
 
+/**
+ * Queries Firebase for all courses.
+ * @param  {Object} req [Not used]
+ * @param  {Object} res [Responds with courses]
+ */
 router.post('/get_all_courses', function(req, res) {
   var db = firebase.database();
   var ref = db.ref("aurora");
@@ -102,12 +104,17 @@ router.post('/get_all_courses', function(req, res) {
   })
 });
 
-
+/**
+ * Queries Firebase for all courses. The function
+ * then removes all courses not made by this user and sends them back
+ * to the client.
+ * @param  {Object} req [Not used]
+ * @param  {Object} res [Responds with courses]
+ */
 router.post('/get_courses', function(req, res) {
   var db = firebase.database();
   var ref = db.ref("aurora");
-  var creator = firebase.auth()
-    .currentUser.uid;
+  var creator = firebase.auth().currentUser.uid;
 
   var values = {};
 
@@ -130,20 +137,20 @@ router.post('/get_courses', function(req, res) {
   })
 });
 
-router.post('/add_course', function(req, res){
-  try{
+/**
+ * Adds a course to the database.
+ * @param  {Object} req [req.body.course = course title]
+ * @param  {Object} res [Responds with error message if exists]
+ */
+router.post('/add_course', function(req, res) {
+  try {
     var course = req.body.course;
     var db = firebase.database();
     var ref = db.ref("aurora");
-    var creator = firebase.auth()
-      .currentUser.uid;
+    var creator = firebase.auth().currentUser.uid;
     var courses = ref.child('courses');
     var courseChild = courses.child(course);
-    courseChild.set({
-      course: course,
-      lectures: {},
-      creator: creator
-    });
+    courseChild.set({course: course, lectures: {}, creator: creator});
     res.write('course_added');
     res.end();
   } catch (error) {
@@ -152,18 +159,21 @@ router.post('/add_course', function(req, res){
   }
 });
 
+/**
+ * Queries Firebase for lectures under specific course.
+ * @param  {Object} req [req.body.course = course title]
+ * @param  {Object} res [Responds with lectures under course]
+ */
 router.post('/get_lectures', function(req, res) {
   var course = req.body.course;
   var db = firebase.database();
   var ref = db.ref("aurora");
-  var creator = firebase.auth()
-    .currentUser.uid;
+  var creator = firebase.auth().currentUser.uid;
 
   var values = {};
 
   var get_lectures = function(callback) {
-    var firebasecourse = ref.child('courses')
-      .child(course);
+    var firebasecourse = ref.child('courses').child(course);
     var lectures = firebasecourse.child('lectures');
     lectures.once("value", function(snapshot) {
       values = snapshot.val();
@@ -180,6 +190,12 @@ router.post('/get_lectures', function(req, res) {
   }
 });
 
+/**
+ * Queries Google cloud to upload PDF. The PDF is written to the filesystem
+ * to be able to reference a path for google cloud.
+ * @param  {Object} req [Contains PDF]
+ * @param  {Object} res [Not used]
+ */
 router.post('/upload_PDF', function(req, res) {
   var db = firebase.database();
   var ref = db.ref("aurora");
@@ -199,7 +215,6 @@ router.post('/upload_PDF', function(req, res) {
     console.log(err);
   });
 
-
   req.busboy.on('field', function(fieldname, val, valTruncated, keyTruncated) {
     console.log("fieldname: " + fieldname);
 
@@ -215,9 +230,7 @@ router.post('/upload_PDF', function(req, res) {
     var lectures;
 
     var update_lecture = function(callback) {
-      lectures = ref.child('courses').child(course)
-        .child('lectures')
-        .child(lecture);
+      lectures = ref.child('courses').child(course).child('lectures').child(lecture);
       lectures.once("value", function(snapshot) {
         value = snapshot.val();
         callback(value.numPowerpoints);
@@ -227,9 +240,7 @@ router.post('/upload_PDF', function(req, res) {
     update_lecture(function(value) {
       if (!isNaN(value)) {
         value = value + 1;
-        lectures.update({
-          numPowerpoints: value
-        })
+        lectures.update({numPowerpoints: value})
       }
 
       fstream = fs.createWriteStream(__dirname + '/' + filename);
@@ -253,15 +264,15 @@ router.post('/upload_PDF', function(req, res) {
 
   req.busboy.on('finish', function() {
     //Finish it
-    res.writeHead(200, {
-      'Connection': 'close'
-    });
+    res.writeHead(200, {'Connection': 'close'});
     res.end("That's all folks!");
   });
 
 });
 
-
+/*
+Currently not used. May get used for future features.
+ */
 router.post('/download_PDF', function(req, res) {
   var bucket = gcs.bucket('aurora-80cde.appspot.com');
   var db = firebase.database();
@@ -271,9 +282,7 @@ router.post('/download_PDF', function(req, res) {
   var course = req.body.course;
 
   var update_lecture = function(callback) {
-    lectures = ref.child('courses').child(course)
-      .child('lectures')
-      .child(lecture);
+    lectures = ref.child('courses').child(course).child('lectures').child(lecture);
     lectures.once("value", function(snapshot) {
       value = snapshot.val();
       callback(value.numPowerpoints);
@@ -284,8 +293,6 @@ router.post('/download_PDF', function(req, res) {
     res.send(value + '');
   });
 });
-
-
 
 /*
 May not get used
@@ -312,6 +319,11 @@ router.post('/get_exercises', function(req, res) {
 });
 */
 
+/**
+ * Queries firebase to store scripts written by users to their account.
+ * @param  {Object} req [req.body.userCode = script to be stored, req.body.exerciseId = exercise script is written for]
+ * @param  {Object} res [Responds with 'content_stored' if no errors, error message if error]
+ */
 router.post('/store_content', function(req, res) {
   try {
     var userCode = req.body.userCode;
@@ -320,33 +332,33 @@ router.post('/store_content', function(req, res) {
     var db = firebase.database();
     var ref = db.ref("aurora");
     var users = ref.child("users");
-    var user = users.child(firebase.auth()
-      .currentUser.uid);
+    var user = users.child(firebase.auth().currentUser.uid);
     var scripts = user.child('scripts');
     var exercise = scripts.child(exerciseId);
 
-    exercise.set({
-      userCode
-    });
-  res.write('content_stored');
-  res.end();
-} catch (error) {
-  res.write(error.message);
-  res.end();
-}
+    exercise.set({userCode});
+    res.write('content_stored');
+    res.end();
+  } catch (error) {
+    res.write(error.message);
+    res.end();
+  }
 });
 
-router.post('/get_content', function(req, res){
+/**
+ * Queries Firebase to get scripts written by users when accessing an exercise
+ * @param  {Object} req [req.body.exerciseId = current exercise the user is on]
+ * @param  {Object} res [Responds with script, error message if exists]
+ */
+router.post('/get_content', function(req, res) {
   try {
     var exerciseId = req.body.exerciseId;
     var db = firebase.database();
     var ref = db.ref("aurora");
     var users = ref.child("users");
-    var user = users.child(firebase.auth()
-      .currentUser.uid);
+    var user = users.child(firebase.auth().currentUser.uid);
     var scripts = user.child('scripts');
     var exercise = scripts.child(exerciseId);
-
 
     var get_code = function(callback) {
       exercise.once("value", function(snapshot) {
@@ -358,12 +370,25 @@ router.post('/get_content', function(req, res){
       console.log(value);
       return res.send(value);
     })
-    } catch (error) {
+  } catch (error) {
     res.write(error.message);
     res.end();
-    }
-    });
+  }
+});
 
+
+/**
+ * Queries Firebase to add exercise to specific lecture
+ * @param  {Object} req [
+ * req.body.course = course title
+ * req.body.lecture_title = lecture title
+ * req.body.exercise_title = exercise title
+ * req.body.exercise_desc = exercise description
+ * req.body.exercise_input_*number* = input for function in exercise
+ * req.body.exercise_output_*number* = expected output for function in exercise
+ * ]
+ * @param  {Object} res [Responds with 'exercise_added', error message if exists]
+ */
 router.post('/add_exercise', function(req, res) {
   try {
     var course = req.body.course;
@@ -379,11 +404,9 @@ router.post('/add_exercise', function(req, res) {
 
     var db = firebase.database();
     var ref = db.ref("aurora");
-    var firebasecourse = ref.child('courses')
-      .child(course);
+    var firebasecourse = ref.child('courses').child(course);
     var lectures = firebasecourse.child("lectures");
-    var lecture = lectures.child(lecture_title)
-      .push();
+    var lecture = lectures.child(lecture_title).push();
 
     lecture.set({
       'exercise_title': exercise_title,
@@ -393,7 +416,7 @@ router.post('/add_exercise', function(req, res) {
       'exercise_input_2': exercise_input_2,
       'exercise_output_2': exercise_output_2,
       'exercise_input_3': exercise_input_3,
-      'exercise_output_3': exercise_output_3,
+      'exercise_output_3': exercise_output_3
     });
     res.write('exercise_added');
     res.end();
@@ -403,86 +426,83 @@ router.post('/add_exercise', function(req, res) {
   }
 });
 
-
-
+/**
+ * Queries Firebase to create a user. Firebases createUserWithEmailAndPassword is used.
+ * @param  {Object} req [req.body.mail = User email, req.body.password = user password]
+ * @param  {Object} res [Responds with 'User created', error message if exists]
+ */
 router.post('/create_user', function(req, res) {
-  firebase.auth()
-    .createUserWithEmailAndPassword(
-      req.body.mail,
-      req.body.password
-    )
-    .then(function() {
-      var db = firebase.database();
-      var ref = db.ref("aurora");
-      var users = ref.child("users");
-      var user = users.child(firebase.auth()
-        .currentUser.uid);
-      user.set({
-        'fname': req.body.fname,
-        'lname': req.body.lname,
-        'isLecturer': req.body.isLecturer
-      });
-      res.write('User created');
+  firebase.auth().createUserWithEmailAndPassword(req.body.mail, req.body.password).then(function() {
+    var db = firebase.database();
+    var ref = db.ref("aurora");
+    var users = ref.child("users");
+    var user = users.child(firebase.auth().currentUser.uid);
+    user.set({'fname': req.body.fname, 'lname': req.body.lname, 'isLecturer': req.body.isLecturer});
+    res.write('User created');
+    res.end();
+  }).catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    if (error) {
+      res.send(errorCode);
       res.end();
-    })
-    .catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      if (error) {
-        res.send(errorCode);
-        res.end();
-      }
-    });
+    }
+  });
 
 });
 
-
+/**
+ * Queries Firebase to login a user. Firebases signInWithEmailAndPassword is used.
+ * @param  {Object} req [req.body.mail = User email, req.body.password = user password]
+ * @param  {Object} res [Responds with 'Login successful', error message if exists]
+ */
 router.post('/login', function(req, res) {
   var mail = req.body.mail;
   var password = req.body.password;
-  firebase.auth()
-    .signInWithEmailAndPassword(mail, password)
-    .then(function() {
-      res.write('Login successful');
+  firebase.auth().signInWithEmailAndPassword(mail, password).then(function() {
+    res.write('Login successful');
+    res.end();
+  }).catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    if (error) {
+      res.write(errorCode);
       res.end();
-    })
-    .catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      if (error) {
-        res.write(errorCode);
-        res.end();
-      }
+    }
 
-    });
+  });
 });
 
+/*
+Logs out the current user
+ */
 router.post('/logout', function(req, res) {
-  firebase.auth()
-    .signOut()
-    .then(function() {
-      res.write('Logout successful');
-      res.end();
-      // Sign-out successful.
-    }, function(error) {
-      res.write(error.errorCode);
-      res.end();
-      // An error happened.
-    });
+  firebase.auth().signOut().then(function() {
+    res.write('Logout successful');
+    res.end();
+    // Sign-out successful.
+  }, function(error) {
+    res.write(error.errorCode);
+    res.end();
+    // An error happened.
+  });
 });
 
 
+/**
+ * Queries Firebase to check if user is logged in
+ * @param  {Object} req [Not used]
+ * @param  {Object} res [Responds with value.fname + ',' + value.isLecturer if logged in, 'Not logged in' if not logged in]
+ */
 router.post('/userIsLoggedIn', function(req, res) {
-  var user = firebase.auth()
-    .currentUser;
+  var user = firebase.auth().currentUser;
   var db = firebase.database();
   var ref = db.ref("aurora");
   var users = ref.child("users");
   if (user) {
-    var user = users.child(firebase.auth()
-      .currentUser.uid);
+    var user = users.child(firebase.auth().currentUser.uid);
 
     var get_user = function(callback) {
       user.once("value", function(snapshot) {
@@ -498,27 +518,11 @@ router.post('/userIsLoggedIn', function(req, res) {
   }
 });
 
-
-
-
-//for internal calls
-function userIsLoggedIn(req, res, next) {
-  var user = firebase.auth()
-    .currentUser;
-  if (user) {
-    // User is signed in.
-    return true;
-  }
-
-  return false;
-}
-
-
-module.exports = {
-  router: router,
-  userIsLoggedIn: userIsLoggedIn,
-};
-
+/**
+ * Queries Firebase to delete logged in user
+ * @param  {Object} req [Not used]
+ * @param  {Object} res [Responds with 'Delete successful', error message if exists]
+ */
 router.post('/delete', function(req, res) {
   try {
     var user = firebase.auth().currentUser;
@@ -531,3 +535,20 @@ router.post('/delete', function(req, res) {
     res.end();
   }
 });
+
+
+//for internal calls
+function userIsLoggedIn(req, res, next) {
+  var user = firebase.auth().currentUser;
+  if (user) {
+    // User is signed in.
+    return true;
+  }
+
+  return false;
+}
+
+module.exports = {
+  router: router,
+  userIsLoggedIn: userIsLoggedIn
+};

@@ -28,8 +28,6 @@ $(function() {
     }
     $('.currentCourse')
       .text("Valgt fag: " + currentSelectedCourse);
-
-
   });
 
   $('#courses')
