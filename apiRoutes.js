@@ -376,7 +376,6 @@ router.post('/get_content', function(req, res) {
   }
 });
 
-
 /**
  * Queries Firebase to add exercise to specific lecture
  * @param  {Object} req [
@@ -490,7 +489,6 @@ router.post('/logout', function(req, res) {
   });
 });
 
-
 /**
  * Queries Firebase to check if user is logged in
  * @param  {Object} req [Not used]
@@ -535,7 +533,6 @@ router.post('/delete', function(req, res) {
     res.end();
   }
 });
-
 
 //for internal calls
 function userIsLoggedIn(req, res, next) {

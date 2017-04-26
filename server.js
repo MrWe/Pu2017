@@ -26,10 +26,8 @@ app.all('/', function(req, res) {
 var server = app.listen(process.env.PORT || 3000, listen);
 
 function listen() {
-  var host = server.address()
-    .address;
-  var port = server.address()
-    .port;
+  var host = server.address().address;
+  var port = server.address().port;
   console.log('App listening at http://' + host + ':' + port);
 }
 

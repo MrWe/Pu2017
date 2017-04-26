@@ -1,52 +1,56 @@
 <html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="style_start_pages.css">
-        <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
-        <script src="https://cdn.quilljs.com/1.2.0/quill.js"></script>
-        <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
-        <script src="start_page.js"></script>
 
-    </head>
-    <body onload="init();">
-        <div id="logo">
-            <img src="logo.png">
+<head>
+  <link rel="stylesheet" type="text/css" href="style_start_pages.css">
+  <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="https://cdn.quilljs.com/1.2.0/quill.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+  <script src="start_page.js"></script>
+
+</head>
+
+<body onload="init();">
+  <div id="logo">
+    <img src="logo.png">
+  </div>
+  <div id="createLogin">
+    <div id="menu">
+      <button id="regtab" class="button" onclick="return create();"> Ny bruker</button>
+      <button id="logtab" class="button" onclick="return login();">Logg inn </button>
+    </div>
+    <div id="reg" style="display:block;">
+      <h1>Registrering</h1>
+      <form id="registerForm">
+        <div id="container">
+          <input id="fornavn" type="text" placeholder="Fornavn">
+          <input id="etternavn" type="text" placeholder="Etternavn">
+          <input id="regMail" type="text" placeholder="Email">
+          <input id="pass" type="password" placeholder="Passord">
+          <input id="repPass" type="password" placeholder="Gjenta passord">
+          <input id="regbtn" type="submit" value="send">
+          <input id="input_checkbox" name="isLecturer" type="checkbox">
+          <p>foreleser</p>
+          <p id="feilmelding" style="color:red"></p>
         </div>
-        <div id="createLogin">
-            <div id="menu">
-                <button id="regtab" class="button" onclick="return create();"> Ny bruker</button>
-                <button id="logtab" class="button" onclick="return login();">Logg inn </button>
-            </div>
-            <div id = "reg" style="display:block;">
-                <h1>Registrering</h1>
-                <form id="registerForm">
-                    <div id="container">
-                        <input id="fornavn" type="text" placeholder="Fornavn">
-                        <input id="etternavn" type="text" placeholder="Etternavn">
-                        <input id="regMail" type="text" placeholder="Email">
-                        <input id="pass"type="password" placeholder="Passord">
-                        <input id="repPass"type="password" placeholder="Gjenta passord">
-                        <input id="regbtn" type="submit" value="send">
-                        <input id="input_checkbox" name="isLecturer" type="checkbox"> <p>foreleser</p>
-                        <p id="feilmelding" style="color:red"></p>
-                    </div>
-                    
-                    
 
-                </form>
-            </div>
-            <div id = "log" style="display:none;">
-                <form id="loginForm">
-                    <h1>Logg inn</h1>
-                    <div id="container">
-                        <input id="logMail" type="text" placeholder="Email">
-                        <input id="logPass" type="password" placeholder="Passord">
-                        <input id="logbtn" type="submit" value="Logg inn">
-                        <p id="feilmeldinglog" style="color:red"></p>
-                    </div>
 
-                <!--<button id="regbtn"> log inn </button> -->
-                </form>
-            </div>
+
+      </form>
+    </div>
+    <div id="log" style="display:none;">
+      <form id="loginForm">
+        <h1>Logg inn</h1>
+        <div id="container">
+          <input id="logMail" type="text" placeholder="Email">
+          <input id="logPass" type="password" placeholder="Passord">
+          <input id="logbtn" type="submit" value="Logg inn">
+          <p id="feilmeldinglog" style="color:red"></p>
         </div>
-    </body>
+
+        <!--<button id="regbtn"> log inn </button> -->
+      </form>
+    </div>
+  </div>
+</body>
+
 </html>

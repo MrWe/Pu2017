@@ -1,36 +1,36 @@
 <html>
 
 <head>
-    <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="addLecture.js"></script>
-    <script src="tab.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css">
-    <link rel="stylesheet" href="../../css/style_menu.css">
-    <link rel="stylesheet" href="../loggedInIndex/index.css">
-    <link rel="stylesheet" href="addLecture.css">
+  <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="addLecture.js"></script>
+  <script src="tab.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/style_menu.css">
+  <link rel="stylesheet" href="../loggedInIndex/index.css">
+  <link rel="stylesheet" href="addLecture.css">
 
 
 </head>
 
 <body onload="init();">
-    <header>
-        <div id="auroradiv">
+  <header>
+    <div id="auroradiv">
 
-        </div>
-    </header>
-    <main>
-        <div id="leftcolum">
-            <div id="user">
-                <a href="../loggedInIndex/Index.html">
-                    <img src="../../img/logo.png" id="aurora">
-                </a>
-                <p id="username">[insert user name]</p>
-                <button id="logoutbtn">Logg ut</button></li>
-            </div>
+    </div>
+  </header>
+  <main>
+    <div id="leftcolum">
+      <div id="user">
+        <a href="../loggedInIndex/Index.html">
+          <img src="../../img/logo.png" id="aurora">
+        </a>
+        <p id="username">[insert user name]</p>
+        <button id="logoutbtn">Logg ut</button></li>
+      </div>
 
 
 
-            <!--
+      <!--
               <li class="dropdown">
                 <a href="#" data-toggle="dropdown">Javascript <i class="icon-arrow"></i></a>
                 <ul class="dropdown-menu">
@@ -41,49 +41,49 @@
                 </ul>
             </li>
         -->
-            <a id="forelesninglink" href="../loggedInIndex/Index.html" style="display:block">
-                <div id="settings">
-                    Startsiden
-                </div>
-            </a>
+      <a id="forelesninglink" href="../loggedInIndex/Index.html" style="display:block">
+        <div id="settings">
+          Startsiden
         </div>
-        <div id="Tabs">
-            <ul>
-                <li><button id="fag" onclick="return fag();">Fag</button></li>
-                <li><button class='hidden' id="forelesning" onclick="return forelesning();">Forelesning</button></li>
-                <li><button class='hidden' id="øving" onclick="return  oving();">Øving</button></li>
+      </a>
+    </div>
+    <div id="Tabs">
+      <ul>
+        <li><button id="fag" onclick="return fag();">Fag</button></li>
+        <li><button class='hidden' id="forelesning" onclick="return forelesning();">Forelesning</button></li>
+        <li><button class='hidden' id="øving" onclick="return  oving();">Øving</button></li>
+      </ul>
+    </div>
+    <div id="Controll">
+
+      <div id="ControllMenu">
+        <p id="menuTitle">Dine fag</p>
+        <ul id="courses">
+
+        </ul>
+        <ul id='lectures'>
+
+        </ul>
+        <!--<button id="addLecture">legg til forelesning</button> -->
+      </div>
+      <div id="ControllContent">
+        <h1>Controllpanel</h1>
+        <div id="fagside" style="display:block;">
+          <br>
+          <br>
+          <form id="fagForm">
+
             </ul>
+            <h2>Fagnavn</h2>
+            <input type="text" id="course_title" />
         </div>
-        <div id="Controll">
+        <div id="addExcerciseContainer">
+          <button id="addCourse">Legg til fag</button>
+        </div>
 
-            <div id="ControllMenu">
-                <p id="menuTitle">Dine fag</p>
-                <ul id="courses">
+        <!--<button id="addLecture">legg til forelesning</button>-->
 
-                </ul>
-                <ul id='lectures'>
-
-                </ul>
-                <!--<button id="addLecture">legg til forelesning</button> -->
-            </div>
-            <div id="ControllContent">
-                <h1>Controllpanel</h1>
-                <div id="fagside" style="display:block;">
-                    <br>
-                    <br>
-                    <form id="fagForm">
-
-                        </ul>
-                        <h2>Fagnavn</h2>
-                        <input type="text" id="course_title" />
-                </div>
-                <div id="addExcerciseContainer">
-                    <button id="addCourse">Legg til fag</button>
-                </div>
-
-                <!--<button id="addLecture">legg til forelesning</button>-->
-
-                <!--<div id="ControllContent">
+        <!--<div id="ControllContent">
 
                     <h1>Controllpanel</h1>
                     <div id="fagside" style="display:block;">
@@ -100,94 +100,94 @@
                         </form>
 
                 </div>-->
-                <!--
+        <!--
                 <div id="addExcerciseContainer">
                     <button id="addCourse">legg til forelesning</button>
                 </div>
             -->
 
-                <div id="forelesningside" style="display:none;">
-                    <br>
-                    <br>
+        <div id="forelesningside" style="display:none;">
+          <br>
+          <br>
 
-                    <form id="lectureForm">
-                        <div id="PowerPoint">
-                            <h2 id='titleError' class='hidden'>Legg til en tittel</h2>
-                            <h2>Legg til forelesning</h2>
-                            <p class='currentCourse'>
+          <form id="lectureForm">
+            <div id="PowerPoint">
+              <h2 id='titleError' class='hidden'>Legg til en tittel</h2>
+              <h2>Legg til forelesning</h2>
+              <p class='currentCourse'>
 
-                            </p>
-                            <!--
+              </p>
+              <!--
                                 <select>
                                     <option value="fag1">fag1</option>
                                     <option value="fag2">fag2</option>
                                 </select>
                             -->
-                            <h2>Tittel</h2>
-                            <input type="text" id="lecture_title">
-                            <p>PowerPoint</p>
-                            <input id="powerpointFile" type="file" style="color:white;">
-                        </div>
+              <h2>Tittel</h2>
+              <input type="text" id="lecture_title">
+              <p>PowerPoint</p>
+              <input id="powerpointFile" type="file" style="color:white;">
+            </div>
 
-                        <div id="addExcerciseContainer">
-                            <button id="addLecture">Legg til Forelesning</button>
-                        </div>
-                    </form>
-                </div>
+            <div id="addExcerciseContainer">
+              <button id="addLecture">Legg til Forelesning</button>
+            </div>
+          </form>
+        </div>
 
 
-                <div id="øvingsside" style="display:none;">
+        <div id="øvingsside" style="display:none;">
 
-                    <div id="exercises">
-                        <h2>Legg til øving</h2>
-                        <p class='currentLecture'>
+          <div id="exercises">
+            <h2>Legg til øving</h2>
+            <p class='currentLecture'>
 
-                        </p>
-                        <!--
+            </p>
+            <!--
                                 <select>
                                     <option value="fag1">Forelesning 1</option>
                                     <option value="fag2">Forelesning 2</option>
                                 </select>
                             -->
-                        <h2>Øving tittel</h2>
-                        <input type="text" id="exercise_title"></br>
-                        <h2>Øving beskrivelse</h2>
-                        <textarea id="descriptions" rows="4" cols="50" form="lectureForm"></textarea></br>
+            <h2>Øving tittel</h2>
+            <input type="text" id="exercise_title"></br>
+            <h2>Øving beskrivelse</h2>
+            <textarea id="descriptions" rows="4" cols="50" form="lectureForm"></textarea></br>
 
-                        <h2>Velg Forelesning</h2>
-                        <select id="dropdown_courses" required>
+            <h2>Velg Forelesning</h2>
+            <select id="dropdown_courses" required>
                         </select>
 
 
-                        <h2>input og output</h2>
-                        <div id="infoDiv">
-                            <p id="info">legg til 3 inputs og 3 forventet outputs
-                                <img src="../../img/questionmark.png" style="max-height: 15px;"><span>Her skal du legge inn inputen funksjonen i oppgaven skal få inn som parameter. Som output putter du verdien som funksjonen skal returnere. Du trenger 3 inputs og 3 outputs for å ungå juks. Strings må skrives med "" og arrays med []</span></p>
-                        </div>
-                        <div id="codeInputs">
-                            <input type="text" id="input_1" placeholder="input_1">
-
-                            <input type="text" id="output_1" placeholder="output_1">
-
-                            <input type="text" id="input_2" placeholder="input_2">
-
-                            <input type="text" id="output_2" placeholder="output_2">
-
-                            <input type="text" id="input_3" placeholder="input_3">
-
-                            <input type="text" id="output_3" placeholder="output_3">
-                        </div>
-                    </div>
-                    <div id="addExcerciseContainer">
-                        <button id="addExercise">legg til Øving</button>
-                    </div>
-                    </form>
-                </div>
+            <h2>input og output</h2>
+            <div id="infoDiv">
+              <p id="info">legg til 3 inputs og 3 forventet outputs
+                <img src="../../img/questionmark.png" style="max-height: 15px;"><span>Her skal du legge inn inputen funksjonen i oppgaven skal få inn som parameter. Som output putter du verdien som funksjonen skal returnere. Du trenger 3 inputs og 3 outputs for å ungå juks. Strings må skrives med "" og arrays med []</span></p>
             </div>
+            <div id="codeInputs">
+              <input type="text" id="input_1" placeholder="input_1">
+
+              <input type="text" id="output_1" placeholder="output_1">
+
+              <input type="text" id="input_2" placeholder="input_2">
+
+              <input type="text" id="output_2" placeholder="output_2">
+
+              <input type="text" id="input_3" placeholder="input_3">
+
+              <input type="text" id="output_3" placeholder="output_3">
+            </div>
+          </div>
+          <div id="addExcerciseContainer">
+            <button id="addExercise">legg til Øving</button>
+          </div>
+          </form>
         </div>
-        <!--<script type="text/javascript" src="../../js/drop_down_menu.js"></script> -->
-        </div>
-    </main>
+      </div>
+    </div>
+    <!--<script type="text/javascript" src="../../js/drop_down_menu.js"></script> -->
+    </div>
+  </main>
 </body>
 
 </html>
