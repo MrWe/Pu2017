@@ -1,4 +1,5 @@
 function init(id) {
+    //sets the initial state as powerpoint tab selected
     document.getElementById("pp").style.background='#4CAF50';
     $('#exercise_desc').text("Her kommer beskrivelsen til øvingene.");
     if(id){
@@ -10,6 +11,7 @@ function init(id) {
 }
 
 function powerpoint() {
+            //Switches to the powerpoint tab
             if(document.getElementById('powerpoint').style.display=='none') {
                 $('#exercise_desc').text("Her kommer beskrivelsen til øvingene.");
                 document.getElementById("reset").style.visibility='hidden';
@@ -23,6 +25,7 @@ function powerpoint() {
 }
 
 function Exercise(id) {
+            //Switches to the text editor
             if(document.getElementById('powerpoint').style.display=='block') {
                 document.getElementById("reset").style.visibility='visible';
                 document.getElementById("GodkjentAvslaat").style.visibility='visible';

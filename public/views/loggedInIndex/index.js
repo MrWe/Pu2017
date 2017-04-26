@@ -15,14 +15,14 @@ var PDFLINK = 'https://storage.googleapis.com/aurora-80cde.appspot.com/';
 var numPdfs = 0;
 $(function() {
 
-  hljs.configure({ // optionally configure hljs
+  hljs.configure({ // Configure hljs ti highlight javascript code
     languages: ['javascript']
   });
 
   hljs.initHighlightingOnLoad();
 
-
-  var quill = new Quill('#quillText', {
+  //creates quill
+  var quill = new Quill('#quillText', { 
 
     modules: {
       syntax: true,
@@ -30,7 +30,8 @@ $(function() {
     },
     theme: 'bubble'
   });
-  quill.setContents([
+  //Sets the initial code to include the function
+  quill.setContents([ 
 
     {
       insert: 'function main(x){'
@@ -42,13 +43,15 @@ $(function() {
       insert: '}'
     }
         ]);
-  quill.formatLine(1, 100, 'code-block', true);
+  //sett the quill format to start with syntax highlitning
+  quill.formatLine(1, 100, 'code-block', true); 
 
-
-  $('#username')
+  //Sets the username in the left menu bar
+  $('#username')  
     .text(sessionStorage['currUser']);
 
-  $("#logoutbtn")
+  //logs the user out
+  $("#logoutbtn") 
     .click(function() {
       $.post('/api/logout')
         .done(function(res) {
@@ -56,7 +59,7 @@ $(function() {
         });
     });
 
-
+  //checks if user is lecturer
   $.post('/api/user_is_lecturer', function() {
 
     })
@@ -174,18 +177,11 @@ $(function() {
       var code = quill.getText();
       eval(code);
 
+      //checks the output with the excpected output
       try {
-        console.log("input: " + codeinput_1 + "output: " + codeoutput_1)
-        console.log("din output1: " + main(codeinput_1));
-        console.log("input: " + codeinput_2 + "output: " + codeoutput_2)
-        console.log("input: " + codeinput_3 + "output: " + codeoutput_3)
         var godkjent_1 = main(codeinput_1) == codeoutput_1;
         var godkjent_2 = main(codeinput_2) == codeoutput_2;
         var godkjent_3 = main(codeinput_3) == codeoutput_3;
-        console.log(main(codeinput_1) + codeoutput_1);
-        console.log(godkjent_1);
-        console.log(godkjent_2);
-        console.log(godkjent_3);
       } catch (err) {
         document.getElementById("consoleText")
           .innerHTML = err;
@@ -194,13 +190,14 @@ $(function() {
         document.getElementById("GodkjentAvslaatIMG")
           .src = "../../img/avslaatt.png"
       }
-
+      // if true, sett the excercise as approved
       if (godkjent_1 && godkjent_2 && godkjent_3) {
         document.getElementById("GodkjentAvslaatP")
           .innerHTML = "Godkjent";
         document.getElementById("GodkjentAvslaatIMG")
           .src = "../../img/godkjent.png"
-
+        
+      //sets the excercise as declined
       } else {
         document.getElementById("GodkjentAvslaatP")
           .innerHTML = "Avslått";
@@ -211,6 +208,7 @@ $(function() {
 
     })
 
+  //resets the content of the text editor
   function reset() {
     quill.setContents([
       {
@@ -234,7 +232,7 @@ $(function() {
 
 
 
-
+  //resets the consol output
   function reset_index() {
     document.getElementById("consoleText")
       .innerHTML = "";
@@ -297,10 +295,14 @@ $(function() {
 
             $('#exercise_desc')
               .text(data.exercise_desc);
+          
+            //checks if input is an int
             var isInt = /^\d+$/.test(data.exercise_input_1);
 
+            //checks if input is an array
             var isArray = data.exercise_input_1.charAt(0) == "[" && data.exercise_input_1.slice(-1) == "]";
             if (isInt) {
+              //turns the String into an int 
               codeinput_1 = data.exercise_input_1 * 1;
               codeoutput_1 = data.exercise_output_1 * 1;
               codeinput_2 = data.exercise_input_2 * 1;
@@ -308,6 +310,7 @@ $(function() {
               codeinput_3 = data.exercise_input_3 * 1;
               codeoutput_3 = data.exercise_output_3 * 1;
             } else if (isArray) {
+              //turns the string into an array
               var list = [data.exercise_input_1, data.exercise_output_1, data.exercise_input_2, data.exercise_output_2, data.exercise_input_3, data.exercise_output_3]
               for (i = 0; i < list.length; i++) {
                 list[i] = list[i].replace("[", "");
@@ -324,6 +327,7 @@ $(function() {
               codeoutput_3 = list[5].split(",");
 
             } else {
+              //data from server allready String, so no need to convert
               codeinput_1 = data.exercise_input_1;
               codeoutput_1 = data.exercise_output_1;
               codeinput_2 = data.exercise_input_2;

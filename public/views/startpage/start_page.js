@@ -1,9 +1,11 @@
 function init() {
+    //initialize the tabs with regtab as first selected
     document.getElementById("regtab").style.background='#4CAF50';
     document.getElementById("logtab").style.background='#24333B';
 }
 
 function create() {
+            //switches to regtab tab
             if(document.getElementById('reg').style.display=='none') {
                 document.getElementById('reg').style.display='block';
                 document.getElementById('log').style.display='none';
@@ -13,6 +15,7 @@ function create() {
             return false;
         }
 function login() {
+            //switches to login tab
             if(document.getElementById('reg').style.display=='block') {
                 document.getElementById('reg').style.display='none';
                 document.getElementById('log').style.display='block';
