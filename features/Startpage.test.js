@@ -100,7 +100,7 @@ describe('Login @watch', function () {
     browser.click("#logtab");
     browser.setValue('#logMail', 'UImaster@mocha.com');
     browser.setValue('#logPass', '12345');
-    browser.click('#regbtn');
+    browser.click('#logbtn');
     browser.getUrl().should.equal('http://localhost:3000/views/startpage/');
     browser.waitForText('#feilmeldinglog', 5000);
     browser.getText('#feilmeldinglog').should.equal("feil mail eller passord");
@@ -110,7 +110,7 @@ describe('Login @watch', function () {
     browser.click("#logtab");
     browser.setValue('#logMail', 'UImaste@mocha.com');
     browser.setValue('#logPass', '1234567');
-    browser.click('#regbtn');
+    browser.click('#logbtn');
     browser.getUrl().should.equal('http://localhost:3000/views/startpage/');
     browser.waitForText('#feilmeldinglog', 5000);
     browser.getText('#feilmeldinglog').should.equal("feil mail eller passord");
@@ -120,7 +120,7 @@ describe('Login @watch', function () {
     browser.click("#logtab");
     browser.setValue('#logMail', 'UImaster@mocha.com');
     browser.setValue('#logPass', '1234567');
-    browser.click('#regbtn');
+    browser.click('#logbtn');
     browser.waitUntil(function () {
       return browser.getUrl() != 'http://localhost:3000/views/startpage/'
     }, 5000,);

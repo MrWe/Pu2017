@@ -7,6 +7,14 @@ var should = chai.should();
 
 chai.use(chaiHttp);
 
+/*
+This file contain back-end unit tests for the project, to see front-end unit tests
+see the features directory.
+To run back-end unit tests, execute "run test"
+To show coverage, execute "run showcoverage"
+To run front-end tests, execute "chimp --mocha"
+*/
+
 describe('Create_User', function() {
   it('should return status 200 on call to create_user', function(done) {
     chai.request(server)
@@ -78,17 +86,17 @@ describe('Login', function() {
   });
 });
 
-/*describe('user is lecture', function() {
+describe('user is lecture', function() {
   it('should return status 200 on call to userIsLoggedIn', function(done) {
     chai.request(server)
       .post('/api/login')
       .send({mail:'mocha@test.com', password:'1234567'})
       .end(function(err, res) {
         chai.request(server)
-          .post('/api/userIsLoggedIn')
+          .post('/api/user_is_lecturer')
           .end(function(err, res) {
             res.should.have.status(200);
-            res.text.should.equal('backend,true');
+            res.text.should.equal('"true"');
             done();
           });
       });
@@ -98,15 +106,15 @@ describe('Login', function() {
       .post('/api/logout')
       .end(function(err, res) {
         chai.request(server)
-          .post('/api/userIsLoggedIn')
+          .post('/api/user_is_lecturer')
           .end(function(err, res) {
             res.should.have.status(200);
-            res.text.should.equal('Not logged in');
+            res.text.should.equal("Cannot read property 'uid' of null");
             done();
       });
     });
   });
-});*/
+});
 
 describe('userIsLoggedIn', function() {
   it('should return status 200 on call to userIsLoggedIn', function(done) {
